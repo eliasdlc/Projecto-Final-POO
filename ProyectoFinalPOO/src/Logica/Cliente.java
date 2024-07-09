@@ -5,6 +5,7 @@ public class Cliente {
 	private String nombre;
 	private String correo;
 	private String desc;
+	
 	public Cliente(String idclliente, String nombre, String correo, String desc) {
 		super();
 		this.idclliente = idclliente;
@@ -12,6 +13,7 @@ public class Cliente {
 		this.correo = correo;
 		this.desc = desc;
 	}
+	
 	public String getNombre() {
 		return nombre;
 	}
