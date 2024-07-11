@@ -6,10 +6,12 @@ public class Tienda {
 	private ArrayList<Cliente> misClientes;
 	private ArrayList<Componente> misComponentes;
 	private ArrayList<Factura> misFacturas;
+	private ArrayList<Computadora> misComputadoras;
 	private static Tienda miTienda = null; 
 	public static int codCliente = 1;
 	public static int codComponente = 1;
 	public static int codFactura = 1;
+	public static int codComputadora = 1;
 	
 	public Tienda() {
 		super();
@@ -64,6 +66,43 @@ public class Tienda {
 		codComponente++;
 	}
 	
+	public void insertarComputadora(Computadora computadora) {
+		misComputadoras.add(computadora);
+		codComputadora++;
+	}
+	
+	public void updateCliente(Cliente cliente, int ind) {
+		misClientes.set(ind, cliente);
+	}
+	
+	public void updateComponente(Componente componente, int ind) {
+		misComponentes.set(ind, componente);
+	}
+	
+	public void updateFactura(Factura factura, int ind) {
+		misFacturas.set(ind, factura);
+	}
+	
+	public void updateComputadora(Computadora computadora, int ind) {
+		misComputadoras.set(ind, computadora);
+	}
+	
+	public void deleteCliente(Cliente cliente) {
+		misClientes.remove(cliente);
+	}
+	
+	public void deleteComponente(Componente componente) {
+		misComponentes.remove(componente);
+	}
+	
+	public void deleteFactura(Factura factura) {
+		misFacturas.remove(factura);
+	}
+	
+	public void deleteComputadora(Computadora computadora) {
+		misFacturas.remove(computadora);
+	}
+	
 	public Componente searchComponenteMasVendido() {
 		Componente componenteMasVendido = new Componente(null, null, null, 0, 0, 0); // Poner que el componente al menos tenga 0 unidadades vendidas
 		
@@ -85,6 +124,7 @@ public class Tienda {
 				encontrado = true;
 				componente = misComponentes.get(i);
 			}
+			i++;
 		}
 		return componente;
 	}
@@ -113,6 +153,7 @@ public class Tienda {
 				encontrado = true;
 				cliente = misClientes.get(i);
 			}
+			i++;
 		}
 		return cliente;
 	}
@@ -127,7 +168,44 @@ public class Tienda {
 				encontrado = true;
 				factura = misFacturas.get(i);
 			}
+			i++;
 		}
 		return factura;
+	}
+	
+	public Computadora searchComputadoraById(String id) {
+		Computadora computadora = null;
+		boolean encontrado = false;
+		int ind = 0;
+		
+		while(!encontrado && ind < misComputadoras.size()) {
+			if(misComputadoras.get(ind).getId().equalsIgnoreCase(id)) {
+				encontrado = true;
+				computadora = misComputadoras.get(ind);
+			}
+			ind++;
+		}
+		return computadora;
+	}
+
+	public float calcularTotal(Factura factura) {
+		int ind = 0;
+		float precio = 0;
+		if(factura instanceof FacturaComponente) {
+			ArrayList<Componente>losComponentes = ((FacturaComponente) factura).getCarrito();
+			for(Componente componente : losComponentes) {
+				precio += (float) componente.getPrecio();
+			}
+		}
+		else if(factura instanceof FacturaComputadora) {
+			String id = FacturaComputadora.getIdComputadora();
+			Computadora computadora = searchComputadoraById(id);
+			ArrayList<Componente> aux = computadora.getComponentes();
+			
+			for(Componente componente : aux) {
+				precio += (float) componente.getPrecio();
+			}
+		}
+		return precio;
 	}
 }
