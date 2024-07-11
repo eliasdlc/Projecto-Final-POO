@@ -230,6 +230,7 @@ public class Principal extends JDialog {
 			JPanel newPanel = new JPanel();
 			newPanel.setBackground(Color.GRAY);
 			newPanel.setBounds(posX, PANEL_GAP, PANEL_WIDTH, PANEL_HEIGHT);
+			
 			newPanel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
