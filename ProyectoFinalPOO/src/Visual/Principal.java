@@ -265,6 +265,7 @@ public class Principal extends JDialog {
 			btnComprar.setBounds(30, 280, 300, 50);
 			newPanel.add(btnComprar);
 			
+			
 		}
 		return componentes;
 	}
