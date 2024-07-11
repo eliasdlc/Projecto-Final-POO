@@ -7,11 +7,14 @@ public class DiscoDuro extends Componente {
 	private String tipo;
 	private String tipoConexion;
 	
-	public DiscoDuro(String id, String marca, String modelo, float precio, int cantidadDisp, float almacenamiento, float velLectura, float velEscritura, String tipo, String tipoConexion) {
-		super(id, marca, modelo, precio, cantidadDisp);
+	
+
+	public DiscoDuro(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
+			float almacenamiento, float velLectura, float velEscritura, String tipo, String tipoConexion) {
+		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
 		this.almacenamiento = almacenamiento;
-		this.velEscritura = velEscritura;
 		this.velLectura = velLectura;
+		this.velEscritura = velEscritura;
 		this.tipo = tipo;
 		this.tipoConexion = tipoConexion;
 	}

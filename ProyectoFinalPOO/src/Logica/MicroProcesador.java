@@ -6,9 +6,10 @@ public class MicroProcesador extends Componente {
 	private String plataforma;
 	private int cantNucleo;
 	private float energia;
-	
-	public MicroProcesador(String id, String marca, String modelo, float precio, int cantidadDisp, float velocidad, String tipoConexion, String plataforma, int cantNucleo, float energia) {
-		super(id, marca, modelo, precio, cantidadDisp);
+
+	public MicroProcesador(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
+			float velocidad, String tipoConexion, String plataforma, int cantNucleo, float energia) {
+		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
 		this.velocidad = velocidad;
 		this.tipoConexion = tipoConexion;
 		this.plataforma = plataforma;

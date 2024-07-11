@@ -8,9 +8,11 @@ public class TarjetaMadre extends Componente {
 	private ArrayList<String> tipoRam;
 	private ArrayList<String> tipoDiscoDuro;
 	
-	public TarjetaMadre(String id, String marca, String modelo, float precio, int cantidadDisp, String conectionSocket, ArrayList<String> tipoRam, ArrayList<String> tipoDiscoDuro) {
-		super(id, marca, modelo, precio, cantidadDisp);
-		// TODO Auto-generated constructor stub
+	
+
+	public TarjetaMadre(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
+			String conectionSocket, ArrayList<String> tipoRam, ArrayList<String> tipoDiscoDuro) {
+		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
 		this.conectionSocket = conectionSocket;
 		this.tipoRam = tipoRam;
 		this.tipoDiscoDuro = tipoDiscoDuro;

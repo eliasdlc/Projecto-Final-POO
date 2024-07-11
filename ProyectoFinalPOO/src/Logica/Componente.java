@@ -5,44 +5,63 @@ public class Componente {
 	private String marca;
 	private String modelo;
 	private float precio;
-	private int cantidadDisp;
+	private int cantDisponible;
+	private int cantVendidos;
 
 
-	public Componente(String id, String marca, String modelo, float precio, int cantidadDisp) {
+	public Componente(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos) {
 		this.id = id;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.precio = precio;
-		this.cantidadDisp = cantidadDisp;
+		this.cantDisponible = cantDisponible;
+		this.cantVendidos = cantVendidos;
 	}
 	
 	public String getMarca() {
 		return marca;
 	}
+	
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
+	
 	public String getModelo() {
 		return modelo;
 	}
+	
 	public void setModelo(String modelo) {
 		this.modelo = modelo;
 	}
+	
 	public float getPrecio() {
 		return precio;
 	}
+	
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-	public int getCantidadDisp() {
-		return cantidadDisp;
-	}
-	public void setCantidadDisp(int cantidadDisp) {
-		this.cantidadDisp = cantidadDisp;
-	}
+
 	public String getId() {
 		return id;
 	}
+
+	public int getCantDisponible() {
+		return cantDisponible;
+	}
+
+	public void setCantDisponible(int cantDisponible) {
+		this.cantDisponible = cantDisponible;
+	}
+
+	public int getCantVendidos() {
+		return cantVendidos;
+	}
+
+	public void setCantVendidos(int cantVendidos) {
+		this.cantVendidos = cantVendidos;
+	}
+	
 	
 	
 }

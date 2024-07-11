@@ -5,9 +5,9 @@ public class Ram extends Componente {
 	private String tipoMemoria;
 
 
-	public Ram(String id, String marca, String modelo, float precio, int cantidadDisp, String memoria,
-			String tipoMemoria) {
-		super(id, marca, modelo, precio, cantidadDisp);
+	public Ram(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
+			String memoria, String tipoMemoria) {
+		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
 		this.memoria = memoria;
 		this.tipoMemoria = tipoMemoria;
 	}

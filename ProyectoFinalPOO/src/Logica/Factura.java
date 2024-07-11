@@ -4,7 +4,7 @@ public class Factura {
 	
 	private String idCliente;
 	private String idComputadora;
-	private String idFactura;
+	private String id;
 	private Float montoTotal;
 	private boolean comprado;
 	public String getIdCliente() {
@@ -19,11 +19,8 @@ public class Factura {
 	public void setIdComputadora(String idComputadora) {
 		this.idComputadora = idComputadora;
 	}
-	public String getIdFactura() {
-		return idFactura;
-	}
-	public void setIdFactura(String idFactura) {
-		this.idFactura = idFactura;
+	public String getId() {
+		return id;
 	}
 	public Float getMontoTotal() {
 		return montoTotal;

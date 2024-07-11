@@ -1,14 +1,14 @@
 package Logica;
 
 public class Cliente {
-	private String idclliente;
+	private String id;
 	private String nombre;
 	private String correo;
 	private String desc;
 	
-	public Cliente(String idclliente, String nombre, String correo, String desc) {
+	public Cliente(String id, String nombre, String correo, String desc) {
 		super();
-		this.idclliente = idclliente;
+		this.id = id;
 		this.nombre = nombre;
 		this.correo = correo;
 		this.desc = desc;
@@ -32,8 +32,8 @@ public class Cliente {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public String getIdclliente() {
-		return idclliente;
+	public String getId() {
+		return id;
 	}
 	
 }
