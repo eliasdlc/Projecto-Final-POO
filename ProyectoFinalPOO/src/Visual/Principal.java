@@ -15,9 +15,13 @@ import Logica.RoundedBorder;
 
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Graphics;
+
+
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
@@ -158,7 +162,7 @@ public class Principal extends JDialog {
 			JButton nextBttn = new JButton(">");
 			nextBttn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if ( horizontalListInd < PANELS_TO_SHOW-1 ) {
+					if ( horizontalListInd < PANELS_TO_SHOW - 4 ) {
 						horizontalListInd ++;
 						cleanPanel(masCompradosPanel, componentes);
 						componentes = getMasComprados(horizontalListInd);
@@ -169,7 +173,7 @@ public class Principal extends JDialog {
 			});
 			nextBttn.setBackground(Color.WHITE);
 			nextBttn.setFont(new Font("Tahoma", Font.BOLD, 34));
-			nextBttn.setBounds(1341, 0, 109, 370);
+			nextBttn.setBounds(1403, 0, 48, 370);
 			nextBttn.setOpaque(false);
 			nextBttn.setFocusPainted(false);
 			nextBttn.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -191,7 +195,7 @@ public class Principal extends JDialog {
 			prevBttn.setFocusPainted(false);
 			prevBttn.setBorder(new EmptyBorder(0, 0, 0, 0));
 			prevBttn.setBackground(Color.WHITE);
-			prevBttn.setBounds(0, 0, 109, 370);
+			prevBttn.setBounds(0, 0, 46, 370);
 			masCompradosPanel.add(prevBttn);
 			
 			displayHorizontalList(masCompradosPanel, componentes);
@@ -210,8 +214,6 @@ public class Principal extends JDialog {
 			
 			
 
-			
-			
 		}
 	}
 	
@@ -228,9 +230,9 @@ public class Principal extends JDialog {
 		int posX = 10;
 		for ( int i = ind; i < PANELS_TO_SHOW; i++ ) {
 			JPanel newPanel = new JPanel();
+			newPanel.setLayout(null);
 			newPanel.setBackground(Color.GRAY);
 			newPanel.setBounds(posX, PANEL_GAP, PANEL_WIDTH, PANEL_HEIGHT);
-			
 			newPanel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
@@ -239,9 +241,32 @@ public class Principal extends JDialog {
 			});
 			componentes.add(newPanel);
 			posX += PANEL_WIDTH + PANEL_GAP;
+			JLabel icono = new JLabel();
+			Image img = new ImageIcon(this.getClass().getResource("/procesador.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
+			Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+			icono.setIcon(new ImageIcon(scaledImg));
+			icono.setBounds(30, 30, 150, 150);
+			newPanel.add(icono);
+			JLabel precio = new JLabel();
+			precio.setText("1200$"); // costo + "$" costo siendo un .getCosto del componente
+			precio.setHorizontalAlignment(SwingConstants.CENTER);
+			precio.setBounds(28, 200, icono.getWidth(), 25);
+			precio.setFont(new Font("Century Gothic", Font.BOLD, 20));
+			newPanel.add(precio);
+			JTextPane descripcion = new JTextPane();
+			descripcion.setText("Aqui irá la descripcion del producto corespondiente"); 
+			descripcion.setBounds(200, 30, 120, 200);
+			descripcion.setEditable(false);
+			newPanel.add(descripcion);
+			JButton btnComprar = new JButton();
+			btnComprar.setText("Compra YA!!");
+			btnComprar.setFont(new Font("Century Gothic", Font.BOLD, 20));
+			btnComprar.setBackground(Color.red);
+			btnComprar.setBounds(30, 280, 300, 50);
+			newPanel.add(btnComprar);
+			
 		}
 		return componentes;
-		
 	}
 	
 	private void cleanPanel(JPanel panel, ArrayList<JPanel> componentes) {
