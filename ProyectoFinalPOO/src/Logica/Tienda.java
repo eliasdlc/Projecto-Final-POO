@@ -26,6 +26,22 @@ public class Tienda {
 		return misComponentes;
 	}
 	
+	public ArrayList<Factura> getMisFacturas() {
+		return misFacturas;
+	}
+
+	public void setMisFacturas(ArrayList<Factura> misFacturas) {
+		this.misFacturas = misFacturas;
+	}
+
+	public void setMisClientes(ArrayList<Cliente> misClientes) {
+		this.misClientes = misClientes;
+	}
+
+	public void setMisComponentes(ArrayList<Componente> misComponentes) {
+		this.misComponentes = misComponentes;
+	}
+
 	public static Tienda getInstance() {
 		if(miTienda == null) {
 			miTienda = new Tienda();
