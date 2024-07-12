@@ -17,6 +17,7 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -59,7 +60,7 @@ public class Principal extends JDialog {
 	 */
 	public Principal() {
 		setResizable(false);
-		setBounds(100, 100, 400, 100);
+		setBounds(100, 100, 1918, 991);
 		
 		dim = getToolkit().getScreenSize();
 		setSize(dim.width, dim.height);
@@ -71,16 +72,17 @@ public class Principal extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new BorderLayout(0, 0));
+		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
-			panel.setBackground(Color.LIGHT_GRAY);
-			contentPanel.add(panel, BorderLayout.CENTER);
+			panel.setBounds(0, 5, 1914, 1040);
+			panel.setBackground(Color.WHITE);
+			contentPanel.add(panel);
 			panel.setLayout(null);
 			
 			JPanel panel_1 = new JPanel();
-			panel_1.setBackground(Color.GRAY);
-			panel_1.setBounds(0, 0, 430, 1035);
+			panel_1.setBackground(new Color(0, 78, 137));
+			panel_1.setBounds(0, 0, 430, 1040);
 			panel.add(panel_1);
 			panel_1.setLayout(null);
 			
@@ -88,18 +90,20 @@ public class Principal extends JDialog {
 			
 			
 			
-			JTextField searchField = new JTextField("Buscar");
+			JTextField searchField = new JTextField("");
+			searchField.setBackground(new Color(239, 239, 229));
+			searchField.setForeground(Color.black);
 			searchField.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			RoundedBorder roundedBorder = new RoundedBorder(Color.black, 1, 65);
+			RoundedBorder roundedBorder = new RoundedBorder(Color.white, 1, 10);
 			EmptyBorder emptyBorder = new EmptyBorder(0, 80, 0, 10);
 			CompoundBorder compoundBorder = new CompoundBorder(roundedBorder, emptyBorder);
 			searchField.setBorder(compoundBorder);
 			
-			searchField.setBounds(12, 13, 404, 67);
+			searchField.setBounds(12, 118, 404, 67);
 			
 			JLabel lblNewLabel = new JLabel("");
 			lblNewLabel.setBounds(8, 6, 55, 55);
-			ImageIcon originalIcon = new ImageIcon("C:\\Users\\elias\\Desktop\\POO Java Projects\\Biblioteca\\images\\userPNG.png");
+			ImageIcon originalIcon = new ImageIcon("C://Users//elias//git//Projecto-Final-POO//ProyectoFinalPOO//images//lupa.png");
 			int labelWidth = lblNewLabel.getWidth();
 			int labelHeight = lblNewLabel.getHeight();
 			Image scaledImage = originalIcon.getImage().getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH);
@@ -110,49 +114,123 @@ public class Principal extends JDialog {
 			panel_1.add(searchField);
 			
 			JButton componentesBttn = new JButton("Componentes");
-			componentesBttn.setBackground(Color.WHITE);
+			componentesBttn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					componentesBttn.setBackground(new Color(239, 239, 229));
+					componentesBttn.setForeground(Color.black);
+				}
+				public void mouseExited(MouseEvent arg0) {
+					componentesBttn.setBackground(new Color(26, 101, 158));
+					componentesBttn.setForeground(Color.white);	
+					
+				}
+			});
+			componentesBttn.setBackground(new Color(26, 101, 158));
+			componentesBttn.setForeground(Color.white);	
 			componentesBttn.setFont(new Font("Tahoma", Font.BOLD, 24));
 			componentesBttn.setHorizontalAlignment(SwingConstants.LEADING);
 			componentesBttn.setBounds(12, 198, 404, 76);
 			
 			
-			componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 3, 65), new EmptyBorder(0, 10, 0, 10)));
+			componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(new Color(3, 104, 196), 1, 10), new EmptyBorder(0, 10, 0, 10)));
 			panel_1.add(componentesBttn);
 			
 			JButton btnComputadoras = new JButton("Computadoras");
+			btnComputadoras.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnComputadoras.setBackground(new Color(239, 239, 229));
+					btnComputadoras.setForeground(Color.black);
+				}
+				public void mouseExited(MouseEvent arg0) {
+					btnComputadoras.setBackground(new Color(26, 101, 158));
+					btnComputadoras.setForeground(Color.white);
+				}
+			});
+			btnComputadoras.setBackground(new Color(26, 101, 158));
+			btnComputadoras.setForeground(Color.white);
 			btnComputadoras.setHorizontalAlignment(SwingConstants.LEADING);
 			btnComputadoras.setFont(new Font("Tahoma", Font.BOLD, 24));
-			btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 3, 65), new EmptyBorder(0, 10, 0, 10)));
-			btnComputadoras.setBackground(Color.WHITE);
+			btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(new Color(3, 104, 196), 1, 10), new EmptyBorder(0, 10, 0, 10)));
 			btnComputadoras.setBounds(12, 287, 404, 76);
 			panel_1.add(btnComputadoras);
 			
 			JButton btnAdministracion = new JButton("Administracion");
+			btnAdministracion.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnAdministracion.setBackground(new Color(239, 239, 229));
+					btnAdministracion.setForeground(Color.black);
+				}
+				public void mouseExited(MouseEvent arg0) {
+					btnAdministracion.setBackground(new Color(26, 101, 158));
+					btnAdministracion.setForeground(Color.white);
+				}
+			});
+			btnAdministracion.setBackground(new Color(26, 101, 158));
+			btnAdministracion.setForeground(Color.white);
 			btnAdministracion.setHorizontalAlignment(SwingConstants.LEADING);
 			btnAdministracion.setFont(new Font("Tahoma", Font.BOLD, 24));
-			btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 3, 65), new EmptyBorder(0, 10, 0, 10)));
-			btnAdministracion.setBackground(Color.WHITE);
+			btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(new Color(3, 104, 196), 1, 10), new EmptyBorder(0, 10, 0, 10)));
 			btnAdministracion.setBounds(12, 376, 404, 76);
 			panel_1.add(btnAdministracion);
 			
 			JButton btnCliente = new JButton("Cliente");
+			btnCliente.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnCliente.setBackground(new Color(239, 239, 229));
+					btnCliente.setForeground(Color.black);
+				}
+				public void mouseExited(MouseEvent arg0) {
+					btnCliente.setBackground(new Color(26, 101, 158));
+					btnCliente.setForeground(Color.white);
+					
+				}
+			});
+			btnCliente.setBackground(new Color(26, 101, 158));
+			btnCliente.setForeground(Color.white);
 			btnCliente.setHorizontalAlignment(SwingConstants.LEADING);
 			btnCliente.setFont(new Font("Tahoma", Font.BOLD, 24));
-			btnCliente.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 3, 65), new EmptyBorder(0, 10, 0, 10)));
-			btnCliente.setBackground(Color.WHITE);
+			btnCliente.setBorder(new CompoundBorder(new RoundedBorder(new Color(3, 104, 196), 1, 10), new EmptyBorder(0, 10, 0, 10)));
 			btnCliente.setBounds(12, 465, 404, 76);
 			panel_1.add(btnCliente);
 			
-			JButton button_3 = new JButton("Componentes");
-			button_3.setHorizontalAlignment(SwingConstants.LEADING);
-			button_3.setFont(new Font("Tahoma", Font.BOLD, 24));
-			button_3.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 3, 65), new EmptyBorder(0, 10, 0, 10)));
-			button_3.setBackground(Color.WHITE);
-			button_3.setBounds(12, 946, 404, 76);
-			panel_1.add(button_3);
+			JButton bttnOpciones = new JButton("Opciones");
+			bttnOpciones.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					bttnOpciones.setBackground(new Color(239, 239, 229));
+					bttnOpciones.setForeground(Color.black);
+				}
+				public void mouseExited(MouseEvent arg0) {
+					
+					bttnOpciones.setBackground(new Color(26, 101, 158));
+					bttnOpciones.setForeground(Color.white);
+				}
+			});
+			bttnOpciones.setBackground(new Color(26, 101, 158));
+			bttnOpciones.setForeground(Color.white);
+			bttnOpciones.setHorizontalAlignment(SwingConstants.LEADING);
+			bttnOpciones.setFont(new Font("Tahoma", Font.BOLD, 24));
+			bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(new Color(3, 104, 196), 1, 10), new EmptyBorder(0, 10, 0, 10)));
+			bttnOpciones.setBounds(12, 936, 404, 76);
+			panel_1.add(bttnOpciones);
+			
+			JLabel techNexusLabel = new JLabel("TechNexus");
+			Image img = new ImageIcon(this.getClass().getResource("/microchip.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
+			Image scaledImg = img.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+			techNexusLabel.setIcon(new ImageIcon(scaledImg));
+			techNexusLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			techNexusLabel.setFont(new Font("Modern No. 20", Font.BOLD, 38));
+			techNexusLabel.setForeground(new Color(239, 239, 229));
+			techNexusLabel.setBounds(12, 13, 404, 92);
+			panel_1.add(techNexusLabel);
 			
 			JPanel masCompradosPanel = new JPanel();
-			masCompradosPanel.setBounds(442, 13, 1450, 370);
+			masCompradosPanel.setBackground(new Color(0, 78, 137));
+			masCompradosPanel.setBounds(442, 13, 1449, 370);
 			masCompradosPanel.setFocusable(true);
 			panel.add(masCompradosPanel);
 			masCompradosPanel.setLayout(null);
@@ -208,8 +286,11 @@ public class Principal extends JDialog {
 			 * creo que lo mas eficiente seria crear el panel dentro del for y simplemente agregarlo*/
 			
 			JPanel panel_3 = new JPanel();
-			panel_3.setBounds(442, 396, 1450, 626);
+			panel_3.setBackground(new Color(0, 78, 137));
+			panel_3.setBounds(442, 396, 1449, 644);
 			panel.add(panel_3);
+			panel_3.setLayout(new BorderLayout(0, 0));
+			
 			
 			
 			
@@ -228,42 +309,72 @@ public class Principal extends JDialog {
 	private ArrayList<JPanel> getMasComprados(int ind) {
 		ArrayList<JPanel> componentes = new ArrayList<>();
 		int posX = 10;
-		for ( int i = ind; i < PANELS_TO_SHOW; i++ ) {
+		for ( int i = ind; i < PANELS_TO_SHOW; i++ ) { 
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
-			newPanel.setBackground(Color.GRAY);
+			newPanel.setBorder(new RoundedBorder(Color.white, 1, 10));
+			newPanel.setBackground(new Color(239, 239, 229));
 			newPanel.setBounds(posX, PANEL_GAP, PANEL_WIDTH, PANEL_HEIGHT);
-			newPanel.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					System.out.println("componente");
-				}
-			});
 			componentes.add(newPanel);
 			posX += PANEL_WIDTH + PANEL_GAP;
 			JLabel icono = new JLabel();
-			Image img = new ImageIcon(this.getClass().getResource("/procesador.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
+			Image img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
 			Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 			icono.setIcon(new ImageIcon(scaledImg));
 			icono.setBounds(30, 30, 150, 150);
 			newPanel.add(icono);
+			
 			JLabel precio = new JLabel();
 			precio.setText("1200$"); // costo + "$" costo siendo un .getCosto del componente
 			precio.setHorizontalAlignment(SwingConstants.CENTER);
 			precio.setBounds(28, 200, icono.getWidth(), 25);
 			precio.setFont(new Font("Century Gothic", Font.BOLD, 20));
 			newPanel.add(precio);
+			
 			JTextPane descripcion = new JTextPane();
 			descripcion.setText("Aqui irá la descripcion del producto corespondiente"); 
+			descripcion.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+			descripcion.setBackground(Color.white);
+			descripcion.setForeground(Color.black);
+			//descripcion.setBorder(new RoundedBorder(Color.black, 1, 10));
+			descripcion.setOpaque(false);
 			descripcion.setBounds(200, 30, 120, 200);
 			descripcion.setEditable(false);
 			newPanel.add(descripcion);
-			JButton btnComprar = new JButton();
-			btnComprar.setText("Compra YA!!");
-			btnComprar.setFont(new Font("Century Gothic", Font.BOLD, 20));
-			btnComprar.setBackground(Color.red);
-			btnComprar.setBounds(30, 280, 300, 50);
-			newPanel.add(btnComprar);
+			
+			JButton bttnComprar = new JButton();
+			bttnComprar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					bttnComprar.setBackground(new Color(247, 197, 159));
+					bttnComprar.setBorder(new RoundedBorder(new Color(247, 197, 159), 1, 10));
+				}
+				public void mouseExited(MouseEvent arg0) {
+					bttnComprar.setBackground(new Color(255, 149, 94));
+					bttnComprar.setBorder(new RoundedBorder(new Color(255, 149, 94), 1, 10));
+				}
+			});
+			bttnComprar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					JOptionPane.showMessageDialog(null, "Este boton funciona", "", JOptionPane.INFORMATION_MESSAGE);
+					/*
+					 * Elias:
+					 * 
+					 * Aqui se abrira la ventana de compra del producto seleccionado.
+					 * Hay que crear una ventana de compra donde se pueda ingresar el id del cliente
+					 * (osea quien va a comprarlo) y que sea posible agregar la cantidad de productos que
+					 * se quieran comprar.
+					 * */
+				}
+			});
+			bttnComprar.setFocusPainted(false);
+			bttnComprar.setText("Compra YA!!");
+			bttnComprar.setFont(new Font("Century Gothic", Font.BOLD, 20));
+			bttnComprar.setBackground(new Color(255, 149, 94));
+			bttnComprar.setForeground(Color.black);
+			bttnComprar.setBorder(new RoundedBorder(new Color(255, 149, 94), 1, 10));
+			bttnComprar.setBounds(25, 280, 300, 50);
+			newPanel.add(bttnComprar);
 			
 			
 		}
