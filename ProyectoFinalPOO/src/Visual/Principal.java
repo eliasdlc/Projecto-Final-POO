@@ -2,29 +2,32 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import Logica.RoundedBorder;
 
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Font;
-import java.awt.Graphics;
 
 
 import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -41,6 +44,13 @@ public class Principal extends JDialog {
 	private final int PANEL_HEIGHT = 350;
 	private final int PANEL_GAP = 10;
 	private ArrayList<JPanel> componentes = getMasComprados(0);
+	private JPanel panelComponentes;
+	private JButton btnListarComponentes;
+	private JButton btnRegComponentes;
+	private JButton btnComputadoras;
+	private JButton btnAdministracion;
+	private JButton btnCliente;
+	private JButton bttnOpciones;
 
 	/**
 	 * Launch the application.
@@ -114,16 +124,24 @@ public class Principal extends JDialog {
 			panel_1.add(searchField);
 			
 			JButton componentesBttn = new JButton("Componentes");
+			componentesBttn.setEnabled(false);
 			componentesBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					componentesBttn.setBackground(new Color(239, 239, 229));
 					componentesBttn.setForeground(Color.black);
+					panelComponentes.setVisible(true);
+					btnListarComponentes.setVisible(true);
+					btnRegComponentes.setVisible(true);
+					btnComputadoras.setVisible(false);
 				}
 				public void mouseExited(MouseEvent arg0) {
 					componentesBttn.setBackground(new Color(26, 101, 158));
-					componentesBttn.setForeground(Color.white);	
-					
+					componentesBttn.setForeground(Color.white);
+					panelComponentes.setVisible(false);
+		            btnListarComponentes.setVisible(false);
+		            btnRegComponentes.setVisible(false);
+		            btnComputadoras.setVisible(true);
 				}
 			});
 			componentesBttn.setBackground(new Color(26, 101, 158));
@@ -136,7 +154,7 @@ public class Principal extends JDialog {
 			componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(new Color(3, 104, 196), 1, 10), new EmptyBorder(0, 10, 0, 10)));
 			panel_1.add(componentesBttn);
 			
-			JButton btnComputadoras = new JButton("Computadoras");
+			btnComputadoras = new JButton("Computadoras");
 			btnComputadoras.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -156,7 +174,7 @@ public class Principal extends JDialog {
 			btnComputadoras.setBounds(12, 287, 404, 76);
 			panel_1.add(btnComputadoras);
 			
-			JButton btnAdministracion = new JButton("Administracion");
+			btnAdministracion = new JButton("Administracion");
 			btnAdministracion.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -176,7 +194,7 @@ public class Principal extends JDialog {
 			btnAdministracion.setBounds(12, 376, 404, 76);
 			panel_1.add(btnAdministracion);
 			
-			JButton btnCliente = new JButton("Cliente");
+			btnCliente = new JButton("Cliente");
 			btnCliente.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -197,7 +215,7 @@ public class Principal extends JDialog {
 			btnCliente.setBounds(12, 465, 404, 76);
 			panel_1.add(btnCliente);
 			
-			JButton bttnOpciones = new JButton("Opciones");
+			bttnOpciones = new JButton("Opciones");
 			bttnOpciones.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -228,6 +246,62 @@ public class Principal extends JDialog {
 			techNexusLabel.setBounds(12, 13, 404, 92);
 			panel_1.add(techNexusLabel);
 			
+			panelComponentes = new JPanel();
+			panelComponentes.setBounds(12, 273, 404, 97);
+			panel_1.add(panelComponentes);
+			panelComponentes.setLayout(null);
+
+			btnRegComponentes = new JButton("Reg. componentes");
+			btnRegComponentes.setBounds(0, -2, 404, 52);
+			panelComponentes.add(btnRegComponentes);
+			btnRegComponentes.setBackground(new Color(0, 54, 50));
+			btnRegComponentes.setForeground(Color.WHITE);
+			btnRegComponentes.setFont(new Font("Tahoma", Font.BOLD, 20));
+			btnRegComponentes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+			btnListarComponentes = new JButton("List. componentes");
+			btnListarComponentes.setBounds(0, 47, 404, 50);
+			panelComponentes.add(btnListarComponentes);
+			btnListarComponentes.setBackground(new Color(0, 54, 50));
+			btnListarComponentes.setForeground(Color.WHITE);
+			btnListarComponentes.setFont(new Font("Tahoma", Font.BOLD, 20));
+			btnListarComponentes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+			// Clase interna para manejar eventos de mouse
+			MouseAdapter mouseAdapter = new MouseAdapter() {
+			    @Override
+			    public void mouseEntered(MouseEvent e) {
+			        panelComponentes.setVisible(true);
+			        btnListarComponentes.setVisible(true);
+			        btnRegComponentes.setVisible(true);
+			        btnComputadoras.setVisible(false);
+			    }
+
+			    @Override
+			    public void mouseExited(MouseEvent e) {
+			        Point mousePosition = e.getPoint();
+			        SwingUtilities.convertPointToScreen(mousePosition, (Component) e.getSource());
+
+			        Point panelPosition = panelComponentes.getLocationOnScreen();
+			        Point btnRegPosition = btnRegComponentes.getLocationOnScreen();
+			        Point btnListarPosition = btnListarComponentes.getLocationOnScreen();
+
+			        if (!isMouseOverComponent(mousePosition, panelPosition, panelComponentes) &&
+			            !isMouseOverComponent(mousePosition, btnRegPosition, btnRegComponentes) &&
+			            !isMouseOverComponent(mousePosition, btnListarPosition, btnListarComponentes)) {
+			            panelComponentes.setVisible(false);
+			            btnListarComponentes.setVisible(false);
+			            btnRegComponentes.setVisible(false);
+			            btnComputadoras.setVisible(true);
+			        }
+			    }
+			};
+
+			panelComponentes.addMouseListener(mouseAdapter);
+			btnRegComponentes.addMouseListener(mouseAdapter);
+			btnListarComponentes.addMouseListener(mouseAdapter);
+
+			
 			JPanel masCompradosPanel = new JPanel();
 			masCompradosPanel.setBackground(new Color(0, 78, 137));
 			masCompradosPanel.setBounds(442, 13, 1449, 370);
@@ -256,6 +330,9 @@ public class Principal extends JDialog {
 			nextBttn.setFocusPainted(false);
 			nextBttn.setBorder(new EmptyBorder(0, 0, 0, 0));
 			masCompradosPanel.add(nextBttn);
+			panelComponentes.setVisible(false);
+			btnListarComponentes.setVisible(false);
+			btnRegComponentes.setVisible(false);
 			
 			JButton prevBttn = new JButton("<");
 			prevBttn.addActionListener(new ActionListener() {
@@ -387,5 +464,11 @@ public class Principal extends JDialog {
 		}
 	    panel.revalidate();
 	    panel.repaint();
+	}
+
+	// Método para verificar si el mouse está sobre el componente
+	private boolean isMouseOverComponent(Point mousePosition, Point componentPosition, Component component) {
+	    Rectangle bounds = new Rectangle(componentPosition, component.getSize());
+	    return bounds.contains(mousePosition);
 	}
 }
