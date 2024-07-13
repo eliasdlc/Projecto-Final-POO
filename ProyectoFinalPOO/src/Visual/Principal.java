@@ -129,7 +129,7 @@ public class Principal extends JDialog {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					componentesBttn.setBackground(new Color(239, 239, 229));
-					componentesBttn.setForeground(Color.black);
+					//componentesBttn.setForeground(Color.black);
 					panelComponentes.setVisible(true);
 					btnListarComponentes.setVisible(true);
 					btnRegComponentes.setVisible(true);
@@ -149,8 +149,6 @@ public class Principal extends JDialog {
 			componentesBttn.setFont(new Font("Tahoma", Font.BOLD, 24));
 			componentesBttn.setHorizontalAlignment(SwingConstants.LEADING);
 			componentesBttn.setBounds(12, 198, 404, 76);
-			
-			
 			componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(new Color(3, 104, 196), 1, 10), new EmptyBorder(0, 10, 0, 10)));
 			panel_1.add(componentesBttn);
 			
@@ -246,12 +244,14 @@ public class Principal extends JDialog {
 			techNexusLabel.setBounds(12, 13, 404, 92);
 			panel_1.add(techNexusLabel);
 			
+			
 			panelComponentes = new JPanel();
 			panelComponentes.setBounds(12, 273, 404, 97);
 			panel_1.add(panelComponentes);
 			panelComponentes.setLayout(null);
 
 			btnRegComponentes = new JButton("Reg. componentes");
+			
 			btnRegComponentes.setBounds(0, -2, 404, 52);
 			panelComponentes.add(btnRegComponentes);
 			btnRegComponentes.setBackground(new Color(0, 54, 50));
@@ -266,6 +266,8 @@ public class Principal extends JDialog {
 			btnListarComponentes.setForeground(Color.WHITE);
 			btnListarComponentes.setFont(new Font("Tahoma", Font.BOLD, 20));
 			btnListarComponentes.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			
+			
 
 			// Clase interna para manejar eventos de mouse
 			MouseAdapter mouseAdapter = new MouseAdapter() {
@@ -279,24 +281,54 @@ public class Principal extends JDialog {
 
 			    @Override
 			    public void mouseExited(MouseEvent e) {
-			        Point mousePosition = e.getPoint();
-			        SwingUtilities.convertPointToScreen(mousePosition, (Component) e.getSource());
-
-			        Point panelPosition = panelComponentes.getLocationOnScreen();
-			        Point btnRegPosition = btnRegComponentes.getLocationOnScreen();
-			        Point btnListarPosition = btnListarComponentes.getLocationOnScreen();
-
-			        if (!isMouseOverComponent(mousePosition, panelPosition, panelComponentes) &&
-			            !isMouseOverComponent(mousePosition, btnRegPosition, btnRegComponentes) &&
-			            !isMouseOverComponent(mousePosition, btnListarPosition, btnListarComponentes)) {
+			    	if (!panelComponentes.isShowing() || !btnRegComponentes.isShowing() || !btnListarComponentes.isShowing()) {
+			            // Si ninguno de estos componentes se esta mostrando, no se puede leer la posicion del mouse
 			            panelComponentes.setVisible(false);
 			            btnListarComponentes.setVisible(false);
 			            btnRegComponentes.setVisible(false);
 			            btnComputadoras.setVisible(true);
+			        } else {
+	
+				        Point mousePosition = e.getPoint();
+				        SwingUtilities.convertPointToScreen(mousePosition, (Component) e.getSource());
+				        Point panelPosition = panelComponentes.getLocationOnScreen();
+				        Point btnRegPosition = btnRegComponentes.getLocationOnScreen();
+				        Point btnListarPosition = btnListarComponentes.getLocationOnScreen();
+				        
+				        if (!isMouseOverComponent(mousePosition, panelPosition, panelComponentes) &&
+				            !isMouseOverComponent(mousePosition, btnRegPosition, btnRegComponentes) &&
+				            !isMouseOverComponent(mousePosition, btnListarPosition, btnListarComponentes)) {
+				            panelComponentes.setVisible(false);
+				            btnListarComponentes.setVisible(false);
+				            btnRegComponentes.setVisible(false);
+				            btnComputadoras.setVisible(true);
+				        }
 			        }
 			    }
 			};
-
+			
+			btnRegComponentes.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					 Point offScreenPoint = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
+				        MouseEvent mouseEvent = new MouseEvent(
+				            btnRegComponentes, 
+				            MouseEvent.MOUSE_EXITED, 
+				            System.currentTimeMillis(), 
+				            0, 
+				            offScreenPoint.x, 
+				            offScreenPoint.y, 
+				            0, 
+				            false
+				        );
+						
+					mouseAdapter.mouseExited(mouseEvent);
+					
+					RegComponentes registro = new RegComponentes();
+					registro.setVisible(true);
+				
+				}
+			});
+			
 			panelComponentes.addMouseListener(mouseAdapter);
 			btnRegComponentes.addMouseListener(mouseAdapter);
 			btnListarComponentes.addMouseListener(mouseAdapter);
