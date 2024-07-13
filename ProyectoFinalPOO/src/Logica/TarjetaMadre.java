@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class TarjetaMadre extends Componente {
 	
 	private String conectionSocket;
-	private ArrayList<String> tipoRam;
+	private String tipoRam;
 	private ArrayList<String> tipoDiscoDuro;
 	
 	
 
 	public TarjetaMadre(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
-			String conectionSocket, ArrayList<String> tipoRam, ArrayList<String> tipoDiscoDuro) {
+			String conectionSocket, String tipoRam, ArrayList<String> tipoDiscoDuro) {
 		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
 		this.conectionSocket = conectionSocket;
 		this.tipoRam = tipoRam;
@@ -26,11 +26,11 @@ public class TarjetaMadre extends Componente {
 		this.conectionSocket = conectionSocket;
 	}
 
-	public ArrayList<String> getTipoRam() {
+	public String getTipoRam() {
 		return tipoRam;
 	}
 
-	public void setTipoRam(ArrayList<String> tipoRam) {
+	public void setTipoRam(String tipoRam) {
 		this.tipoRam = tipoRam;
 	}
 
