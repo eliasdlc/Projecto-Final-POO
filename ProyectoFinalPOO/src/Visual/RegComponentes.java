@@ -67,6 +67,17 @@ public class RegComponentes extends JDialog {
 	private JSpinner nucleosSpn;
 	private JButton cancelButton;
 	private JButton regBttn;
+	
+	private static final Color PrimaryC = new Color(0, 78, 137);
+	private static final Color SecondaryC = new Color(90, 162, 232);
+	private static final Color AccentColor = new Color(255, 133, 78);
+	private static final Color AccentHoverColor = new Color(255, 188, 94);
+	private static final Color BGC = new Color(236, 240, 241);
+	private static final Color TextColor = new Color(52, 73, 94);
+	private static final Color WTextColor = new Color(255, 255, 255);
+	private static final Color ButtonColor = new Color(21, 96, 169);
+	private static final Color ButtonBorderColor = new Color(21, 96, 169);
+	private static final Color hoverEffectColor = new Color(220, 231, 242);
 
 	/**
 	 * Launch the application.
@@ -100,16 +111,14 @@ public class RegComponentes extends JDialog {
 		
 		JPanel generalInfoPanel = new JPanel();
 		generalInfoPanel.setBackground(new Color(2, 78, 137));
-		TitledBorder titledBorder = new TitledBorder(new CompoundBorder(), "Informacion General", TitledBorder.CENTER, TitledBorder.TOP, null, Color.white);
-		titledBorder.setTitleFont(new Font("Century Gothic", Font.PLAIN, 15));
-		generalInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), titledBorder));
+		generalInfoPanel.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10));
 		
-		generalInfoPanel.setBounds(7, 8, 1232, 224);
+		generalInfoPanel.setBounds(7, 24, 1232, 224);
 		panel.add(generalInfoPanel);
 		generalInfoPanel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Id:");
-		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setFont(new Font("Century Gothic", Font.BOLD, 22));
 		lblNewLabel.setBounds(266, 63, 118, 28);
 		generalInfoPanel.add(lblNewLabel);
@@ -121,7 +130,7 @@ public class RegComponentes extends JDialog {
 		textField.setColumns(10);
 		
 		JLabel lblMarca = new JLabel("Marca:");
-		lblMarca.setForeground(Color.WHITE);
+		lblMarca.setForeground(Color.BLACK);
 		lblMarca.setFont(new Font("Century Gothic", Font.BOLD, 22));
 		lblMarca.setBounds(266, 129, 118, 28);
 		generalInfoPanel.add(lblMarca);
@@ -133,19 +142,19 @@ public class RegComponentes extends JDialog {
 		generalInfoPanel.add(textField_1);
 		
 		JLabel lblModelo = new JLabel("Modelo:");
-		lblModelo.setForeground(Color.WHITE);
+		lblModelo.setForeground(Color.BLACK);
 		lblModelo.setFont(new Font("Century Gothic", Font.BOLD, 22));
 		lblModelo.setBounds(791, 129, 118, 28);
 		generalInfoPanel.add(lblModelo);
 		
 		JLabel lblPrecio = new JLabel("Precio:");
-		lblPrecio.setForeground(Color.WHITE);
+		lblPrecio.setForeground(Color.BLACK);
 		lblPrecio.setFont(new Font("Century Gothic", Font.BOLD, 22));
 		lblPrecio.setBounds(596, 63, 118, 28);
 		generalInfoPanel.add(lblPrecio);
 		
 		JLabel lblCantidad = new JLabel("Cantidad:");
-		lblCantidad.setForeground(Color.WHITE);
+		lblCantidad.setForeground(Color.BLACK);
 		lblCantidad.setFont(new Font("Century Gothic", Font.BOLD, 22));
 		lblCantidad.setBounds(925, 63, 118, 28);
 		generalInfoPanel.add(lblCantidad);
@@ -174,16 +183,31 @@ public class RegComponentes extends JDialog {
 		generalInfoPanel.add(textField_2);
 		Image img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
 		
+		JPanel panel_1 = new JPanel();
+		RoundedBorder roundedBorder = new RoundedBorder(new Color(240, 240, 240), 1, 10);
+		TitledBorder titledBorder = new TitledBorder(new CompoundBorder(), "Informacion General", TitledBorder.CENTER, TitledBorder.TOP, null, Color.black);
+		titledBorder.setTitleFont(new Font("Century Gothic", Font.PLAIN, 15));
+
+		panel_1.setBorder(new CompoundBorder(roundedBorder,titledBorder));
+		panel_1.setBounds(253, 13, 967, 198);
+		generalInfoPanel.add(panel_1);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new RoundedBorder(new Color(240, 240, 240), 1, 10));
+		panel_3.setBounds(12, 13, 229, 198);
+		generalInfoPanel.add(panel_3);
+		panel_3.setLayout(null);
+		
 		JLabel componentIcon = new JLabel("");
-		componentIcon.setBounds(37, 19, 185, 185);
-		generalInfoPanel.add(componentIcon);
+		componentIcon.setBounds(29, 11, 170, 170);
+		panel_3.add(componentIcon);
 		Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
 		componentIcon.setIcon(new ImageIcon(scaledImg));
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 78, 137));
 		panel_2.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10));
-		panel_2.setBounds(7, 240, 1232, 460);
+		panel_2.setBounds(7, 261, 1232, 439);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -191,7 +215,7 @@ public class RegComponentes extends JDialog {
 		TitledBorder titledBorder2 = new TitledBorder(new CompoundBorder(), "Informacion de RAM", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 		titledBorder2.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 		componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), titledBorder2));
-		componentInfoPanel.setBounds(356, 13, 864, 434);
+		componentInfoPanel.setBounds(356, 13, 864, 413);
 		panel_2.add(componentInfoPanel);
 		componentInfoPanel.setLayout(null);
 		
@@ -428,7 +452,7 @@ public class RegComponentes extends JDialog {
 		
 		JPanel selectionPanel = new JPanel();
 		selectionPanel.setBorder(new RoundedBorder(new Color(239, 239, 229), 1, 10));
-		selectionPanel.setBounds(12, 13, 332, 434);
+		selectionPanel.setBounds(12, 13, 332, 413);
 		panel_2.add(selectionPanel);
 		
 		
@@ -619,9 +643,9 @@ public class RegComponentes extends JDialog {
 				regBttn.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent arg0) {
-						regBttn.setBackground(new Color(0, 78, 137));
+						regBttn.setBackground(new Color(11, 182, 72));
 						regBttn.setForeground(Color.white);
-						regBttn.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10));
+						regBttn.setBorder(new RoundedBorder(new Color(11, 182, 72), 1, 10));
 					}
 					public void mouseExited(MouseEvent arg0) {
 						regBttn.setBackground(Color.white);
@@ -642,9 +666,9 @@ public class RegComponentes extends JDialog {
 				cancelButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent arg0) {
-						cancelButton.setBackground(new Color(0, 78, 137));
+						cancelButton.setBackground(new Color(167, 34, 34));
 						cancelButton.setForeground(Color.white);
-						cancelButton.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10));
+						cancelButton.setBorder(new RoundedBorder(new Color(167, 34, 34), 1, 10));
 					}
 					public void mouseExited(MouseEvent arg0) {
 						cancelButton.setBackground(Color.white);
