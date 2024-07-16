@@ -11,7 +11,7 @@ public class GPU extends Componente {
 			float vRAM, float velocidad, String tipoConexion) {
 		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
 		this.tipo = tipo;
-		VRAM = vRAM;
+		this.VRAM = vRAM;
 		this.velocidad = velocidad;
 		this.tipoConexion = tipoConexion;
 	}

@@ -15,7 +15,13 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import Logica.Componente;
+import Logica.DiscoDuro;
+import Logica.GPU;
+import Logica.MicroProcesador;
+import Logica.Ram;
 import Logica.RoundedBorder;
+import Logica.TarjetaMadre;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,6 +39,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -48,7 +55,27 @@ public class Principal extends JDialog {
 	private final int PANEL_WIDTH = 350;
 	private final int PANEL_HEIGHT = 350;
 	private final int PANEL_GAP = 10;
-	private ArrayList<JPanel> componentes = getMasComprados(0);
+	
+	/*
+	 * Esto es para probar funcionalidades.
+	 * Es temporal!
+	 * */
+	
+	Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
+	Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
+	Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
+	Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, 150.0f, 130.0f, "HDD", "SATA-3");
+	Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 3.8f, "AM4", 8);
+	Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
+	Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
+	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", "NVMe");
+	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
+	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica, disco, memoria2, tarjetaGrafica2, disco2, tarjetaMadre2));
+	
+	//
+	
+	private ArrayList<JPanel> componentes = getMasComprados(0, componentesMasFamosos);
 	private JPanel panelComponentes;
 	private JButton btnListarComponentes;
 	private JButton btnRegComponentes;
@@ -539,6 +566,10 @@ public class Principal extends JDialog {
 			btnListarComponentes.setVisible(false);
 			btnRegComponentes.setVisible(false);
 			
+			
+			
+			
+			
 			JButton prevBttn = new JButton("<");
 			prevBttn.setBounds(368, 13, 40, 370);
 			panel.add(prevBttn);
@@ -547,7 +578,7 @@ public class Principal extends JDialog {
 					if ( horizontalListInd > 0 ) {
 						horizontalListInd --;
 						cleanPanel(masCompradosPanel, componentes);
-						componentes = getMasComprados(horizontalListInd);
+						componentes = getMasComprados(horizontalListInd, componentesMasFamosos);
 						displayHorizontalList(masCompradosPanel, componentes);
 					}
 				}
@@ -565,10 +596,10 @@ public class Principal extends JDialog {
 			panel.add(nextBttn);
 			nextBttn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					if ( horizontalListInd < PANELS_TO_SHOW - 3 ) {
+					if ( horizontalListInd < componentesMasFamosos.size() - 4 ) {
 						horizontalListInd ++;
 						cleanPanel(masCompradosPanel, componentes);
-						componentes = getMasComprados(horizontalListInd);
+						componentes = getMasComprados(horizontalListInd, componentesMasFamosos);
 						displayHorizontalList(masCompradosPanel, componentes);
 					}
 					
@@ -612,10 +643,14 @@ public class Principal extends JDialog {
 	}
 	
 	
-	private ArrayList<JPanel> getMasComprados(int ind) {
-		ArrayList<JPanel> componentes = new ArrayList<>();		
+	private ArrayList<JPanel> getMasComprados(int ind, ArrayList<Componente> componentesMasFamosos) {
+		ArrayList<JPanel> componentes = new ArrayList<>();
+				
+		
+		
 		int posX = 10;
-		for ( int i = ind; i < PANELS_TO_SHOW; i++ ) { 
+		for ( int i = ind; i < componentesMasFamosos.size(); i++ ) {
+		//for ( Componente comp : componentesMasFamosos ) {
 			JPanel newPanel = new JPanel();
 			newPanel.setLayout(null);
 			newPanel.setBorder(new RoundedBorder(Color.white, 1, 10));
@@ -624,22 +659,36 @@ public class Principal extends JDialog {
 			componentes.add(newPanel);
 			posX += PANEL_WIDTH + PANEL_GAP;
 			JLabel icono = new JLabel();
-			Image img = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
+			
+			Image img = null;
+			
+			if ( componentesMasFamosos.get(i) instanceof MicroProcesador ) {
+				img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
+			} else if ( componentesMasFamosos.get(i) instanceof Ram ) {
+				img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
+			} else if ( componentesMasFamosos.get(i) instanceof GPU ) {
+				img = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
+			} else if ( componentesMasFamosos.get(i) instanceof DiscoDuro ) {
+				img = new ImageIcon(this.getClass().getResource("/hard-drive.png")).getImage();
+			} else if ( componentesMasFamosos.get(i) instanceof TarjetaMadre ) {
+				img = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
+			}
+			
 			Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 			icono.setIcon(new ImageIcon(scaledImg));
-			icono.setBounds(20, 60, 150, 150);
+			icono.setBounds(20, 65, 150, 150);
 			newPanel.add(icono);
 			
 			JLabel precioLabel = new JLabel();
-			float precio = 1200;
+			float precio = componentesMasFamosos.get(i).getPrecio();
 			precioLabel.setText(NumberFormat.getCurrencyInstance().format(precio)); // costo + "$" costo siendo un .getCosto del componente
 			precioLabel.setHorizontalAlignment(SwingConstants.CENTER);
-			precioLabel.setBounds(20, 235, icono.getWidth(), 25);
+			precioLabel.setBounds(20, 235, 330, 25);
 			precioLabel.setFont(new Font("Century Gothic", Font.BOLD, 25));
 			newPanel.add(precioLabel);
 			
 			JLabel nombreComponente = new JLabel();
-			nombreComponente.setText("Intel EVO i7 14500k");
+			nombreComponente.setText(componentesMasFamosos.get(i).getMarca() + componentesMasFamosos.get(i).getModelo());
 			nombreComponente.setFont(new Font("Century Gothic", Font.BOLD, 25));
 			nombreComponente.setBounds(20, 10, 330, 40);
 			newPanel.add(nombreComponente);
@@ -653,7 +702,7 @@ public class Principal extends JDialog {
 			//descripcionPane.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 1, 10), new EmptyBorder(10, 10, 10, 10)));
 			//descripcion.setBorder(new EmptyBorder(10, 10, 10, 10));
 			descripcionPane.setOpaque(false);
-			descripcionPane.setBounds(185, 60, 150, 200);
+			descripcionPane.setBounds(185, 65, 150, 150);
 			descripcionPane.setEditable(false);
 			newPanel.add(descripcionPane);
 			
