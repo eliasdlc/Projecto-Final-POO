@@ -172,6 +172,7 @@ public class Principal extends JDialog {
 			
 			JLabel lblNewLabel = new JLabel("");
 			lblNewLabel.setBounds(8, 6, 55, 55);
+			
 			ImageIcon originalIcon = new ImageIcon("C://Users//elias//git//Projecto-Final-POO//ProyectoFinalPOO//images//lupa.png");
 			int labelWidth = lblNewLabel.getWidth();
 			int labelHeight = lblNewLabel.getHeight();

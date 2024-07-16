@@ -49,6 +49,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JToggleButton;
 
 public class RegComponentes extends JDialog {
 
@@ -78,6 +79,31 @@ public class RegComponentes extends JDialog {
 	private static final Color ButtonColor = new Color(21, 96, 169);
 	private static final Color ButtonBorderColor = new Color(21, 96, 169);
 	private static final Color hoverEffectColor = new Color(220, 231, 242);
+	
+	private JLabel almacenamientoLabel;
+	private JLabel discoTipoConexionLabel;
+	private JLabel tipoDiscoLabel;
+	private JLabel velEscrituraLabel;
+	private JLabel velLecturaLabel;
+	private JSpinner almacenamientoSpn;
+	private JComboBox discoMedidaCbx;
+	private JSpinner velEscrituraSpn;
+	private JSpinner velLecturaSpn;
+	private JComboBox medidaEscrituraCbx;
+	private JComboBox medidaLecturaCbx;
+	private JToggleButton hddToggleBttn;
+	private JToggleButton ssdToggleBttn;
+	private JLabel nucleosLabel;
+	private JComboBox medidaVelocidadCbx;
+	private JLabel tipoConexionLabel;
+	private JCheckBox ideCheckBox;
+	private JCheckBox sataCheckBox;
+	private JCheckBox sata2CheckBox;
+	private JCheckBox sata3CheckBox;
+	private JCheckBox m2SataCheckBox;
+	private JCheckBox eSataCheckBox;
+	private JButton abrirListaBttn;
+	private JPanel conexionDiscoDuroPanel;
 
 	/**
 	 * Launch the application.
@@ -219,8 +245,8 @@ public class RegComponentes extends JDialog {
 		panel_2.add(componentInfoPanel);
 		componentInfoPanel.setLayout(null);
 		
-		JPanel conexionDiscoDuroPanel = new JPanel();
-		conexionDiscoDuroPanel.setBounds(291, 200, 206, 177);
+		conexionDiscoDuroPanel = new JPanel();
+		conexionDiscoDuroPanel.setBounds(500, 139, 206, 177);
 		conexionDiscoDuroPanel.setBackground(new Color(255, 255, 255));
 		conexionDiscoDuroPanel.setBorder(new RoundedBorder(new Color(255, 255, 255), 1, 10));
 		conexionDiscoDuroPanel.setLayout(new GridLayout(0, 2));
@@ -228,22 +254,22 @@ public class RegComponentes extends JDialog {
 		conexionDiscoDuroPanel.setVisible(false);
 		componentInfoPanel.add(conexionDiscoDuroPanel);
 		
-		JCheckBox ideCheckBox = new JCheckBox("IDE");
+		ideCheckBox = new JCheckBox("IDE");
 		ideCheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 16));
 		ideCheckBox.setOpaque(false);
-		JCheckBox sataCheckBox = new JCheckBox("SATA");
+		sataCheckBox = new JCheckBox("SATA");
 		sataCheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 16));
 		sataCheckBox.setOpaque(false);
-        JCheckBox sata2CheckBox = new JCheckBox("SATA-2");
+        sata2CheckBox = new JCheckBox("SATA-2");
         sata2CheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 16));
         sata2CheckBox.setOpaque(false);
-        JCheckBox sata3CheckBox = new JCheckBox("SATA-3");
+        sata3CheckBox = new JCheckBox("SATA-3");
         sata3CheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 16));
         sata3CheckBox.setOpaque(false);
-        JCheckBox m2SataCheckBox = new JCheckBox("M.2 SATA");
+        m2SataCheckBox = new JCheckBox("M.2 SATA");
         m2SataCheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 16));
         m2SataCheckBox.setOpaque(false);
-        JCheckBox eSataCheckBox = new JCheckBox("eSATA");
+        eSataCheckBox = new JCheckBox("eSATA");
         eSataCheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 16));
         eSataCheckBox.setOpaque(false);
         
@@ -313,13 +339,13 @@ public class RegComponentes extends JDialog {
 		velocidadLabel.setBounds(29, 35, 177, 28);
 		componentInfoPanel.add(velocidadLabel);
 		
-		JLabel tipoConexionLabel = new JLabel("Tipo Conexion:");
+		tipoConexionLabel = new JLabel("Tipo Conexion:");
 		tipoConexionLabel.setVisible(false);
 		tipoConexionLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		tipoConexionLabel.setBounds(29, 88, 177, 28);
 		componentInfoPanel.add(tipoConexionLabel);
 		
-		JLabel nucleosLabel = new JLabel("Nucleos:");
+		nucleosLabel = new JLabel("Nucleos:");
 		nucleosLabel.setVisible(false);
 		nucleosLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		nucleosLabel.setBounds(29, 144, 177, 28);
@@ -331,7 +357,7 @@ public class RegComponentes extends JDialog {
 		tipoConexionCbx.setBounds(234, 88, 177, 28);
 		componentInfoPanel.add(tipoConexionCbx);
 		
-		JComboBox medidaVelocidadCbx = new JComboBox();
+		medidaVelocidadCbx = new JComboBox();
 		medidaVelocidadCbx.setVisible(false);
 		medidaVelocidadCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		medidaVelocidadCbx.setBounds(423, 35, 60, 28);
@@ -383,7 +409,7 @@ public class RegComponentes extends JDialog {
 		conexionDiscoDuroLabel.setBounds(29, 144, 261, 28);
 		componentInfoPanel.add(conexionDiscoDuroLabel);
 		
-		JButton abrirListaBttn = new JButton("Abrir Lista");
+		abrirListaBttn = new JButton("Abrir Lista");
 		abrirListaBttn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		abrirListaBttn.setVisible(false);
 		abrirListaBttn.addMouseListener(new MouseAdapter() {
@@ -412,6 +438,98 @@ public class RegComponentes extends JDialog {
 		abrirListaBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
 		abrirListaBttn.setFocusPainted(false);
 		componentInfoPanel.add(abrirListaBttn);
+		
+		almacenamientoLabel = new JLabel("Almacenamiento:");
+		almacenamientoLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		almacenamientoLabel.setBounds(29, 35, 233, 28);
+		componentInfoPanel.add(almacenamientoLabel);
+		
+		discoTipoConexionLabel = new JLabel("Tipo Conexion:");
+		discoTipoConexionLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		discoTipoConexionLabel.setBounds(29, 144, 233, 28);
+		componentInfoPanel.add(discoTipoConexionLabel);
+		
+		tipoDiscoLabel = new JLabel("Tipo Disco:");
+		tipoDiscoLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		tipoDiscoLabel.setBounds(29, 88, 233, 28);
+		componentInfoPanel.add(tipoDiscoLabel);
+		
+		velEscrituraLabel = new JLabel("Vel. Escritura:");
+		velEscrituraLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		velEscrituraLabel.setBounds(29, 200, 165, 28);
+		componentInfoPanel.add(velEscrituraLabel);
+		
+		velLecturaLabel = new JLabel("Vel. Lectura:");
+		velLecturaLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		velLecturaLabel.setBounds(29, 259, 165, 28);
+		componentInfoPanel.add(velLecturaLabel);
+		
+		almacenamientoSpn = new JSpinner();
+		almacenamientoSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		almacenamientoSpn.setBounds(255, 36, 177, 28);
+		componentInfoPanel.add(almacenamientoSpn);
+		
+		discoMedidaCbx = new JComboBox();
+		discoMedidaCbx.setModel(new DefaultComboBoxModel(new String[] {"GB", "TB"}));
+		discoMedidaCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		discoMedidaCbx.setBackground(Color.WHITE);
+		discoMedidaCbx.setBounds(445, 36, 60, 28);
+		componentInfoPanel.add(discoMedidaCbx);
+		
+		hddToggleBttn = new JToggleButton("HDD");
+		
+		hddToggleBttn.setFont(new Font("Century Gothic", Font.BOLD, 19));
+		hddToggleBttn.setBackground(Color.WHITE);
+		hddToggleBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
+		hddToggleBttn.setFocusPainted(false);
+		hddToggleBttn.setSelected(true);
+		hddToggleBttn.setBounds(255, 83, 92, 38);
+		componentInfoPanel.add(hddToggleBttn);
+		
+		ssdToggleBttn = new JToggleButton("SSD");
+		
+		ssdToggleBttn.setFont(new Font("Century Gothic", Font.BOLD, 19));
+		ssdToggleBttn.setBackground(Color.WHITE);
+		ssdToggleBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
+		ssdToggleBttn.setFocusPainted(false);
+		ssdToggleBttn.setBounds(359, 83, 92, 38);
+		componentInfoPanel.add(ssdToggleBttn);
+		
+		
+		hddToggleBttn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ssdToggleBttn.setSelected(false);
+			}
+		});
+		ssdToggleBttn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				hddToggleBttn.setSelected(false);
+			}
+		});
+		
+		medidaEscrituraCbx = new JComboBox();
+		medidaEscrituraCbx.setModel(new DefaultComboBoxModel(new String[] {"(MB/s)", "(TB/s)"}));
+		medidaEscrituraCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		medidaEscrituraCbx.setBackground(Color.WHITE);
+		medidaEscrituraCbx.setBounds(391, 200, 92, 28);
+		componentInfoPanel.add(medidaEscrituraCbx);
+		
+		medidaLecturaCbx = new JComboBox();
+		medidaLecturaCbx.setModel(new DefaultComboBoxModel(new String[] {"(MB/s)", "(TB/s)"}));
+		medidaLecturaCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		medidaLecturaCbx.setBackground(Color.WHITE);
+		medidaLecturaCbx.setBounds(391, 259, 92, 28);
+		componentInfoPanel.add(medidaLecturaCbx);
+		
+		velEscrituraSpn = new JSpinner();
+		velEscrituraSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		velEscrituraSpn.setBounds(202, 200, 177, 28);
+		componentInfoPanel.add(velEscrituraSpn);
+		
+		velLecturaSpn = new JSpinner();
+		velLecturaSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		velLecturaSpn.setBounds(202, 259, 177, 28);
+		componentInfoPanel.add(velLecturaSpn);
 		
 		JRadioButton procesadorRdoBttn = new JRadioButton("Procesador");
 		procesadorRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
@@ -474,13 +592,7 @@ public class RegComponentes extends JDialog {
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
 				
-				nucleosSpn.setVisible(false);
-				velocidadSpn.setVisible(false);
-				tipoConexionCbx.setVisible(false);
-				medidaVelocidadCbx.setVisible(false);
-				nucleosLabel.setVisible(false);
-				tipoConexionLabel.setVisible(false);
-				velocidadLabel.setVisible(false);
+				setEverythingTo(false);
 				
 				memoriaLabel.setVisible(true);
 				memoriaTypeLabel.setVisible(true);
@@ -488,12 +600,7 @@ public class RegComponentes extends JDialog {
 				medidaMemoriaCbx.setVisible(true);
 				memoriaTypeCbx.setVisible(true);
 				
-				tipoSocketLabel.setVisible(false);
-				tipoRamLabel.setVisible(false);
-				RamTypeCbx.setVisible(false);
-				socketTypeCbx.setVisible(false);
-				conexionDiscoDuroLabel.setVisible(false);
-				abrirListaBttn.setVisible(false);
+			
 			}
 		});
 		gpuRdoBttn.addActionListener(new ActionListener() {
@@ -512,6 +619,8 @@ public class RegComponentes extends JDialog {
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de GPU", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				
+				setEverythingTo(false);
 			}
 		});
 		discoDuroRdoBttn.addActionListener(new ActionListener() {
@@ -530,6 +639,20 @@ public class RegComponentes extends JDialog {
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de Disco Duro", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				
+				setEverythingTo(false);
+				
+				hddToggleBttn.setVisible(true);
+				ssdToggleBttn.setVisible(true);
+				almacenamientoSpn.setVisible(true);
+				discoMedidaCbx.setVisible(true);
+				medidaEscrituraCbx.setVisible(true);
+				medidaLecturaCbx.setVisible(true);
+				almacenamientoLabel.setVisible(true);
+				tipoDiscoLabel.setVisible(true);
+				discoTipoConexionLabel.setVisible(true);
+				velEscrituraLabel.setVisible(true);
+				velLecturaLabel.setVisible(true);
 			}
 		});
 		tarjetaMadreRdoBttn.addActionListener(new ActionListener() {
@@ -549,26 +672,15 @@ public class RegComponentes extends JDialog {
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
 				
+				setEverythingTo(false);
+				
+
 				tipoSocketLabel.setVisible(true);
 				tipoRamLabel.setVisible(true);
 				RamTypeCbx.setVisible(true);
 				socketTypeCbx.setVisible(true);
 				conexionDiscoDuroLabel.setVisible(true);
 				abrirListaBttn.setVisible(true);
-				
-				nucleosSpn.setVisible(false);
-				velocidadSpn.setVisible(false);
-				tipoConexionCbx.setVisible(false);
-				medidaVelocidadCbx.setVisible(false);
-				nucleosLabel.setVisible(false);
-				tipoConexionLabel.setVisible(false);
-				velocidadLabel.setVisible(false);
-				
-				memoriaLabel.setVisible(false);
-				memoriaTypeLabel.setVisible(false);
-				cantMemoriaSpn.setVisible(false);
-				medidaMemoriaCbx.setVisible(false);
-				memoriaTypeCbx.setVisible(false);
 			}
 		});
 		microprocesadorRdoBttn.addActionListener(new ActionListener() {
@@ -589,6 +701,8 @@ public class RegComponentes extends JDialog {
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
 				
 				//setEverythingToFalse();
+				setEverythingTo(false);
+				
 				nucleosSpn.setVisible(true);
 				velocidadSpn.setVisible(true);
 				tipoConexionCbx.setVisible(true);
@@ -596,20 +710,6 @@ public class RegComponentes extends JDialog {
 				nucleosLabel.setVisible(true);
 				tipoConexionLabel.setVisible(true);
 				velocidadLabel.setVisible(true);
-				
-				memoriaLabel.setVisible(false);
-				memoriaTypeLabel.setVisible(false);
-				cantMemoriaSpn.setVisible(false);
-				medidaMemoriaCbx.setVisible(false);
-				memoriaTypeCbx.setVisible(false);
-				
-				tipoSocketLabel.setVisible(false);
-				tipoRamLabel.setVisible(false);
-				RamTypeCbx.setVisible(false);
-				socketTypeCbx.setVisible(false);
-				conexionDiscoDuroLabel.setVisible(false);
-				abrirListaBttn.setVisible(false);
-				
 			}
 		});
 		procesadorRdoBttn.addActionListener(new ActionListener() {
@@ -628,6 +728,8 @@ public class RegComponentes extends JDialog {
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de Procesador", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				
+				setEverythingTo(false);
 			}
 		});
 		
@@ -663,6 +765,11 @@ public class RegComponentes extends JDialog {
 			}
 			{
 				cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				cancelButton.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent arg0) {
@@ -687,5 +794,53 @@ public class RegComponentes extends JDialog {
 			buttonPane.add(regBttn);
 			buttonPane.add(cancelButton);
 		}
+	}
+	
+	private void setEverythingTo(boolean estado) {
+		memoriaLabel.setVisible(estado);
+		memoriaTypeLabel.setVisible(estado);
+		cantMemoriaSpn.setVisible(estado);
+		medidaMemoriaCbx.setVisible(estado);
+		memoriaTypeCbx.setVisible(estado);
+		
+		nucleosSpn.setVisible(estado);
+		velocidadSpn.setVisible(estado);
+		tipoConexionCbx.setVisible(estado);
+		medidaVelocidadCbx.setVisible(estado);
+		nucleosLabel.setVisible(estado);
+		tipoConexionLabel.setVisible(estado);
+		velocidadLabel.setVisible(estado);
+		
+		memoriaLabel.setVisible(estado);
+		memoriaTypeLabel.setVisible(estado);
+		cantMemoriaSpn.setVisible(estado);
+		medidaMemoriaCbx.setVisible(estado);
+		memoriaTypeCbx.setVisible(estado);
+		almacenamientoLabel.setVisible(estado);
+		tipoDiscoLabel.setVisible(estado);
+		
+		hddToggleBttn.setVisible(estado);
+		ssdToggleBttn.setVisible(estado);
+		almacenamientoSpn.setVisible(estado);
+		discoMedidaCbx.setVisible(estado);
+		medidaEscrituraCbx.setVisible(estado);
+		medidaLecturaCbx.setVisible(estado);
+		almacenamientoLabel.setVisible(estado);
+		tipoDiscoLabel.setVisible(estado);
+		discoTipoConexionLabel.setVisible(estado);
+		velEscrituraLabel.setVisible(estado);
+		velLecturaLabel.setVisible(estado);
+		
+		conexionDiscoDuroPanel.setVisible(estado);
+		if ( !estado ) {
+			abrirListaBttn.setText("Abrir Lista");
+			ideCheckBox.setSelected(false);
+			sataCheckBox.setSelected(false);
+			sata2CheckBox.setSelected(false);
+			sata3CheckBox.setSelected(false);
+			m2SataCheckBox.setSelected(false);
+			eSataCheckBox.setSelected(false);
+		}
+		
 	}
 }
