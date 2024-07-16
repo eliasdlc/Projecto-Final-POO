@@ -147,16 +147,16 @@ public class Principal extends JDialog {
 			
 			panelComponentes = new JPanel();
 			panelComponentes.setBackground(SecondaryC);
-			panelComponentes.setBounds(12, 274, 332, 152);
+			panelComponentes.setBounds(344, 198, 332, 152);
 			panelComponentes.setBorder(new RoundedBorder(SecondaryC, 1, 10));
-			panel_1.add(panelComponentes);
+			panel.add(panelComponentes);
 			
 			panelComputadoras = new JPanel();
 			panelComputadoras.setVisible(false);
 			panelComputadoras.setBackground(SecondaryC);
-			panelComputadoras.setBounds(12, 362, 332, 152);
+			panelComputadoras.setBounds(343, 287, 332, 152);
 			panelComputadoras.setBorder(new RoundedBorder(SecondaryC, 1, 10));
-			panel_1.add(panelComputadoras);
+			panel.add(panelComputadoras);
 			panelComputadoras.setLayout(null);
 			
 			JTextField searchField = new JTextField("");
@@ -433,7 +433,6 @@ public class Principal extends JDialog {
 			        panelComputadoras.setVisible(true);
 			        btnComprarComputadora.setVisible(true);
 			        btnComprarComponente.setVisible(true);
-			        btnAdministracion.setVisible(false);
 			    }
 
 			    @Override
@@ -498,7 +497,6 @@ public class Principal extends JDialog {
 			        panelComponentes.setVisible(true);
 			        btnListarComponentes.setVisible(true);
 			        btnRegComponentes.setVisible(true);
-			        btnComputadoras.setVisible(false);
 			    }
 
 			    @Override
