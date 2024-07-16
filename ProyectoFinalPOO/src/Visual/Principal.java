@@ -11,6 +11,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import Logica.RoundedBorder;
 
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
 import java.awt.FlowLayout;
 
 public class Principal extends JDialog {
@@ -527,7 +531,7 @@ public class Principal extends JDialog {
 			
 			JPanel masCompradosPanel = new JPanel();
 			masCompradosPanel.setBackground(PrimaryC);
-			masCompradosPanel.setBounds(413, 13, 1434, 370);
+			masCompradosPanel.setBounds(404, 13, 1450, 370);
 			masCompradosPanel.setFocusable(true);
 			panel.add(masCompradosPanel);
 			masCompradosPanel.setLayout(null);
@@ -536,7 +540,7 @@ public class Principal extends JDialog {
 			btnRegComponentes.setVisible(false);
 			
 			JButton prevBttn = new JButton("<");
-			prevBttn.setBounds(368, 13, 46, 370);
+			prevBttn.setBounds(368, 13, 40, 370);
 			panel.add(prevBttn);
 			prevBttn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -548,7 +552,7 @@ public class Principal extends JDialog {
 					}
 				}
 			});
-			//prevBttn.setOpaque(false);
+			prevBttn.setOpaque(false);
 			prevBttn.setFont(new Font("Tahoma", Font.BOLD, 34));
 			prevBttn.setFocusPainted(false);
 			prevBttn.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -557,7 +561,7 @@ public class Principal extends JDialog {
 			
 			
 			JButton nextBttn = new JButton(">");
-			nextBttn.setBounds(1845, 13, 46, 370);
+			nextBttn.setBounds(1851, 13, 40, 370);
 			panel.add(nextBttn);
 			nextBttn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -572,7 +576,7 @@ public class Principal extends JDialog {
 			});
 			nextBttn.setBackground(SecondaryC);
 			nextBttn.setFont(new Font("Tahoma", Font.BOLD, 34));
-			//nextBttn.setOpaque(false);
+			nextBttn.setOpaque(false);
 			nextBttn.setFocusPainted(false);
 			nextBttn.setBorder(new EmptyBorder(0, 0, 0, 0));
 			
@@ -609,7 +613,7 @@ public class Principal extends JDialog {
 	
 	
 	private ArrayList<JPanel> getMasComprados(int ind) {
-		ArrayList<JPanel> componentes = new ArrayList<>();
+		ArrayList<JPanel> componentes = new ArrayList<>();		
 		int posX = 10;
 		for ( int i = ind; i < PANELS_TO_SHOW; i++ ) { 
 			JPanel newPanel = new JPanel();
@@ -620,29 +624,38 @@ public class Principal extends JDialog {
 			componentes.add(newPanel);
 			posX += PANEL_WIDTH + PANEL_GAP;
 			JLabel icono = new JLabel();
-			Image img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
+			Image img = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
 			Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
 			icono.setIcon(new ImageIcon(scaledImg));
-			icono.setBounds(30, 30, 150, 150);
+			icono.setBounds(20, 60, 150, 150);
 			newPanel.add(icono);
 			
-			JLabel precio = new JLabel();
-			precio.setText("1200$"); // costo + "$" costo siendo un .getCosto del componente
-			precio.setHorizontalAlignment(SwingConstants.CENTER);
-			precio.setBounds(28, 200, icono.getWidth(), 25);
-			precio.setFont(new Font("Century Gothic", Font.BOLD, 20));
-			newPanel.add(precio);
+			JLabel precioLabel = new JLabel();
+			float precio = 1200;
+			precioLabel.setText(NumberFormat.getCurrencyInstance().format(precio)); // costo + "$" costo siendo un .getCosto del componente
+			precioLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			precioLabel.setBounds(20, 235, icono.getWidth(), 25);
+			precioLabel.setFont(new Font("Century Gothic", Font.BOLD, 25));
+			newPanel.add(precioLabel);
 			
-			JTextPane descripcion = new JTextPane();
-			descripcion.setText("Aqui irá la descripcion del producto corespondiente"); 
-			descripcion.setFont(new Font("Century Gothic", Font.PLAIN, 15));
-			descripcion.setBackground(Color.white);
-			descripcion.setForeground(Color.black);
-			//descripcion.setBorder(new RoundedBorder(Color.black, 1, 10));
-			descripcion.setOpaque(false);
-			descripcion.setBounds(200, 30, 120, 200);
-			descripcion.setEditable(false);
-			newPanel.add(descripcion);
+			JLabel nombreComponente = new JLabel();
+			nombreComponente.setText("Intel EVO i7 14500k");
+			nombreComponente.setFont(new Font("Century Gothic", Font.BOLD, 25));
+			nombreComponente.setBounds(20, 10, 330, 40);
+			newPanel.add(nombreComponente);
+			
+			JTextPane descripcionPane = new JTextPane();
+			descripcionPane.setText("Alto rendimiento y eficiencia energética para cargas de trabajo exigentes y multitarea."); 
+			descripcionPane.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+			descripcionPane.setBackground(Color.white);
+			descripcionPane.setForeground(Color.black);
+			
+			//descripcionPane.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 1, 10), new EmptyBorder(10, 10, 10, 10)));
+			//descripcion.setBorder(new EmptyBorder(10, 10, 10, 10));
+			descripcionPane.setOpaque(false);
+			descripcionPane.setBounds(185, 60, 150, 200);
+			descripcionPane.setEditable(false);
+			newPanel.add(descripcionPane);
 			
 			JButton bttnComprar = new JButton();
 			bttnComprar.addMouseListener(new MouseAdapter() {
@@ -675,7 +688,7 @@ public class Principal extends JDialog {
 			bttnComprar.setBackground(AccentColor);
 			bttnComprar.setForeground(Color.black);
 			bttnComprar.setBorder(new RoundedBorder(new Color(255, 149, 94), 1, 10));
-			bttnComprar.setBounds(25, 280, 300, 50);
+			bttnComprar.setBounds(15, 285, 320, 50);
 			newPanel.add(bttnComprar);
 			
 			
