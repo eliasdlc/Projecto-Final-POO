@@ -7,6 +7,7 @@ public class Componente {
 	private float precio;
 	private int cantDisponible;
 	private int cantVendidos;
+	private int descuento;
 
 
 	public Componente(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos) {
@@ -16,6 +17,7 @@ public class Componente {
 		this.precio = precio;
 		this.cantDisponible = cantDisponible;
 		this.cantVendidos = cantVendidos;
+		this.descuento = 0;
 	}
 	
 	public String getMarca() {
@@ -60,6 +62,14 @@ public class Componente {
 
 	public void setCantVendidos(int cantVendidos) {
 		this.cantVendidos = cantVendidos;
+	}
+
+	public int getDescuento() {
+		return descuento;
+	}
+
+	public void setDescuento(int descuento) {
+		this.descuento = descuento;
 	}
 	
 	

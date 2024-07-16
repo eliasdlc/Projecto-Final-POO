@@ -191,10 +191,12 @@ public class Tienda {
 	public float calcularTotal(Factura factura) {
 		int ind = 0;
 		float precio = 0;
+		int porcentaje = 0;
 		if(factura instanceof FacturaComponente) {
 			ArrayList<Componente>losComponentes = ((FacturaComponente) factura).getCarrito();
 			for(Componente componente : losComponentes) {
 				precio += (float) componente.getPrecio();
+				porcentaje = componente.getDescuento();
 			}
 		}
 		else if(factura instanceof FacturaComputadora) {
@@ -204,8 +206,30 @@ public class Tienda {
 			
 			for(Componente componente : aux) {
 				precio += (float) componente.getPrecio();
+				porcentaje = componente.getDescuento();
 			}
 		}
+		
+		if(porcentaje != 0) {
+			precio = (float) (precio - ((porcentaje * precio) / 100));
+		}
+		
 		return precio;
 	}
+	
+	public void makeOferta(Componente componente) {
+		int cantVendido = componente.getCantVendidos();
+		if(cantVendido > 15) {
+			componente.setDescuento(componente.getDescuento() + 15);
+		}
+		else if(cantVendido <= 15) {
+			componente.setDescuento(componente.getDescuento()+ 10);
+		}
+		else if(cantVendido <= 10) {
+			componente.setDescuento(componente.getDescuento() + 5);
+	
+		}
+
+	}
+
 }

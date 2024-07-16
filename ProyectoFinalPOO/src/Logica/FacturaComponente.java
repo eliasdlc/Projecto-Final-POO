@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class FacturaComponente extends Factura {
 	private ArrayList<Componente> carrito;
 	
-	public FacturaComponente(String idCliente, String id, Float montoTotal, boolean comprado) {
-		super(idCliente, id, montoTotal, comprado);
+	public FacturaComponente(String idCliente, String id, Float montoTotal) {
+		super(idCliente, id, montoTotal);
 		this.carrito = new ArrayList<>();
 	}
 

@@ -3,8 +3,8 @@ package Logica;
 public class FacturaComputadora extends Factura {
 	private static String idComputadora;
 	
-	public FacturaComputadora(String idCliente, String id, Float montoTotal, boolean comprado, String idcomputadora) {
-		super(idCliente, id, montoTotal, comprado);
+	public FacturaComputadora(String idCliente, String id, Float montoTotal, String idcomputadora) {
+		super(idCliente, id, montoTotal);
 		this.idComputadora = idcomputadora;
 	}
 

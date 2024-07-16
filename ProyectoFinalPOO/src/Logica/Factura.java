@@ -1,18 +1,17 @@
 package Logica;
 
 public class Factura {
-	
 	private String idCliente;
 	private String id;
 	private Float montoTotal;
 	private boolean comprado;
 	
-	public Factura(String idCliente, String id, Float montoTotal, boolean comprado) {
+	public Factura(String idCliente, String id, Float montoTotal) {
 		super();
 		this.idCliente = idCliente;
 		this.id = id;
 		this.montoTotal = montoTotal;
-		this.comprado = comprado;
+		comprado = false;
 	}
 	
 	public String getIdCliente() {
