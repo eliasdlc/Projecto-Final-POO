@@ -265,15 +265,24 @@ public class Tienda {
 		return componentesByPrecio;
 	}
 	
-	/*public boolean makeFactura(Componente componente, Computadora pc) {
-		
-		if ( componente != null ) {
-			FacturaComponente factComponente = new FacturaComponente();
-		} else if ( pc != null ) {
-			FacturaComputadora factComputadora = new FacturaComputadora();
+	public boolean makeFactura(Componente componente, Computadora pc, Cliente cliente, Factura factura) {
+		float precioTotal = 0;
+		boolean op = false;
+		if ( componente != null && factura instanceof FacturaComponente ) {
+			precioTotal = calcPrecioTotalComponente(cliente);
+			ArrayList<Componente> carrito = cliente.getCarrito();
+			factura = new FacturaComponente(cliente.getId(), "F-" + codFactura, precioTotal, carrito);
+			op = true;
+		} else if ( pc != null && factura instanceof FacturaComputadora ) {
+			precioTotal = calcPrecioTotalComputadora(pc.getComponentes());
+			String id = pc.getId();
+			factura = new FacturaComputadora(cliente.getId(), "F-" + codFactura, precioTotal, id);
+			op = true;
 		}
-		
-	}*/
+		factura.setComprado(true);
+		insertarFactura(factura);
+		return op;
+	}
 	
 	public void makeOferta(Componente componente) {
 		int cantVendido = componente.getCantVendidos();
