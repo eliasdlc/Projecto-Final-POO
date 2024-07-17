@@ -19,6 +19,13 @@ public class Tienda {
 		this.misComponentes = new ArrayList<Componente>();
 		this.misFacturas = new ArrayList<Factura>();
 	}
+	
+	public static Tienda getInstance() {
+		if(miTienda == null) {
+			miTienda = new Tienda();
+		}
+		return miTienda;
+	}
 
 	public ArrayList<Cliente> getMisClientes() {
 		return misClientes;
@@ -42,13 +49,6 @@ public class Tienda {
 
 	public void setMisComponentes(ArrayList<Componente> misComponentes) {
 		this.misComponentes = misComponentes;
-	}
-
-	public static Tienda getInstance() {
-		if(miTienda == null) {
-			miTienda = new Tienda();
-		}
-		return miTienda;
 	}
 	
 	public void insertarCliente(Cliente cliente) {
@@ -100,7 +100,7 @@ public class Tienda {
 	}
 	
 	public void deleteComputadora(Computadora computadora) {
-		misFacturas.remove(computadora);
+		misComputadoras.remove(computadora);
 	}
 	
 	public Componente searchComponenteMasVendido() {
@@ -189,7 +189,6 @@ public class Tienda {
 	}
 
 	public float calcularTotal(Factura factura) {
-		int ind = 0;
 		float precio = 0;
 		int porcentaje = 0;
 		if(factura instanceof FacturaComponente) {
@@ -230,6 +229,49 @@ public class Tienda {
 	
 		}
 
+	}
+	
+	public boolean makeComputadora(String id, ArrayList<Componente> componentes, String tipo) {
+		boolean creado = false;
+		float precioPc = 0;
+		
+		for ( Componente comp : componentes ) {
+			precioPc += comp.getPrecio();
+		}
+		
+		float margen = precioPc / componentes.size();
+		precioPc = precioPc - margen;
+		
+		Computadora pc = new Computadora(id, componentes, precioPc, tipo);
+		
+		if ( isCompatible(pc) ) {
+			creado = true;
+			misComputadoras.add(pc);
+		}
+		
+		return creado;
+	}
+	
+	public boolean isCompatible(Computadora pc) {
+		boolean compatible = false;
+		
+		TarjetaMadre tarjetaMadre = ((TarjetaMadre) pc.getComponentes().get(0));
+		Ram ram = ((Ram) pc.getComponentes().get(1));
+		MicroProcesador microProcesador = ((MicroProcesador) pc.getComponentes().get(2));
+		DiscoDuro discoDuro = ((DiscoDuro) pc.getComponentes().get(3));
+		
+		if( tarjetaMadre.getTipoRam().equals(ram.getTipoMemoria()) && 
+			tarjetaMadre.getConectionSocket().equals(microProcesador.getTipoConexion()) ) {
+			
+			for ( String tipo : tarjetaMadre.getTipoDiscoDuro() ) {
+				if ( tipo.equals(discoDuro.getTipoConexion()) ) {
+					compatible = true;
+					break;
+				}
+			}
+			
+		}
+		return compatible;
 	}
 
 }

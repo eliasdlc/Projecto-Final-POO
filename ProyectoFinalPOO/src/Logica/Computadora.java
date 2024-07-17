@@ -6,12 +6,14 @@ public class Computadora {
 	private String id;
 	private ArrayList<Componente> componentes;
 	private float precio;
+	private String tipo;
 	
-	public Computadora(String id, ArrayList<Componente> componentes, float precio) {
+	public Computadora(String id, ArrayList<Componente> componentes, float precio, String tipo) {
 		super();
 		this.id = id;
 		this.componentes = componentes;
 		this.precio = precio;
+		this.tipo = tipo;
 	}
 
 	public ArrayList<Componente> getComponentes() {
@@ -33,6 +35,16 @@ public class Computadora {
 	public String getId() {
 		return id;
 	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
+	
 	
 	
 }
