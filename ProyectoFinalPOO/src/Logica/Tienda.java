@@ -188,13 +188,13 @@ public class Tienda {
 		return computadora;
 	}
 
-	public float calcularTotal(Factura factura) {
+	/*public float calcularTotal(Factura factura) {
 		float precio = 0;
 		int porcentaje = 0;
 		if(factura instanceof FacturaComponente) {
 			ArrayList<Componente>losComponentes = ((FacturaComponente) factura).getCarrito();
 			for(Componente componente : losComponentes) {
-				precio += (float) componente.getPrecio();
+				precio += componente.getPrecio();
 				porcentaje = componente.getDescuento();
 			}
 		}
@@ -204,7 +204,7 @@ public class Tienda {
 			ArrayList<Componente> aux = computadora.getComponentes();
 			
 			for(Componente componente : aux) {
-				precio += (float) componente.getPrecio();
+				precio += componente.getPrecio();
 				porcentaje = componente.getDescuento();
 			}
 		}
@@ -214,7 +214,66 @@ public class Tienda {
 		}
 		
 		return precio;
+	}*/
+	
+	public float calcPrecioTotalComponente(Cliente cliente) {
+		float precio = 0;
+		int porcentaje = 0;
+		float precioTotal = 0;
+		ArrayList<Componente> aux = cliente.getCarrito();
+		
+		for(Componente componente : aux) {
+			precio = componente.getPrecio();
+			porcentaje = componente.getDescuento();
+			precioTotal = (float) (precio - ((porcentaje * precio) / 100));
+		}
+		return precioTotal;
 	}
+	
+	public float calcPrecioTotalComputadora(ArrayList<Componente> componentes) {
+		float precio = 0;
+		int porcentaje = 0;
+		float precioTotal = 0;
+		
+		for(Componente componente : componentes) {
+			precio = componente.getPrecio();
+			porcentaje = componente.getDescuento();
+			precioTotal = (float) (precio - ((porcentaje * precio) / 100));
+		}
+		return precioTotal;
+	}
+	
+	public ArrayList<Componente> filterByMarca(String marca){
+		ArrayList<Componente> componentesByMarca = new ArrayList<>();
+		
+		for ( Componente comp : misComponentes ) {
+			if ( comp.getMarca().equals(marca) ) {
+				componentesByMarca.add(comp);
+			}
+		}
+		return componentesByMarca;
+	}
+	
+	public ArrayList<Componente> filterByPrecio(float precioMinimo, float precioMaximo){
+		ArrayList<Componente> componentesByPrecio = new ArrayList<>();
+		
+		for ( Componente comp : misComponentes ) {
+			if ( comp.getPrecio() > precioMinimo && comp.getPrecio() < precioMaximo ) {
+				componentesByPrecio.add(comp);
+			}
+		}
+		return componentesByPrecio;
+	}
+	
+	/*public boolean makeFactura(Componente componente, Computadora pc) {
+		
+		if ( componente != null ) {
+			FacturaComponente factComponente = new FacturaComponente();
+		} else if ( pc != null ) {
+			FacturaComputadora factComputadora = new FacturaComputadora();
+		}
+		
+	}*/
 	
 	public void makeOferta(Componente componente) {
 		int cantVendido = componente.getCantVendidos();
@@ -233,22 +292,13 @@ public class Tienda {
 	
 	public boolean makeComputadora(String id, ArrayList<Componente> componentes, String tipo) {
 		boolean creado = false;
-		float precioPc = 0;
-		
-		for ( Componente comp : componentes ) {
-			precioPc += comp.getPrecio();
-		}
-		
-		float margen = precioPc / componentes.size();
-		precioPc = precioPc - margen;
-		
+		float precioPc = calcPrecioTotalComputadora(componentes);
 		Computadora pc = new Computadora(id, componentes, precioPc, tipo);
 		
 		if ( isCompatible(pc) ) {
 			creado = true;
-			misComputadoras.add(pc);
+			insertarComputadora(pc);
 		}
-		
 		return creado;
 	}
 	
