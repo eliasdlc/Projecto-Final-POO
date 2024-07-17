@@ -187,34 +187,6 @@ public class Tienda {
 		}
 		return computadora;
 	}
-
-	/*public float calcularTotal(Factura factura) {
-		float precio = 0;
-		int porcentaje = 0;
-		if(factura instanceof FacturaComponente) {
-			ArrayList<Componente>losComponentes = ((FacturaComponente) factura).getCarrito();
-			for(Componente componente : losComponentes) {
-				precio += componente.getPrecio();
-				porcentaje = componente.getDescuento();
-			}
-		}
-		else if(factura instanceof FacturaComputadora) {
-			String id = FacturaComputadora.getIdComputadora();
-			Computadora computadora = searchComputadoraById(id);
-			ArrayList<Componente> aux = computadora.getComponentes();
-			
-			for(Componente componente : aux) {
-				precio += componente.getPrecio();
-				porcentaje = componente.getDescuento();
-			}
-		}
-		
-		if(porcentaje != 0) {
-			precio = (float) (precio - ((porcentaje * precio) / 100));
-		}
-		
-		return precio;
-	}*/
 	
 	public float calcPrecioTotalComponente(Cliente cliente) {
 		float precio = 0;
@@ -267,21 +239,21 @@ public class Tienda {
 	
 	public boolean makeFactura(Componente componente, Computadora pc, Cliente cliente, Factura factura) {
 		float precioTotal = 0;
-		boolean op = false;
+		boolean finalizado = false;
 		if ( componente != null && factura instanceof FacturaComponente ) {
 			precioTotal = calcPrecioTotalComponente(cliente);
 			ArrayList<Componente> carrito = cliente.getCarrito();
 			factura = new FacturaComponente(cliente.getId(), "F-" + codFactura, precioTotal, carrito);
-			op = true;
+			finalizado = true;
 		} else if ( pc != null && factura instanceof FacturaComputadora ) {
 			precioTotal = calcPrecioTotalComputadora(pc.getComponentes());
 			String id = pc.getId();
 			factura = new FacturaComputadora(cliente.getId(), "F-" + codFactura, precioTotal, id);
-			op = true;
+			finalizado = true;
 		}
 		factura.setComprado(true);
 		insertarFactura(factura);
-		return op;
+		return finalizado;
 	}
 	
 	public void makeOferta(Componente componente) {
