@@ -104,6 +104,11 @@ public class RegComponentes extends JDialog {
 	private JCheckBox eSataCheckBox;
 	private JButton abrirListaBttn;
 	private JPanel conexionDiscoDuroPanel;
+	private JLabel tipoSocketLabel;
+	private JLabel tipoRamLabel;
+	private JComboBox RamTypeCbx;
+	private JComboBox socketTypeCbx;
+	private JLabel conexionDiscoDuroLabel;
 
 	/**
 	 * Launch the application.
@@ -375,19 +380,19 @@ public class RegComponentes extends JDialog {
 		nucleosSpn.setBounds(234, 144, 177, 28);
 		componentInfoPanel.add(nucleosSpn);
 		
-		JLabel tipoSocketLabel = new JLabel("Tipo Socket:");
+		tipoSocketLabel = new JLabel("Tipo Socket:");
 		tipoSocketLabel.setVisible(false);
 		tipoSocketLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		tipoSocketLabel.setBounds(29, 35, 177, 28);
 		componentInfoPanel.add(tipoSocketLabel);
 		
-		JLabel tipoRamLabel = new JLabel("Tipo RAM:");
+		tipoRamLabel = new JLabel("Tipo RAM:");
 		tipoRamLabel.setVisible(false);
 		tipoRamLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		tipoRamLabel.setBounds(29, 88, 177, 28);
 		componentInfoPanel.add(tipoRamLabel);
 		
-		JComboBox RamTypeCbx = new JComboBox();
+		RamTypeCbx = new JComboBox();
 		RamTypeCbx.setModel(new DefaultComboBoxModel(new String[] {"DDR", "DDR2", "DDR3", "DDR4", "DDR5"}));
 		RamTypeCbx.setVisible(false);
 		RamTypeCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
@@ -395,7 +400,7 @@ public class RegComponentes extends JDialog {
 		RamTypeCbx.setBounds(234, 89, 249, 28);
 		componentInfoPanel.add(RamTypeCbx);
 		
-		JComboBox socketTypeCbx = new JComboBox();
+		socketTypeCbx = new JComboBox();
 		socketTypeCbx.setModel(new DefaultComboBoxModel(new String[] {"LGA 1156", "LGA 1155", "LGA 1150", "LGA 1151", "LGA 1200", "Socket AM2", "Socket AM3", "Socket AM4", "Socket AM5", "Socket FM1", "Socket FM2", "Socket TR4", "Socket sTRX4"}));
 		socketTypeCbx.setVisible(false);
 		socketTypeCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
@@ -403,7 +408,7 @@ public class RegComponentes extends JDialog {
 		socketTypeCbx.setBounds(234, 35, 249, 28);
 		componentInfoPanel.add(socketTypeCbx);
 		
-		JLabel conexionDiscoDuroLabel = new JLabel("Conexion Disco Duro:");
+		conexionDiscoDuroLabel = new JLabel("Conexion Disco Duro:");
 		conexionDiscoDuroLabel.setVisible(false);
 		conexionDiscoDuroLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		conexionDiscoDuroLabel.setBounds(29, 144, 261, 28);
@@ -531,41 +536,35 @@ public class RegComponentes extends JDialog {
 		velLecturaSpn.setBounds(202, 259, 177, 28);
 		componentInfoPanel.add(velLecturaSpn);
 		
-		JRadioButton procesadorRdoBttn = new JRadioButton("Procesador");
-		procesadorRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
-		procesadorRdoBttn.setFocusPainted(false);
-		procesadorRdoBttn.setBounds(35, 176, 251, 28);
-		panel_2.add(procesadorRdoBttn);
-		
 		JRadioButton microprocesadorRdoBttn = new JRadioButton("Micro-procesador");
 		microprocesadorRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		microprocesadorRdoBttn.setFocusPainted(false);
-		microprocesadorRdoBttn.setBounds(35, 108, 251, 28);
+		microprocesadorRdoBttn.setBounds(35, 126, 251, 28);
 		panel_2.add(microprocesadorRdoBttn);
 		
 		JRadioButton ramRdoBttn = new JRadioButton("RAM");
 		ramRdoBttn.setSelected(true);
 		ramRdoBttn.setFocusPainted(false);
 		ramRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
-		ramRdoBttn.setBounds(35, 40, 251, 28);
+		ramRdoBttn.setBounds(35, 49, 251, 28);
 		panel_2.add(ramRdoBttn);
 		
 		JRadioButton tarjetaMadreRdoBttn = new JRadioButton("Tarjeta Madre");
 		tarjetaMadreRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		tarjetaMadreRdoBttn.setFocusPainted(false);
-		tarjetaMadreRdoBttn.setBounds(35, 244, 251, 28);
+		tarjetaMadreRdoBttn.setBounds(35, 203, 251, 28);
 		panel_2.add(tarjetaMadreRdoBttn);
 		
 		JRadioButton discoDuroRdoBttn = new JRadioButton("Disco Duro");
 		discoDuroRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		discoDuroRdoBttn.setFocusPainted(false);
-		discoDuroRdoBttn.setBounds(35, 380, 251, 28);
+		discoDuroRdoBttn.setBounds(35, 357, 251, 28);
 		panel_2.add(discoDuroRdoBttn);
 		
 		JRadioButton gpuRdoBttn = new JRadioButton("GPU");
 		gpuRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		gpuRdoBttn.setFocusPainted(false);
-		gpuRdoBttn.setBounds(35, 312, 251, 28);
+		gpuRdoBttn.setBounds(35, 280, 251, 28);
 		panel_2.add(gpuRdoBttn);
 		
 		JPanel selectionPanel = new JPanel();
@@ -582,7 +581,6 @@ public class RegComponentes extends JDialog {
 				discoDuroRdoBttn.setSelected(false);
 				tarjetaMadreRdoBttn.setSelected(false);
 				microprocesadorRdoBttn.setSelected(false);
-				procesadorRdoBttn.setSelected(false);
 				
 				Image img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
 				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
@@ -610,7 +608,6 @@ public class RegComponentes extends JDialog {
 				discoDuroRdoBttn.setSelected(false);
 				tarjetaMadreRdoBttn.setSelected(false);
 				microprocesadorRdoBttn.setSelected(false);
-				procesadorRdoBttn.setSelected(false);
 				
 				Image img = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
 				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
@@ -630,7 +627,6 @@ public class RegComponentes extends JDialog {
 				discoDuroRdoBttn.setSelected(true);
 				tarjetaMadreRdoBttn.setSelected(false);
 				microprocesadorRdoBttn.setSelected(false);
-				procesadorRdoBttn.setSelected(false);
 				
 				Image img = new ImageIcon(this.getClass().getResource("/hard-drive.png")).getImage();
 				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
@@ -653,6 +649,9 @@ public class RegComponentes extends JDialog {
 				discoTipoConexionLabel.setVisible(true);
 				velEscrituraLabel.setVisible(true);
 				velLecturaLabel.setVisible(true);
+				abrirListaBttn.setVisible(true);
+				velEscrituraSpn.setVisible(true);
+				velLecturaSpn.setVisible(true);
 			}
 		});
 		tarjetaMadreRdoBttn.addActionListener(new ActionListener() {
@@ -662,7 +661,6 @@ public class RegComponentes extends JDialog {
 				discoDuroRdoBttn.setSelected(false);
 				tarjetaMadreRdoBttn.setSelected(true);
 				microprocesadorRdoBttn.setSelected(false);
-				procesadorRdoBttn.setSelected(false);
 				
 				Image img = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage();
 				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
@@ -690,9 +688,8 @@ public class RegComponentes extends JDialog {
 				discoDuroRdoBttn.setSelected(false);
 				tarjetaMadreRdoBttn.setSelected(false);
 				microprocesadorRdoBttn.setSelected(true);
-				procesadorRdoBttn.setSelected(false);
 				
-				Image img = new ImageIcon(this.getClass().getResource("/micro-cpu.png")).getImage();
+				Image img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
 				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
 				componentIcon.setIcon(new ImageIcon(scaledImg));
 				
@@ -700,7 +697,6 @@ public class RegComponentes extends JDialog {
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
 				
-				//setEverythingToFalse();
 				setEverythingTo(false);
 				
 				nucleosSpn.setVisible(true);
@@ -712,28 +708,6 @@ public class RegComponentes extends JDialog {
 				velocidadLabel.setVisible(true);
 			}
 		});
-		procesadorRdoBttn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ramRdoBttn.setSelected(false);
-				gpuRdoBttn.setSelected(false);
-				discoDuroRdoBttn.setSelected(false);
-				tarjetaMadreRdoBttn.setSelected(false);
-				microprocesadorRdoBttn.setSelected(false);
-				procesadorRdoBttn.setSelected(true);
-				
-				Image img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
-				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
-				componentIcon.setIcon(new ImageIcon(scaledImg));
-				
-				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de Procesador", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
-				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
-				
-				setEverythingTo(false);
-			}
-		});
-		
-		
 		
 		{
 			JPanel buttonPane = new JPanel();
@@ -802,6 +776,11 @@ public class RegComponentes extends JDialog {
 		cantMemoriaSpn.setVisible(estado);
 		medidaMemoriaCbx.setVisible(estado);
 		memoriaTypeCbx.setVisible(estado);
+		tipoRamLabel.setVisible(estado);
+		tipoSocketLabel.setVisible(estado);
+		RamTypeCbx.setVisible(estado);
+		socketTypeCbx.setVisible(estado);
+		conexionDiscoDuroLabel.setVisible(estado);
 		
 		nucleosSpn.setVisible(estado);
 		velocidadSpn.setVisible(estado);
@@ -830,9 +809,12 @@ public class RegComponentes extends JDialog {
 		discoTipoConexionLabel.setVisible(estado);
 		velEscrituraLabel.setVisible(estado);
 		velLecturaLabel.setVisible(estado);
+		velEscrituraSpn.setVisible(estado);
+		velLecturaSpn.setVisible(estado);
 		
 		conexionDiscoDuroPanel.setVisible(estado);
 		if ( !estado ) {
+			abrirListaBttn.setVisible(false);
 			abrirListaBttn.setText("Abrir Lista");
 			ideCheckBox.setSelected(false);
 			sataCheckBox.setSelected(false);
