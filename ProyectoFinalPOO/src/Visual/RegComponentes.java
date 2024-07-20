@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -94,7 +96,7 @@ public class RegComponentes extends JDialog {
 	private JToggleButton hddToggleBttn;
 	private JToggleButton ssdToggleBttn;
 	private JLabel nucleosLabel;
-	private JComboBox medidaVelocidadCbx;
+	private JLabel medidaVelocidadLabel;
 	private JLabel tipoConexionLabel;
 	private JCheckBox ideCheckBox;
 	private JCheckBox sataCheckBox;
@@ -109,6 +111,16 @@ public class RegComponentes extends JDialog {
 	private JComboBox RamTypeCbx;
 	private JComboBox socketTypeCbx;
 	private JLabel conexionDiscoDuroLabel;
+	private JLabel conectionGPULabel;
+	private JComboBox conectionGPUCbx;
+	private JLabel tipoGPULabel;
+	private JLabel vramLabel;
+	private JLabel velocidadGPULabel;
+	private JLabel tipoConexionGPULabel;
+	private JTextField tipoGPUtxtField;
+	private JComboBox tipoConexionGPUcbx;
+	private JSpinner vramSpn;
+	private JSpinner velocidadGPUspn;
 
 	/**
 	 * Launch the application.
@@ -357,24 +369,28 @@ public class RegComponentes extends JDialog {
 		componentInfoPanel.add(nucleosLabel);
 		
 		tipoConexionCbx = new JComboBox();
+		tipoConexionCbx.setBackground(Color.WHITE);
+		tipoConexionCbx.setModel(new DefaultComboBoxModel(new String[] {"LGA 1151", "LGA 1200", "AM4", "TR4", "sTRX4"}));
 		tipoConexionCbx.setVisible(false);
 		tipoConexionCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		tipoConexionCbx.setBounds(234, 88, 177, 28);
 		componentInfoPanel.add(tipoConexionCbx);
 		
-		medidaVelocidadCbx = new JComboBox();
-		medidaVelocidadCbx.setVisible(false);
-		medidaVelocidadCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		medidaVelocidadCbx.setBounds(423, 35, 60, 28);
-		componentInfoPanel.add(medidaVelocidadCbx);
+		medidaVelocidadLabel = new JLabel();
+		medidaVelocidadLabel.setText("GHz");
+		medidaVelocidadLabel.setFont(new Font("Century Gothic", Font.BOLD, 20));
+		medidaVelocidadLabel.setBounds(423, 35, 60, 28);
+		componentInfoPanel.add(medidaVelocidadLabel);
 		
 		velocidadSpn = new JSpinner();
+		velocidadSpn.setModel(new SpinnerNumberModel(new Float(0.5), new Float(0.5), null, new Float(0.5)));
 		velocidadSpn.setVisible(false);
 		velocidadSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		velocidadSpn.setBounds(234, 35, 177, 28);
 		componentInfoPanel.add(velocidadSpn);
 		
 		nucleosSpn = new JSpinner();
+		nucleosSpn.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(2)));
 		nucleosSpn.setVisible(false);
 		nucleosSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		nucleosSpn.setBounds(234, 144, 177, 28);
@@ -411,7 +427,7 @@ public class RegComponentes extends JDialog {
 		conexionDiscoDuroLabel = new JLabel("Conexion Disco Duro:");
 		conexionDiscoDuroLabel.setVisible(false);
 		conexionDiscoDuroLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
-		conexionDiscoDuroLabel.setBounds(29, 144, 261, 28);
+		conexionDiscoDuroLabel.setBounds(29, 200, 261, 28);
 		componentInfoPanel.add(conexionDiscoDuroLabel);
 		
 		abrirListaBttn = new JButton("Abrir Lista");
@@ -439,7 +455,7 @@ public class RegComponentes extends JDialog {
 			}
 		});
 		abrirListaBttn.setBackground(Color.white);
-		abrirListaBttn.setBounds(306, 139, 177, 38);
+		abrirListaBttn.setBounds(306, 195, 177, 38);
 		abrirListaBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
 		abrirListaBttn.setFocusPainted(false);
 		componentInfoPanel.add(abrirListaBttn);
@@ -470,11 +486,44 @@ public class RegComponentes extends JDialog {
 		componentInfoPanel.add(velLecturaLabel);
 		
 		almacenamientoSpn = new JSpinner();
+		almacenamientoSpn.setModel(new SpinnerNumberModel(new Integer(4), new Integer(2), null, new Integer(2)));
 		almacenamientoSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		almacenamientoSpn.setBounds(255, 36, 177, 28);
 		componentInfoPanel.add(almacenamientoSpn);
 		
 		discoMedidaCbx = new JComboBox();
+		discoMedidaCbx.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String item = discoMedidaCbx.getSelectedItem().toString();
+				
+				
+				try {
+		            // Verificar si el valor del almacenamiento es menor que 1000 y el item es "TB"
+		            if (item.equals("TB")) {
+		                int gbValue = (Integer) almacenamientoSpn.getValue();
+		                if (gbValue < 1000) {
+		                    discoMedidaCbx.setSelectedIndex(0);
+		                    throw new IllegalArgumentException("El valor de almacenamiento debe ser mayor o igual a 1,000 GB.");
+		                }
+		                
+		                float tbValue = gbValue / 1000.0f;
+		                almacenamientoSpn.setModel(new SpinnerNumberModel(tbValue, 0.001f, null, 1f));
+		                almacenamientoSpn.setValue(tbValue);
+		                
+		            } else if (item.equals("GB")) {
+		                float tbValue = (Float) almacenamientoSpn.getValue();
+		                int gbValue = Math.round(tbValue * 1000);
+		                
+		                almacenamientoSpn.setModel(new SpinnerNumberModel(gbValue, 1, null, 1));
+		                almacenamientoSpn.setValue(gbValue);
+		            }
+		        } catch (IllegalArgumentException e) {
+		            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+				
+				
+			}
+		});
 		discoMedidaCbx.setModel(new DefaultComboBoxModel(new String[] {"GB", "TB"}));
 		discoMedidaCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		discoMedidaCbx.setBackground(Color.WHITE);
@@ -513,28 +562,150 @@ public class RegComponentes extends JDialog {
 		});
 		
 		medidaEscrituraCbx = new JComboBox();
-		medidaEscrituraCbx.setModel(new DefaultComboBoxModel(new String[] {"(MB/s)", "(TB/s)"}));
+		medidaEscrituraCbx.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String item = medidaEscrituraCbx.getSelectedItem().toString();
+				
+				try {
+		        	
+		        	if (item.equals("(GB/s)")) {
+			            int mbValue = ((Integer)velEscrituraSpn.getValue());
+			            int gbValue = mbValue / 1000;
+			            if ( mbValue < 1000 ) {
+			            	medidaEscrituraCbx.setSelectedIndex(0);
+			            	throw new IllegalArgumentException("El valor de almacenamiento debe ser mayor o igual a 1,000 MB.");
+			            }
+
+			            velEscrituraSpn.setModel(new SpinnerNumberModel(gbValue, new Integer(1), null, new Integer(1)));
+			            velEscrituraSpn.setValue(gbValue);
+
+			        } else if (item.equals("(MB/s)")) {
+			            int gbValue = ((Integer)velEscrituraSpn.getValue());
+			            int mbValue = gbValue * 1000;
+			            
+
+			            velEscrituraSpn.setModel(new SpinnerNumberModel(mbValue, new Integer(16), null, new Integer(16)));
+			            velEscrituraSpn.setValue(mbValue);
+			        }
+		        	
+		        }catch (IllegalArgumentException e) {
+		            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+			}
+		});
+		medidaEscrituraCbx.setModel(new DefaultComboBoxModel(new String[] {"(MB/s)", "(GB/s)"}));
 		medidaEscrituraCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		medidaEscrituraCbx.setBackground(Color.WHITE);
 		medidaEscrituraCbx.setBounds(391, 200, 92, 28);
 		componentInfoPanel.add(medidaEscrituraCbx);
 		
 		medidaLecturaCbx = new JComboBox();
-		medidaLecturaCbx.setModel(new DefaultComboBoxModel(new String[] {"(MB/s)", "(TB/s)"}));
+		medidaLecturaCbx.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent arg0) {
+		        String item = medidaLecturaCbx.getSelectedItem().toString();
+
+		        try {
+		        	
+		        	if (item.equals("(GB/s)")) {
+			            int mbValue = ((Integer)velLecturaSpn.getValue());
+			            int gbValue = mbValue / 1000;
+			            if ( mbValue < 1000 ) {
+			            	medidaLecturaCbx.setSelectedIndex(0);
+			            	throw new IllegalArgumentException("El valor de almacenamiento debe ser mayor o igual a 1,000 MB.");
+			            }
+
+			            velLecturaSpn.setModel(new SpinnerNumberModel(gbValue, new Integer(1), null, new Integer(1)));
+			            velLecturaSpn.setValue(gbValue);
+
+			        } else if (item.equals("(MB/s)")) {
+			            int gbValue = ((Integer)velLecturaSpn.getValue());
+			            int mbValue = gbValue * 1000;
+			            
+
+			            velLecturaSpn.setModel(new SpinnerNumberModel(mbValue, new Integer(16), null, new Integer(16)));
+			            velLecturaSpn.setValue(mbValue);
+			        }
+		        	
+		        }catch (IllegalArgumentException e) {
+		            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		        
+		        
+		    }
+		});
+		medidaLecturaCbx.setModel(new DefaultComboBoxModel(new String[] {"(MB/s)", "(GB/s)"}));
 		medidaLecturaCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		medidaLecturaCbx.setBackground(Color.WHITE);
 		medidaLecturaCbx.setBounds(391, 259, 92, 28);
 		componentInfoPanel.add(medidaLecturaCbx);
 		
 		velEscrituraSpn = new JSpinner();
+		velEscrituraSpn.setModel(new SpinnerNumberModel(new Integer(16), new Integer(16), null, new Integer(16)));
 		velEscrituraSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		velEscrituraSpn.setBounds(202, 200, 177, 28);
 		componentInfoPanel.add(velEscrituraSpn);
 		
 		velLecturaSpn = new JSpinner();
+		velLecturaSpn.setModel(new SpinnerNumberModel(new Integer(16), new Integer(16), null, new Integer(16)));
 		velLecturaSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		velLecturaSpn.setBounds(202, 259, 177, 28);
 		componentInfoPanel.add(velLecturaSpn);
+		
+		conectionGPULabel = new JLabel("Tipo GPU:");
+		conectionGPULabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		conectionGPULabel.setBounds(29, 144, 233, 28);
+		componentInfoPanel.add(conectionGPULabel);
+		
+		conectionGPUCbx = new JComboBox();
+		conectionGPUCbx.setModel(new DefaultComboBoxModel(new String[] {"PCIe 3.0", "PCIe 4.0", "AGP", "PCI", "Thunderbolt 3"}));
+		conectionGPUCbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		conectionGPUCbx.setBackground(Color.WHITE);
+		conectionGPUCbx.setBounds(239, 145, 249, 28);
+		componentInfoPanel.add(conectionGPUCbx);
+		
+		tipoGPULabel = new JLabel("Tipo de GPU:");
+		tipoGPULabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		tipoGPULabel.setBounds(29, 35, 165, 28);
+		componentInfoPanel.add(tipoGPULabel);
+		
+		vramLabel = new JLabel("VRAM:");
+		vramLabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		vramLabel.setBounds(29, 144, 117, 28);
+		componentInfoPanel.add(vramLabel);
+		
+		velocidadGPULabel = new JLabel("Velocidad:");
+		velocidadGPULabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		velocidadGPULabel.setBounds(29, 200, 165, 28);
+		componentInfoPanel.add(velocidadGPULabel);
+		
+		tipoConexionGPULabel = new JLabel("Tipo Conexion:");
+		tipoConexionGPULabel.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		tipoConexionGPULabel.setBounds(29, 88, 165, 28);
+		componentInfoPanel.add(tipoConexionGPULabel);
+		
+		tipoGPUtxtField = new JTextField();
+		tipoGPUtxtField.setBounds(234, 35, 177, 28);
+		componentInfoPanel.add(tipoGPUtxtField);
+		tipoGPUtxtField.setColumns(10);
+		
+		vramSpn = new JSpinner();
+		vramSpn.setModel(new SpinnerNumberModel(new Float(2), new Float(2), new Float(16), new Float(2)));
+		vramSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		vramSpn.setBounds(234, 145, 177, 28);
+		componentInfoPanel.add(vramSpn);
+		
+		tipoConexionGPUcbx = new JComboBox();
+		tipoConexionGPUcbx.setModel(new DefaultComboBoxModel(new String[] {"PCIe 3.0", "PCIe 4.0", "AGP", "PCI", "Thunderbolt 3"}));
+		tipoConexionGPUcbx.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		tipoConexionGPUcbx.setBackground(Color.WHITE);
+		tipoConexionGPUcbx.setBounds(234, 89, 177, 28);
+		componentInfoPanel.add(tipoConexionGPUcbx);
+		
+		velocidadGPUspn = new JSpinner();
+		velocidadGPUspn.setModel(new SpinnerNumberModel(new Float(1), new Float(1), null, new Float(0.2)));
+		velocidadGPUspn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		velocidadGPUspn.setBounds(234, 201, 177, 28);
+		componentInfoPanel.add(velocidadGPUspn);
 		
 		JRadioButton microprocesadorRdoBttn = new JRadioButton("Micro-procesador");
 		microprocesadorRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
@@ -572,7 +743,13 @@ public class RegComponentes extends JDialog {
 		selectionPanel.setBounds(12, 13, 332, 413);
 		panel_2.add(selectionPanel);
 		
+		setEverythingTo(false);
 		
+		memoriaLabel.setVisible(true);
+		memoriaTypeLabel.setVisible(true);
+		cantMemoriaSpn.setVisible(true);
+		medidaMemoriaCbx.setVisible(true);
+		memoriaTypeCbx.setVisible(true);
 		
 		ramRdoBttn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -618,6 +795,17 @@ public class RegComponentes extends JDialog {
 				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
 				
 				setEverythingTo(false);
+				
+				medidaVelocidadLabel.setBounds(423, 200, 60, 28);
+				medidaVelocidadLabel.setVisible(true);
+				velocidadGPUspn.setVisible(true);
+				tipoConexionGPUcbx.setVisible(true);
+				vramSpn.setVisible(true);
+				tipoGPUtxtField.setVisible(true);
+				tipoConexionGPULabel.setVisible(true);
+				velocidadGPULabel.setVisible(true);
+				vramLabel.setVisible(true);
+				tipoGPULabel.setVisible(true);
 			}
 		});
 		discoDuroRdoBttn.addActionListener(new ActionListener() {
@@ -650,8 +838,11 @@ public class RegComponentes extends JDialog {
 				velEscrituraLabel.setVisible(true);
 				velLecturaLabel.setVisible(true);
 				abrirListaBttn.setVisible(true);
+				abrirListaBttn.setBounds(306, 144, 177, 38);
+				conexionDiscoDuroPanel.setBounds(500, 144, 206, 177);
 				velEscrituraSpn.setVisible(true);
 				velLecturaSpn.setVisible(true);
+				
 			}
 		});
 		tarjetaMadreRdoBttn.addActionListener(new ActionListener() {
@@ -679,6 +870,11 @@ public class RegComponentes extends JDialog {
 				socketTypeCbx.setVisible(true);
 				conexionDiscoDuroLabel.setVisible(true);
 				abrirListaBttn.setVisible(true);
+				abrirListaBttn.setBounds(306, 200, 177, 38);
+				conexionDiscoDuroPanel.setBounds(500, 200, 206, 177);
+				conectionGPULabel.setVisible(true);
+				conectionGPUCbx.setVisible(true);
+				
 			}
 		});
 		microprocesadorRdoBttn.addActionListener(new ActionListener() {
@@ -699,10 +895,12 @@ public class RegComponentes extends JDialog {
 				
 				setEverythingTo(false);
 				
+				
 				nucleosSpn.setVisible(true);
 				velocidadSpn.setVisible(true);
 				tipoConexionCbx.setVisible(true);
-				medidaVelocidadCbx.setVisible(true);
+				medidaVelocidadLabel.setBounds(423, 36, 60, 28);
+				medidaVelocidadLabel.setVisible(true);
 				nucleosLabel.setVisible(true);
 				tipoConexionLabel.setVisible(true);
 				velocidadLabel.setVisible(true);
@@ -716,6 +914,10 @@ public class RegComponentes extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				regBttn = new JButton("Registrar");
+				regBttn.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+					}
+				});
 				regBttn.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent arg0) {
@@ -785,7 +987,6 @@ public class RegComponentes extends JDialog {
 		nucleosSpn.setVisible(estado);
 		velocidadSpn.setVisible(estado);
 		tipoConexionCbx.setVisible(estado);
-		medidaVelocidadCbx.setVisible(estado);
 		nucleosLabel.setVisible(estado);
 		tipoConexionLabel.setVisible(estado);
 		velocidadLabel.setVisible(estado);
@@ -811,6 +1012,19 @@ public class RegComponentes extends JDialog {
 		velLecturaLabel.setVisible(estado);
 		velEscrituraSpn.setVisible(estado);
 		velLecturaSpn.setVisible(estado);
+		
+		conectionGPULabel.setVisible(estado);
+		conectionGPUCbx.setVisible(estado);
+		medidaVelocidadLabel.setVisible(estado);
+		
+		velocidadGPUspn.setVisible(estado);
+		tipoConexionGPUcbx.setVisible(estado);
+		vramSpn.setVisible(estado);
+		tipoGPUtxtField.setVisible(estado);
+		tipoConexionGPULabel.setVisible(estado);
+		velocidadGPULabel.setVisible(estado);
+		vramLabel.setVisible(estado);
+		tipoGPULabel.setVisible(estado);
 		
 		conexionDiscoDuroPanel.setVisible(estado);
 		if ( !estado ) {

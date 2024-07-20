@@ -9,6 +9,8 @@ import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.SimpleAttributeSet;
@@ -37,12 +39,16 @@ import java.awt.Font;
 
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.text.NumberFormat;
 import java.awt.FlowLayout;
 
@@ -61,7 +67,7 @@ public class Principal extends JDialog {
 	 * Es temporal!
 	 * */
 	
-	Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
 	Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
 	Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
 	Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
@@ -70,7 +76,7 @@ public class Principal extends JDialog {
 	Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
 	Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
 	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", "NVMe");
-	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
+	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
 	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica, disco, memoria2, tarjetaGrafica2, disco2, tarjetaMadre2));
 	
 	//
@@ -98,6 +104,15 @@ public class Principal extends JDialog {
 	private static final Color ButtonColor = new Color(21, 96, 169);
 	private static final Color ButtonBorderColor = new Color(21, 96, 169);
 	private static final Color hoverEffectColor = new Color(220, 231, 242);
+	
+	private JScrollPane scrollPane;
+	private JPanel innerPanel;
+	private Timer scrollTimer;
+	private int targetScrollValue;
+	private static final int SCROLL_SPEED = 25;
+	private Timer inertiaTimer;
+	private int lastScrollValue;
+	private int scrollVelocity;
 	
 	
 	
@@ -144,6 +159,18 @@ public class Principal extends JDialog {
 			panel_1.setBounds(0, 0, 356, 1040);
 			panel.add(panel_1);
 			panel_1.setLayout(null);
+			
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(404, 13, 1450, 370);
+			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+			panel.add(scrollPane);
+
+			innerPanel = new JPanel();
+			innerPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+			innerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, PANEL_GAP, PANEL_GAP));
+			innerPanel.setBackground(PrimaryC);
+			scrollPane.setViewportView(innerPanel);
 			
 			panelComponentes = new JPanel();
 			panelComponentes.setBackground(SecondaryC);
@@ -557,7 +584,8 @@ public class Principal extends JDialog {
 			
 			JPanel masCompradosPanel = new JPanel();
 			masCompradosPanel.setBackground(PrimaryC);
-			masCompradosPanel.setBounds(404, 13, 1450, 370);
+			masCompradosPanel.setBounds(368, 13, 1523, 370);
+			masCompradosPanel.setBorder(new RoundedBorder(PrimaryC, 1, 10));
 			masCompradosPanel.setFocusable(true);
 			panel.add(masCompradosPanel);
 			masCompradosPanel.setLayout(null);
@@ -565,54 +593,37 @@ public class Principal extends JDialog {
 			btnListarComponentes.setVisible(false);
 			btnRegComponentes.setVisible(false);
 			
-			
-			
-			
-			
-			JButton prevBttn = new JButton("<");
-			prevBttn.setBounds(368, 13, 40, 370);
-			panel.add(prevBttn);
-			prevBttn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if ( horizontalListInd > 0 ) {
-						horizontalListInd --;
-						cleanPanel(masCompradosPanel, componentes);
-						componentes = getMasComprados(horizontalListInd, componentesMasFamosos);
-						displayHorizontalList(masCompradosPanel, componentes);
-					}
-				}
-			});
-			prevBttn.setOpaque(false);
-			prevBttn.setFont(new Font("Tahoma", Font.BOLD, 34));
-			prevBttn.setFocusPainted(false);
-			prevBttn.setBorder(new EmptyBorder(0, 0, 0, 0));
-			prevBttn.setBackground(SecondaryC);
-			
-			
-			
-			JButton nextBttn = new JButton(">");
-			nextBttn.setBounds(1851, 13, 40, 370);
-			panel.add(nextBttn);
-			nextBttn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if ( horizontalListInd < componentesMasFamosos.size() - 4 ) {
-						horizontalListInd ++;
-						cleanPanel(masCompradosPanel, componentes);
-						componentes = getMasComprados(horizontalListInd, componentesMasFamosos);
-						displayHorizontalList(masCompradosPanel, componentes);
-					}
-					
-				}
-			});
-			nextBttn.setBackground(SecondaryC);
-			nextBttn.setFont(new Font("Tahoma", Font.BOLD, 34));
-			nextBttn.setOpaque(false);
-			nextBttn.setFocusPainted(false);
-			nextBttn.setBorder(new EmptyBorder(0, 0, 0, 0));
-			
 			displayHorizontalList(masCompradosPanel, componentes);
 			
+			componentes = getMasComprados(0, componentesMasFamosos);
+			displayHorizontalList(innerPanel, componentes);
+
+			// Agregar un MouseWheelListener para scroll horizontal
 			
+
+			scrollPane.addMouseWheelListener(new MouseWheelListener() {
+			    @Override
+			    public void mouseWheelMoved(MouseWheelEvent e) {
+			        if (scrollTimer != null && scrollTimer.isRunning()) {
+			            scrollTimer.stop();
+			        }
+			        if (inertiaTimer != null && inertiaTimer.isRunning()) {
+			            inertiaTimer.stop();
+			        }
+			        
+			        JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+			        int delta = e.getWheelRotation() * 90;
+			        targetScrollValue = horizontalBar.getValue() + delta;
+			        targetScrollValue = Math.max(0, Math.min(targetScrollValue, horizontalBar.getMaximum()));
+			        
+			        startScrollAnimation(horizontalBar);
+			        
+			        // Iniciar el timer de inercia
+			        lastScrollValue = horizontalBar.getValue();
+			        scrollVelocity = delta;
+			        startInertiaAnimation(horizontalBar);
+			    }
+			});
 			
 			
 			/*
@@ -634,11 +645,60 @@ public class Principal extends JDialog {
 		}
 	}
 	
+	private void startInertiaAnimation(final JScrollBar scrollBar) {
+	    ActionListener inertiaAction = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            int currentValue = scrollBar.getValue();
+	            int diff = currentValue - lastScrollValue;
+	            scrollVelocity = (scrollVelocity + diff) / 2; // Promedio para suavizar
+	            
+	            if (Math.abs(scrollVelocity) > 1) {
+	                int newValue = currentValue + scrollVelocity;
+	                newValue = Math.max(0, Math.min(newValue, scrollBar.getMaximum()));
+	                scrollBar.setValue(newValue);
+	                lastScrollValue = currentValue;
+	            } else {
+	                ((Timer)e.getSource()).stop();
+	            }
+	            
+	            scrollVelocity *= 0.80; // Reducir la velocidad gradualmente
+	        }
+	    };
+	    
+	    inertiaTimer = new Timer(12, inertiaAction);
+	    inertiaTimer.start();
+	}
+	
+	private void startScrollAnimation(final JScrollBar scrollBar) {
+	    ActionListener scrollAction = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            int currentValue = scrollBar.getValue();
+	            int diff = targetScrollValue - currentValue;
+	            int step = diff / 10; // Ajusta esto para cambiar la suavidad del deslizamiento
+	            
+	            if (Math.abs(diff) > SCROLL_SPEED) {
+	                scrollBar.setValue(currentValue + step);
+	            } else {
+	                scrollBar.setValue(targetScrollValue);
+	                ((Timer)e.getSource()).stop();
+	            }
+	        }
+	    };
+	    
+	    scrollTimer = new Timer(16, scrollAction); // 16ms maso 60 FPS
+	    scrollTimer.start();
+	}
+	
 	private void displayHorizontalList(JPanel panel, ArrayList<JPanel> componentes) {
-		for ( JPanel comp : componentes ) {
-			panel.add(comp);
-			
-		}
+		innerPanel.removeAll();
+	    for (JPanel comp : componentes) {
+	        innerPanel.add(comp);
+	    }
+	    innerPanel.setPreferredSize(new Dimension(componentes.size() * (PANEL_WIDTH + PANEL_GAP), PANEL_HEIGHT));
+	    scrollPane.revalidate();
+	    scrollPane.repaint();
 	}
 	
 	
@@ -654,7 +714,9 @@ public class Principal extends JDialog {
 			newPanel.setLayout(null);
 			newPanel.setBorder(new RoundedBorder(Color.white, 1, 10));
 			newPanel.setBackground(hoverEffectColor);
+			newPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 			newPanel.setBounds(posX, PANEL_GAP, PANEL_WIDTH, PANEL_HEIGHT);
+			
 			componentes.add(newPanel);
 			posX += PANEL_WIDTH + PANEL_GAP;
 			JLabel icono = new JLabel();
