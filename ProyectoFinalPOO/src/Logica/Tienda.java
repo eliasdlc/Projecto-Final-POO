@@ -295,10 +295,13 @@ public class Tienda {
 			tarjetaMadre.getConectionSocket().equals(microProcesador.getTipoConexion()) ) {
 			
 			for ( String tipo : tarjetaMadre.getTipoDiscoDuro() ) {
-				if ( tipo.equals(discoDuro.getTipoConexion()) ) {
-					compatible = true;
-					break;
+				for ( String tipo2 : discoDuro.getTipoConexiones() ) {
+					if ( tipo.equals(tipo2) ) {
+						compatible = true;
+						break;
+					}
 				}
+				
 			}
 			
 		}

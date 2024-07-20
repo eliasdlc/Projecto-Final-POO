@@ -21,6 +21,7 @@ import Logica.Componente;
 import Logica.DiscoDuro;
 import Logica.GPU;
 import Logica.MicroProcesador;
+import Logica.PanelHoverEffect;
 import Logica.Ram;
 import Logica.RoundedBorder;
 import Logica.TarjetaMadre;
@@ -60,7 +61,7 @@ public class Principal extends JDialog {
 	private final int PANELS_TO_SHOW = 4;
 	private final int PANEL_WIDTH = 350;
 	private final int PANEL_HEIGHT = 350;
-	private final int PANEL_GAP = 10;
+	private final int PANEL_GAP = 24;
 	
 	/*
 	 * Esto es para probar funcionalidades.
@@ -71,11 +72,11 @@ public class Principal extends JDialog {
 	Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
 	Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
 	Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
-	Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, 150.0f, 130.0f, "HDD", "SATA-3");
+	Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
 	Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 3.8f, "AM4", 8);
 	Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
 	Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
-	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", "NVMe");
+	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
 	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
 	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica, disco, memoria2, tarjetaGrafica2, disco2, tarjetaMadre2));
 	
@@ -113,6 +114,12 @@ public class Principal extends JDialog {
 	private Timer inertiaTimer;
 	private int lastScrollValue;
 	private int scrollVelocity;
+	
+	private static final int GROW_SIZE = 10;
+	private static final int ANIMATION_DURATION = 150; // milisegundos
+	private static final int ANIMATION_STEPS = 10;
+	private Timer enlargeTimer;
+	private Timer shrinkTimer;
 	
 	
 	
@@ -160,18 +167,6 @@ public class Principal extends JDialog {
 			panel.add(panel_1);
 			panel_1.setLayout(null);
 			
-			scrollPane = new JScrollPane();
-			scrollPane.setBounds(404, 13, 1450, 370);
-			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-			panel.add(scrollPane);
-
-			innerPanel = new JPanel();
-			innerPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-			innerPanel.setLayout(new FlowLayout(FlowLayout.LEFT, PANEL_GAP, PANEL_GAP));
-			innerPanel.setBackground(PrimaryC);
-			scrollPane.setViewportView(innerPanel);
-			
 			panelComponentes = new JPanel();
 			panelComponentes.setBackground(SecondaryC);
 			panelComponentes.setBounds(344, 198, 332, 152);
@@ -185,6 +180,27 @@ public class Principal extends JDialog {
 			panelComputadoras.setBorder(new RoundedBorder(SecondaryC, 1, 10));
 			panel.add(panelComputadoras);
 			panelComputadoras.setLayout(null);
+			
+			JPanel masCompradosPanel = new JPanel();
+			masCompradosPanel.setBackground(PrimaryC);
+			masCompradosPanel.setBounds(368, 13, 1523, 403);
+			masCompradosPanel.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			masCompradosPanel.setFocusable(true);
+			panel.add(masCompradosPanel);
+			masCompradosPanel.setLayout(null);
+			
+			scrollPane = new JScrollPane();
+			scrollPane.setBounds(0, 0, 1523, 442);
+			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+			masCompradosPanel.add(scrollPane);
+
+			innerPanel = new JPanel();
+			innerPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+			innerPanel.setBackground(PrimaryC);
+			scrollPane.setViewportView(innerPanel);
+			
+			
 			
 			JTextField searchField = new JTextField("");
 			searchField.setBackground(hoverEffectColor);
@@ -507,7 +523,7 @@ public class Principal extends JDialog {
 
 					mouseAdapterComp.mouseExited(mouseEvent);
 
-					RegComponentes registro = new RegComponentes();
+					RegComponentes registro = new RegComponentes(null);
 					registro.setModal(true);
 					registro.setVisible(true);
 
@@ -571,7 +587,7 @@ public class Principal extends JDialog {
 						
 					mouseAdapter.mouseExited(mouseEvent);
 					
-					RegComponentes registro = new RegComponentes();
+					RegComponentes registro = new RegComponentes(null);
 					registro.setVisible(true);
 				
 				}
@@ -582,13 +598,7 @@ public class Principal extends JDialog {
 			btnListarComponentes.addMouseListener(mouseAdapter);
 
 			
-			JPanel masCompradosPanel = new JPanel();
-			masCompradosPanel.setBackground(PrimaryC);
-			masCompradosPanel.setBounds(368, 13, 1523, 370);
-			masCompradosPanel.setBorder(new RoundedBorder(PrimaryC, 1, 10));
-			masCompradosPanel.setFocusable(true);
-			panel.add(masCompradosPanel);
-			masCompradosPanel.setLayout(null);
+			
 			panelComponentes.setVisible(false);
 			btnListarComponentes.setVisible(false);
 			btnRegComponentes.setVisible(false);
@@ -597,6 +607,7 @@ public class Principal extends JDialog {
 			
 			componentes = getMasComprados(0, componentesMasFamosos);
 			displayHorizontalList(innerPanel, componentes);
+			innerPanel.setLayout(null);
 
 			// Agregar un MouseWheelListener para scroll horizontal
 			
@@ -632,7 +643,7 @@ public class Principal extends JDialog {
 			
 			JPanel panel_3 = new JPanel();
 			panel_3.setBackground(PrimaryC);
-			panel_3.setBounds(368, 396, 1523, 644);
+			panel_3.setBounds(368, 429, 1523, 611);
 			panel.add(panel_3);
 			panel_3.setLayout(new BorderLayout(0, 0));
 			
@@ -701,16 +712,24 @@ public class Principal extends JDialog {
 	    scrollPane.repaint();
 	}
 	
+
+	
+	
 	
 	private ArrayList<JPanel> getMasComprados(int ind, ArrayList<Componente> componentesMasFamosos) {
 		ArrayList<JPanel> componentes = new ArrayList<>();
 				
 		
 		
-		int posX = 10;
+		int posX = PANEL_GAP;
 		for ( int i = ind; i < componentesMasFamosos.size(); i++ ) {
-		//for ( Componente comp : componentesMasFamosos ) {
+			final int[] posXHolder = { posX };
+			
 			JPanel newPanel = new JPanel();
+			
+			//PanelHoverEffect.addHoverEffectToPanel(newPanel);
+			
+
 			newPanel.setLayout(null);
 			newPanel.setBorder(new RoundedBorder(Color.white, 1, 10));
 			newPanel.setBackground(hoverEffectColor);
@@ -719,6 +738,7 @@ public class Principal extends JDialog {
 			
 			componentes.add(newPanel);
 			posX += PANEL_WIDTH + PANEL_GAP;
+			posXHolder[0] = posX;
 			JLabel icono = new JLabel();
 			
 			Image img = null;
@@ -800,6 +820,7 @@ public class Principal extends JDialog {
 			bttnComprar.setBorder(new RoundedBorder(new Color(255, 149, 94), 1, 10));
 			bttnComprar.setBounds(15, 285, 320, 50);
 			newPanel.add(bttnComprar);
+			
 			
 			
 		}

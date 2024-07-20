@@ -17,13 +17,16 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.text.Format;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.MaskFormatter;
 
-import Logica.RoundedBorder;
+import Logica.*;
+/*import Logica.Ram;
+import Logica.RoundedBorder;*/
 
 import javax.swing.border.CompoundBorder;
 import javax.swing.JTextField;
@@ -56,9 +59,9 @@ import javax.swing.JToggleButton;
 public class RegComponentes extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField idTextField;
+	private JTextField marcaTextField;
+	private JTextField modeloTextField;
 	private JLabel memoriaTypeLabel;
 	private JLabel memoriaLabel;
 	private JComboBox medidaMemoriaCbx;
@@ -127,7 +130,7 @@ public class RegComponentes extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegComponentes dialog = new RegComponentes();
+			RegComponentes dialog = new RegComponentes(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -138,7 +141,14 @@ public class RegComponentes extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegComponentes() {
+	public RegComponentes(Componente componente) {
+		
+		if ( componente == null ) {
+			setTitle("Registrar Componente");
+		} else {
+			setTitle("Actualizar Componente");
+		}
+		
 		setBounds(100, 100, 1263, 806);
 		getContentPane().setLayout(null);
 		contentPanel.setBounds(0, 0, 1245, 710);
@@ -166,11 +176,11 @@ public class RegComponentes extends JDialog {
 		lblNewLabel.setBounds(266, 63, 118, 28);
 		generalInfoPanel.add(lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		textField.setBounds(384, 63, 185, 28);
-		generalInfoPanel.add(textField);
-		textField.setColumns(10);
+		idTextField = new JTextField();
+		idTextField.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		idTextField.setBounds(384, 63, 185, 28);
+		generalInfoPanel.add(idTextField);
+		idTextField.setColumns(10);
 		
 		JLabel lblMarca = new JLabel("Marca:");
 		lblMarca.setForeground(Color.BLACK);
@@ -178,11 +188,11 @@ public class RegComponentes extends JDialog {
 		lblMarca.setBounds(266, 129, 118, 28);
 		generalInfoPanel.add(lblMarca);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		textField_1.setColumns(10);
-		textField_1.setBounds(384, 129, 353, 28);
-		generalInfoPanel.add(textField_1);
+		marcaTextField = new JTextField();
+		marcaTextField.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		marcaTextField.setColumns(10);
+		marcaTextField.setBounds(384, 129, 353, 28);
+		generalInfoPanel.add(marcaTextField);
 		
 		JLabel lblModelo = new JLabel("Modelo:");
 		lblModelo.setForeground(Color.BLACK);
@@ -205,45 +215,45 @@ public class RegComponentes extends JDialog {
 		
 		NumberFormat currencyFormat = NumberFormat.getCurrencyInstance();
 		
-		JSpinner spinner = new JSpinner();
-		spinner.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		spinner.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(10)));
+		JSpinner precioSpn = new JSpinner();
+		precioSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		precioSpn.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(10)));
 
 		
 		
-		spinner.setBounds(714, 63, 185, 28);
-		generalInfoPanel.add(spinner);
+		precioSpn.setBounds(714, 63, 185, 28);
+		generalInfoPanel.add(precioSpn);
 		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		spinner_1.setBounds(1055, 63, 142, 28);
-		generalInfoPanel.add(spinner_1);
+		JSpinner cantidadSpn = new JSpinner();
+		cantidadSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		cantidadSpn.setBounds(1055, 63, 142, 28);
+		generalInfoPanel.add(cantidadSpn);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		textField_2.setColumns(10);
-		textField_2.setBounds(921, 129, 276, 28);
-		generalInfoPanel.add(textField_2);
+		modeloTextField = new JTextField();
+		modeloTextField.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		modeloTextField.setColumns(10);
+		modeloTextField.setBounds(921, 129, 276, 28);
+		generalInfoPanel.add(modeloTextField);
 		Image img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
 		
-		JPanel panel_1 = new JPanel();
+		JPanel infoGeneralPanel = new JPanel();
 		RoundedBorder roundedBorder = new RoundedBorder(new Color(240, 240, 240), 1, 10);
 		TitledBorder titledBorder = new TitledBorder(new CompoundBorder(), "Informacion General", TitledBorder.CENTER, TitledBorder.TOP, null, Color.black);
 		titledBorder.setTitleFont(new Font("Century Gothic", Font.PLAIN, 15));
 
-		panel_1.setBorder(new CompoundBorder(roundedBorder,titledBorder));
-		panel_1.setBounds(253, 13, 967, 198);
-		generalInfoPanel.add(panel_1);
+		infoGeneralPanel.setBorder(new CompoundBorder(roundedBorder,titledBorder));
+		infoGeneralPanel.setBounds(253, 13, 967, 198);
+		generalInfoPanel.add(infoGeneralPanel);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new RoundedBorder(new Color(240, 240, 240), 1, 10));
-		panel_3.setBounds(12, 13, 229, 198);
-		generalInfoPanel.add(panel_3);
-		panel_3.setLayout(null);
+		JPanel ComponentIconPanel = new JPanel();
+		ComponentIconPanel.setBorder(new RoundedBorder(new Color(240, 240, 240), 1, 10));
+		ComponentIconPanel.setBounds(12, 13, 229, 198);
+		generalInfoPanel.add(ComponentIconPanel);
+		ComponentIconPanel.setLayout(null);
 		
 		JLabel componentIcon = new JLabel("");
 		componentIcon.setBounds(29, 11, 170, 170);
-		panel_3.add(componentIcon);
+		ComponentIconPanel.add(componentIcon);
 		Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
 		componentIcon.setIcon(new ImageIcon(scaledImg));
 		
@@ -914,8 +924,96 @@ public class RegComponentes extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				regBttn = new JButton("Registrar");
+				if ( componente != null ) {
+					regBttn.setText("Actualizar");
+				}
 				regBttn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						Componente newComponente = null;
+						
+						String id = idTextField.getText();
+						String marca = marcaTextField.getText();
+						String modelo = modeloTextField.getText();
+						int cantidad = Integer.parseInt(cantidadSpn.getValue().toString());
+						float precio = Float.parseFloat(precioSpn.getValue().toString());
+						
+						if ( componente == null ) {
+							if ( ramRdoBttn.isSelected() ) {
+								String memoria = cantMemoriaSpn.getValue().toString() + " " + medidaMemoriaCbx.getSelectedItem().toString();
+								String tipoMemoria = memoriaTypeCbx.getSelectedItem().toString();
+								
+								newComponente = new Ram(id, marca, modelo, precio, cantidad, 0, memoria, tipoMemoria);
+							} else if ( microprocesadorRdoBttn.isSelected() ) {
+								float velocidad = Float.parseFloat(velocidadSpn.getValue().toString());
+								String tipoConexion = tipoConexionCbx.getSelectedItem().toString();
+								int nucleos = Integer.parseInt(nucleosSpn.getValue().toString());
+								
+								newComponente = new MicroProcesador(id, marca, modelo, precio, cantidad, 0, velocidad, tipoConexion, nucleos);
+								
+							} else if (gpuRdoBttn.isSelected()) {
+							    String tipo = tipoGPUtxtField.getText();
+							    float vRAM = Float.parseFloat(vramSpn.getValue().toString());
+							    float velocidad = Float.parseFloat(velocidadGPUspn.getValue().toString());
+							    String tipoConexion = tipoConexionGPUcbx.getSelectedItem().toString();
+							    
+							    newComponente = new GPU(id, marca, modelo, precio, cantidad, 0, tipo, vRAM, velocidad, tipoConexion);
+
+							} else if (tarjetaMadreRdoBttn.isSelected()) {
+							    String conectionSocket = socketTypeCbx.getSelectedItem().toString();
+							    String tipoRam = RamTypeCbx.getSelectedItem().toString();
+							    String conectionGPU = conectionGPUCbx.getSelectedItem().toString();
+							    
+							    ArrayList<String> tipoDiscoDuro = new ArrayList<>();
+							    if (ideCheckBox.isSelected()) tipoDiscoDuro.add("IDE");
+							    if (sataCheckBox.isSelected()) tipoDiscoDuro.add("SATA");
+							    if (sata2CheckBox.isSelected()) tipoDiscoDuro.add("SATA-2");
+							    if (sata3CheckBox.isSelected()) tipoDiscoDuro.add("SATA-3");
+							    if (m2SataCheckBox.isSelected()) tipoDiscoDuro.add("M.2 SATA");
+							    if (eSataCheckBox.isSelected()) tipoDiscoDuro.add("eSATA");
+							    
+							    newComponente = new TarjetaMadre(id, marca, modelo, precio, cantidad, 0, conectionSocket, tipoRam, conectionGPU, tipoDiscoDuro);
+
+							} else if ( discoDuroRdoBttn.isSelected() ) {
+								float almacenamiento = Float.parseFloat(almacenamientoSpn.getValue().toString());
+								if (discoMedidaCbx.getSelectedItem().toString().equals("TB")) {
+							        almacenamiento *= 1000; // Convertir a GB si está en TB
+							    }
+								
+								float velLectura = Float.parseFloat(velLecturaSpn.getValue().toString());
+							    float velEscritura = Float.parseFloat(velEscrituraSpn.getValue().toString());
+							    
+							    String tipo = hddToggleBttn.isSelected() ? "HDD" : "SSD";
+							    
+							    ArrayList<String> tipoConexiones = new ArrayList<>();
+							    if (ideCheckBox.isSelected()) tipoConexiones.add("IDE");
+							    if (sataCheckBox.isSelected()) tipoConexiones.add("SATA");
+							    if (sata2CheckBox.isSelected()) tipoConexiones.add("SATA-2");
+							    if (sata3CheckBox.isSelected()) tipoConexiones.add("SATA-3");
+							    if (m2SataCheckBox.isSelected()) tipoConexiones.add("M.2 SATA");
+							    if (eSataCheckBox.isSelected()) tipoConexiones.add("eSATA");
+							    
+							    newComponente = new DiscoDuro(id, marca, modelo, precio, cantidad, 0, almacenamiento, velLectura, velEscritura, tipo, tipoConexiones);
+							}
+							
+							Tienda.getInstance().insertarComponente(newComponente);
+							//clean();
+						} else if ( componente != null ) {
+							idTextField.setText(componente.getId());
+							marcaTextField.setText(componente.getMarca());
+							modeloTextField.setText(componente.getModelo());
+							cantidadSpn.setValue(componente.getCantDisponible());
+							precioSpn.setValue(componente.getPrecio());
+							
+							if ( componente instanceof Ram ) {
+								Ram ram = (Ram) componente;
+								
+								cantMemoriaSpn.setValue(ram.getMemoria());
+							}
+							
+							dispose();
+						}
+						
+						
 					}
 				});
 				regBttn.addMouseListener(new MouseAdapter() {
@@ -972,6 +1070,52 @@ public class RegComponentes extends JDialog {
 		}
 	}
 	
+	/*protected void clean() {
+		cantMemoriaSpn.setVisible(estado);
+		medidaMemoriaCbx.setSelectedIndex(0);
+		memoriaTypeCbx.setSelectedIndex(0);
+
+		RamTypeCbx.setSelectedIndex(0);
+		socketTypeCbx.setSelectedIndex(0);
+		
+		nucleosSpn.setVisible(estado);
+		velocidadSpn.setVisible(estado);
+		tipoConexionCbx.setSelectedIndex(0);
+
+
+		cantMemoriaSpn.setVisible(estado);
+		medidaMemoriaCbx.setSelectedIndex(0);
+		memoriaTypeCbx.setSelectedIndex(0);
+
+		hddToggleBttn.setSelected(true);
+		ssdToggleBttn.setSelected(false);
+		almacenamientoSpn.setVisible(estado);
+		discoMedidaCbx.setSelectedIndex(0);
+		medidaEscrituraCbx.setSelectedIndex(0);
+		medidaLecturaCbx.setSelectedIndex(0);
+		velEscrituraSpn.setVisible(estado);
+		velLecturaSpn.setVisible(estado);
+		
+		conectionGPUCbx.setSelectedIndex(0);
+		
+		velocidadGPUspn.setValue(0.5);
+		tipoConexionGPUcbx.setSelectedIndex(0);
+		vramSpn.setValue(2);
+		tipoGPUtxtField.setText("");
+		
+		conexionDiscoDuroPanel.setVisible(false);
+		abrirListaBttn.setVisible(false);
+		abrirListaBttn.setText("Abrir Lista");
+		ideCheckBox.setSelected(false);
+		sataCheckBox.setSelected(false);
+		sata2CheckBox.setSelected(false);
+		sata3CheckBox.setSelected(false);
+		m2SataCheckBox.setSelected(false);
+		eSataCheckBox.setSelected(false);
+		
+		
+	}*/
+
 	private void setEverythingTo(boolean estado) {
 		memoriaLabel.setVisible(estado);
 		memoriaTypeLabel.setVisible(estado);
