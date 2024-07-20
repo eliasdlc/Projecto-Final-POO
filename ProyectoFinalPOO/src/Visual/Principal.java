@@ -523,7 +523,7 @@ public class Principal extends JDialog {
 
 					mouseAdapterComp.mouseExited(mouseEvent);
 
-					RegComponentes registro = new RegComponentes(null);
+					RegComponentes registro = new RegComponentes();
 					registro.setModal(true);
 					registro.setVisible(true);
 
@@ -587,7 +587,7 @@ public class Principal extends JDialog {
 						
 					mouseAdapter.mouseExited(mouseEvent);
 					
-					RegComponentes registro = new RegComponentes(null);
+					RegComponentes registro = new RegComponentes();
 					registro.setVisible(true);
 				
 				}

@@ -130,7 +130,7 @@ public class RegComponentes extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegComponentes dialog = new RegComponentes(null);
+			RegComponentes dialog = new RegComponentes();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -141,13 +141,7 @@ public class RegComponentes extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegComponentes(Componente componente) {
-		
-		if ( componente == null ) {
-			setTitle("Registrar Componente");
-		} else {
-			setTitle("Actualizar Componente");
-		}
+	public RegComponentes() {
 		
 		setBounds(100, 100, 1263, 806);
 		getContentPane().setLayout(null);
@@ -177,6 +171,8 @@ public class RegComponentes extends JDialog {
 		generalInfoPanel.add(lblNewLabel);
 		
 		idTextField = new JTextField();
+		idTextField.setText("C-" + Tienda.getInstance().getCodComponente());
+		idTextField.setEditable(false);
 		idTextField.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		idTextField.setBounds(384, 63, 185, 28);
 		generalInfoPanel.add(idTextField);
@@ -234,7 +230,7 @@ public class RegComponentes extends JDialog {
 		modeloTextField.setColumns(10);
 		modeloTextField.setBounds(921, 129, 276, 28);
 		generalInfoPanel.add(modeloTextField);
-		Image img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
+		
 		
 		JPanel infoGeneralPanel = new JPanel();
 		RoundedBorder roundedBorder = new RoundedBorder(new Color(240, 240, 240), 1, 10);
@@ -254,6 +250,7 @@ public class RegComponentes extends JDialog {
 		JLabel componentIcon = new JLabel("");
 		componentIcon.setBounds(29, 11, 170, 170);
 		ComponentIconPanel.add(componentIcon);
+		Image img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
 		Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
 		componentIcon.setIcon(new ImageIcon(scaledImg));
 		
@@ -521,7 +518,7 @@ public class RegComponentes extends JDialog {
 		                almacenamientoSpn.setValue(tbValue);
 		                
 		            } else if (item.equals("GB")) {
-		                float tbValue = (Float) almacenamientoSpn.getValue();
+		                float tbValue = Float.parseFloat(almacenamientoSpn.getValue().toString());
 		                int gbValue = Math.round(tbValue * 1000);
 		                
 		                almacenamientoSpn.setModel(new SpinnerNumberModel(gbValue, 1, null, 1));
@@ -924,9 +921,6 @@ public class RegComponentes extends JDialog {
 			getContentPane().add(buttonPane);
 			{
 				regBttn = new JButton("Registrar");
-				if ( componente != null ) {
-					regBttn.setText("Actualizar");
-				}
 				regBttn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Componente newComponente = null;
@@ -937,83 +931,69 @@ public class RegComponentes extends JDialog {
 						int cantidad = Integer.parseInt(cantidadSpn.getValue().toString());
 						float precio = Float.parseFloat(precioSpn.getValue().toString());
 						
-						if ( componente == null ) {
-							if ( ramRdoBttn.isSelected() ) {
-								String memoria = cantMemoriaSpn.getValue().toString() + " " + medidaMemoriaCbx.getSelectedItem().toString();
-								String tipoMemoria = memoriaTypeCbx.getSelectedItem().toString();
-								
-								newComponente = new Ram(id, marca, modelo, precio, cantidad, 0, memoria, tipoMemoria);
-							} else if ( microprocesadorRdoBttn.isSelected() ) {
-								float velocidad = Float.parseFloat(velocidadSpn.getValue().toString());
-								String tipoConexion = tipoConexionCbx.getSelectedItem().toString();
-								int nucleos = Integer.parseInt(nucleosSpn.getValue().toString());
-								
-								newComponente = new MicroProcesador(id, marca, modelo, precio, cantidad, 0, velocidad, tipoConexion, nucleos);
-								
-							} else if (gpuRdoBttn.isSelected()) {
-							    String tipo = tipoGPUtxtField.getText();
-							    float vRAM = Float.parseFloat(vramSpn.getValue().toString());
-							    float velocidad = Float.parseFloat(velocidadGPUspn.getValue().toString());
-							    String tipoConexion = tipoConexionGPUcbx.getSelectedItem().toString();
-							    
-							    newComponente = new GPU(id, marca, modelo, precio, cantidad, 0, tipo, vRAM, velocidad, tipoConexion);
+						if ( ramRdoBttn.isSelected() ) {
+							String memoria = cantMemoriaSpn.getValue().toString() + " " + medidaMemoriaCbx.getSelectedItem().toString();
+							String tipoMemoria = memoriaTypeCbx.getSelectedItem().toString();
+							
+							newComponente = new Ram(id, marca, modelo, precio, cantidad, 0, memoria, tipoMemoria);
+						} else if ( microprocesadorRdoBttn.isSelected() ) {
+							float velocidad = Float.parseFloat(velocidadSpn.getValue().toString());
+							String tipoConexion = tipoConexionCbx.getSelectedItem().toString();
+							int nucleos = Integer.parseInt(nucleosSpn.getValue().toString());
+							
+							newComponente = new MicroProcesador(id, marca, modelo, precio, cantidad, 0, velocidad, tipoConexion, nucleos);
+							
+						} else if (gpuRdoBttn.isSelected()) {
+						    String tipo = tipoGPUtxtField.getText();
+						    float vRAM = Float.parseFloat(vramSpn.getValue().toString());
+						    float velocidad = Float.parseFloat(velocidadGPUspn.getValue().toString());
+						    String tipoConexion = tipoConexionGPUcbx.getSelectedItem().toString();
+						    
+						    newComponente = new GPU(id, marca, modelo, precio, cantidad, 0, tipo, vRAM, velocidad, tipoConexion);
 
-							} else if (tarjetaMadreRdoBttn.isSelected()) {
-							    String conectionSocket = socketTypeCbx.getSelectedItem().toString();
-							    String tipoRam = RamTypeCbx.getSelectedItem().toString();
-							    String conectionGPU = conectionGPUCbx.getSelectedItem().toString();
-							    
-							    ArrayList<String> tipoDiscoDuro = new ArrayList<>();
-							    if (ideCheckBox.isSelected()) tipoDiscoDuro.add("IDE");
-							    if (sataCheckBox.isSelected()) tipoDiscoDuro.add("SATA");
-							    if (sata2CheckBox.isSelected()) tipoDiscoDuro.add("SATA-2");
-							    if (sata3CheckBox.isSelected()) tipoDiscoDuro.add("SATA-3");
-							    if (m2SataCheckBox.isSelected()) tipoDiscoDuro.add("M.2 SATA");
-							    if (eSataCheckBox.isSelected()) tipoDiscoDuro.add("eSATA");
-							    
-							    newComponente = new TarjetaMadre(id, marca, modelo, precio, cantidad, 0, conectionSocket, tipoRam, conectionGPU, tipoDiscoDuro);
+						} else if (tarjetaMadreRdoBttn.isSelected()) {
+						    String conectionSocket = socketTypeCbx.getSelectedItem().toString();
+						    String tipoRam = RamTypeCbx.getSelectedItem().toString();
+						    String conectionGPU = conectionGPUCbx.getSelectedItem().toString();
+						    
+						    ArrayList<String> tipoDiscoDuro = new ArrayList<>();
+						    if (ideCheckBox.isSelected()) tipoDiscoDuro.add("IDE");
+						    if (sataCheckBox.isSelected()) tipoDiscoDuro.add("SATA");
+						    if (sata2CheckBox.isSelected()) tipoDiscoDuro.add("SATA-2");
+						    if (sata3CheckBox.isSelected()) tipoDiscoDuro.add("SATA-3");
+						    if (m2SataCheckBox.isSelected()) tipoDiscoDuro.add("M.2 SATA");
+						    if (eSataCheckBox.isSelected()) tipoDiscoDuro.add("eSATA");
+						    
+						    newComponente = new TarjetaMadre(id, marca, modelo, precio, cantidad, 0, conectionSocket, tipoRam, conectionGPU, tipoDiscoDuro);
 
-							} else if ( discoDuroRdoBttn.isSelected() ) {
-								float almacenamiento = Float.parseFloat(almacenamientoSpn.getValue().toString());
-								if (discoMedidaCbx.getSelectedItem().toString().equals("TB")) {
-							        almacenamiento *= 1000; // Convertir a GB si está en TB
-							    }
-								
-								float velLectura = Float.parseFloat(velLecturaSpn.getValue().toString());
-							    float velEscritura = Float.parseFloat(velEscrituraSpn.getValue().toString());
-							    
-							    String tipo = hddToggleBttn.isSelected() ? "HDD" : "SSD";
-							    
-							    ArrayList<String> tipoConexiones = new ArrayList<>();
-							    if (ideCheckBox.isSelected()) tipoConexiones.add("IDE");
-							    if (sataCheckBox.isSelected()) tipoConexiones.add("SATA");
-							    if (sata2CheckBox.isSelected()) tipoConexiones.add("SATA-2");
-							    if (sata3CheckBox.isSelected()) tipoConexiones.add("SATA-3");
-							    if (m2SataCheckBox.isSelected()) tipoConexiones.add("M.2 SATA");
-							    if (eSataCheckBox.isSelected()) tipoConexiones.add("eSATA");
-							    
-							    newComponente = new DiscoDuro(id, marca, modelo, precio, cantidad, 0, almacenamiento, velLectura, velEscritura, tipo, tipoConexiones);
-							}
+						} else if ( discoDuroRdoBttn.isSelected() ) {
+							float almacenamiento = Float.parseFloat(almacenamientoSpn.getValue().toString());
+							if (discoMedidaCbx.getSelectedItem().toString().equals("TB")) {
+						        almacenamiento *= 1000; // Convertir a GB si está en TB
+						    }
 							
-							Tienda.getInstance().insertarComponente(newComponente);
-							//clean();
-						} else if ( componente != null ) {
-							idTextField.setText(componente.getId());
-							marcaTextField.setText(componente.getMarca());
-							modeloTextField.setText(componente.getModelo());
-							cantidadSpn.setValue(componente.getCantDisponible());
-							precioSpn.setValue(componente.getPrecio());
-							
-							if ( componente instanceof Ram ) {
-								Ram ram = (Ram) componente;
-								
-								cantMemoriaSpn.setValue(ram.getMemoria());
-							}
-							
-							dispose();
+							float velLectura = Float.parseFloat(velLecturaSpn.getValue().toString());
+						    float velEscritura = Float.parseFloat(velEscrituraSpn.getValue().toString());
+						    
+						    String tipo = hddToggleBttn.isSelected() ? "HDD" : "SSD";
+						    
+						    ArrayList<String> tipoConexiones = new ArrayList<>();
+						    if (ideCheckBox.isSelected()) tipoConexiones.add("IDE");
+						    if (sataCheckBox.isSelected()) tipoConexiones.add("SATA");
+						    if (sata2CheckBox.isSelected()) tipoConexiones.add("SATA-2");
+						    if (sata3CheckBox.isSelected()) tipoConexiones.add("SATA-3");
+						    if (m2SataCheckBox.isSelected()) tipoConexiones.add("M.2 SATA");
+						    if (eSataCheckBox.isSelected()) tipoConexiones.add("eSATA");
+						    
+						    newComponente = new DiscoDuro(id, marca, modelo, precio, cantidad, 0, almacenamiento, velLectura, velEscritura, tipo, tipoConexiones);
 						}
 						
+						Tienda.getInstance().insertarComponente(newComponente);
+						PopUp newPopUp = new PopUp(newComponente);
+						newPopUp.setLocationRelativeTo(contentPanel);
+						newPopUp.setVisible(true);
 						
+						clean();
 					}
 				});
 				regBttn.addMouseListener(new MouseAdapter() {
@@ -1070,31 +1050,29 @@ public class RegComponentes extends JDialog {
 		}
 	}
 	
-	/*protected void clean() {
-		cantMemoriaSpn.setVisible(estado);
-		medidaMemoriaCbx.setSelectedIndex(0);
+	protected void clean() {
+		idTextField.setText("C-" + Tienda.getInstance().getCodComponente());
+		
+		cantMemoriaSpn.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(2)));
+		cantMemoriaSpn.setValue(2);
+		//medidaMemoriaCbx.setSelectedIndex(0);
 		memoriaTypeCbx.setSelectedIndex(0);
 
 		RamTypeCbx.setSelectedIndex(0);
 		socketTypeCbx.setSelectedIndex(0);
 		
-		nucleosSpn.setVisible(estado);
-		velocidadSpn.setVisible(estado);
+		nucleosSpn.setValue(2);
+		velocidadSpn.setValue(0.5);
 		tipoConexionCbx.setSelectedIndex(0);
-
-
-		cantMemoriaSpn.setVisible(estado);
-		medidaMemoriaCbx.setSelectedIndex(0);
-		memoriaTypeCbx.setSelectedIndex(0);
 
 		hddToggleBttn.setSelected(true);
 		ssdToggleBttn.setSelected(false);
-		almacenamientoSpn.setVisible(estado);
-		discoMedidaCbx.setSelectedIndex(0);
+		almacenamientoSpn.setValue(4);
+		//discoMedidaCbx.setSelectedIndex(0);
 		medidaEscrituraCbx.setSelectedIndex(0);
 		medidaLecturaCbx.setSelectedIndex(0);
-		velEscrituraSpn.setVisible(estado);
-		velLecturaSpn.setVisible(estado);
+		velEscrituraSpn.setValue(16);
+		velLecturaSpn.setValue(16);
 		
 		conectionGPUCbx.setSelectedIndex(0);
 		
@@ -1114,7 +1092,7 @@ public class RegComponentes extends JDialog {
 		eSataCheckBox.setSelected(false);
 		
 		
-	}*/
+	}
 
 	private void setEverythingTo(boolean estado) {
 		memoriaLabel.setVisible(estado);

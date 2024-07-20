@@ -39,6 +39,22 @@ public class Tienda {
 		return misFacturas;
 	}
 
+	public static int getCodCliente() {
+		return codCliente;
+	}
+
+	public static int getCodComponente() {
+		return codComponente;
+	}
+
+	public static int getCodFactura() {
+		return codFactura;
+	}
+
+	public static int getCodComputadora() {
+		return codComputadora;
+	}
+
 	public void setMisFacturas(ArrayList<Factura> misFacturas) {
 		this.misFacturas = misFacturas;
 	}
