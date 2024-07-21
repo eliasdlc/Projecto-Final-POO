@@ -18,6 +18,7 @@ public class Tienda {
 		this.misClientes = new ArrayList<Cliente>();
 		this.misComponentes = new ArrayList<Componente>();
 		this.misFacturas = new ArrayList<Factura>();
+		this.misComputadoras = new ArrayList<Computadora>();
 	}
 	
 	public static Tienda getInstance() {
@@ -37,6 +38,10 @@ public class Tienda {
 	
 	public ArrayList<Factura> getMisFacturas() {
 		return misFacturas;
+	}
+
+	public ArrayList<Computadora> getMisComputadoras() {
+		return misComputadoras;
 	}
 
 	public static int getCodCliente() {
@@ -67,6 +72,10 @@ public class Tienda {
 		this.misComponentes = misComponentes;
 	}
 	
+	public void setMisComputadoras(ArrayList<Computadora> misComputadoras) {
+		this.misComputadoras = misComputadoras;
+	}
+
 	public void insertarCliente(Cliente cliente) {
 		misClientes.add(cliente);
 		codCliente++;
@@ -103,19 +112,23 @@ public class Tienda {
 		misComputadoras.set(ind, computadora);
 	}
 	
-	public void deleteCliente(Cliente cliente) {
+	public void deleteCliente(String idcliente) {
+		Cliente cliente = searchClienteById(idcliente);
 		misClientes.remove(cliente);
 	}
 	
-	public void deleteComponente(Componente componente) {
+	public void deleteComponente(String idcomponente) {
+		Componente componente = searchComponenteById(idcomponente);
 		misComponentes.remove(componente);
 	}
 	
-	public void deleteFactura(Factura factura) {
+	public void deleteFactura(String idfactura) {
+		Factura factura = searchFacturaById(idfactura);
 		misFacturas.remove(factura);
 	}
 	
-	public void deleteComputadora(Computadora computadora) {
+	public void deleteComputadora(String idcomputadora) {
+		Computadora computadora = searchComputadoraById(idcomputadora);
 		misComputadoras.remove(computadora);
 	}
 	
@@ -287,10 +300,10 @@ public class Tienda {
 
 	}
 	
-	public boolean makeComputadora(String id, ArrayList<Componente> componentes, String tipo) {
+	public boolean makeComputadora(String id, ArrayList<Componente> componentes, int cantDisponibles, String tipo) {
 		boolean creado = false;
 		float precioPc = calcPrecioTotalComputadora(componentes);
-		Computadora pc = new Computadora(id, componentes, precioPc, tipo);
+		Computadora pc = new Computadora(id, componentes, precioPc, cantDisponibles, tipo);
 		
 		if ( isCompatible(pc) ) {
 			creado = true;

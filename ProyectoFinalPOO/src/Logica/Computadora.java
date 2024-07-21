@@ -6,13 +6,15 @@ public class Computadora {
 	private String id;
 	private ArrayList<Componente> componentes;
 	private float precio;
+	private int cantDisponible;
 	private String tipo;
 	
-	public Computadora(String id, ArrayList<Componente> componentes, float precio, String tipo) {
+	public Computadora(String id, ArrayList<Componente> componentes, float precio, int cantDisponible, String tipo) {
 		super();
 		this.id = id;
 		this.componentes = componentes;
 		this.precio = precio;
+		this.cantDisponible = cantDisponible;
 		this.tipo = tipo;
 	}
 
@@ -34,6 +36,14 @@ public class Computadora {
 
 	public String getId() {
 		return id;
+	}
+	
+	public int getCantDisponible() {
+		return cantDisponible;
+	}
+	
+	public void setCantDisponible(int cantDisponible) {
+		this.cantDisponible = cantDisponible;
 	}
 
 	public String getTipo() {

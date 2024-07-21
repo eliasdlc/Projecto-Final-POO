@@ -93,12 +93,10 @@ public class PopUp extends JDialog {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					okBttn.setBackground(hoverEffectColor);
-					//okBttn.setForeground(Color.BLACK);
 					okBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					okBttn.setBackground(SecondaryC);
-					okBttn.setForeground(Color.WHITE);
 					okBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
 				}
 			});
