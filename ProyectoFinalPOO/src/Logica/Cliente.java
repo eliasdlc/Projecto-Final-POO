@@ -62,4 +62,8 @@ public class Cliente {
 		carrito.add(componente);
 	}
 	
+	public void addFactura(Factura factura) {
+		misFacturas.add(factura);
+	}
+	
 }

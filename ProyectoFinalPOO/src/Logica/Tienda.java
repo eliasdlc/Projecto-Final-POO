@@ -24,8 +24,7 @@ public class Tienda {
 	public static Tienda getInstance() {
 		if(miTienda == null) {
 			miTienda = new Tienda();
-		}
-		return miTienda;
+		} return miTienda;
 	}
 
 	public ArrayList<Cliente> getMisClientes() {
@@ -285,19 +284,22 @@ public class Tienda {
 		return finalizado;
 	}
 	
-	public void makeOferta(Componente componente) {
+	public boolean makeOferta(Componente componente) {
+		boolean oferta = false;
 		int cantVendido = componente.getCantVendidos();
 		if(cantVendido > 15) {
 			componente.setDescuento(componente.getDescuento() + 15);
+			oferta = true;
 		}
 		else if(cantVendido <= 15) {
 			componente.setDescuento(componente.getDescuento()+ 10);
+			oferta = true;
 		}
 		else if(cantVendido <= 10) {
 			componente.setDescuento(componente.getDescuento() + 5);
-	
+			oferta = true;
 		}
-
+		return oferta;
 	}
 	
 	public boolean makeComputadora(String id, ArrayList<Componente> componentes, int cantDisponibles, String tipo) {
