@@ -14,6 +14,7 @@ import Logica.Componente;
 import Logica.DiscoDuro;
 import Logica.GPU;
 import Logica.MicroProcesador;
+import Logica.PopUpCant;
 import Logica.Ram;
 import Logica.Tienda;
 
@@ -29,6 +30,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.JSpinner;
+import javax.swing.JLabel;
 
 public class ListComponente extends JDialog {
 
@@ -37,7 +40,7 @@ public class ListComponente extends JDialog {
 	private JTextField idtxt;
 	private JButton cancelbtn;
 	private static JButton deleteBtn;
-	private static JButton updateBtn;
+	private static JButton requestBtn;
 	private static JButton BuyBtn;
 	private JComboBox filtercmb;
 	private JButton searchBtn;
@@ -86,7 +89,7 @@ public class ListComponente extends JDialog {
 					int ind = table.getSelectedRow();
 					if(ind >= 0) {
 						cod = table.getValueAt(ind, 0).toString();
-						updateBtn.setEnabled(true);
+						requestBtn.setEnabled(true);
 						deleteBtn.setEnabled(true);
 						BuyBtn.setEnabled(true);
 					}
@@ -128,21 +131,21 @@ public class ListComponente extends JDialog {
 			deleteBtn.setBounds(42, 594, 115, 29);
 			panel_1.add(deleteBtn);
 			
-			updateBtn = new JButton("Actualizar");
-			updateBtn.addActionListener(new ActionListener() {
+			requestBtn = new JButton("Pedir");
+			requestBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(cod != null) {
 						Componente componente = Tienda.getInstance().searchComponenteById(cod);
 						if(componente != null) {
-							//RegComponentes updateComponentes = new RegComponentes(componente);
-							//updateComponentes.setModal(true);
-							//updateComponentes.setVisible(true);
+							PopUpCant aux = new PopUpCant(componente);
+							aux.setModal(true);
+							aux.setVisible(true);
 						}
 					}
 				}
 			});
-			updateBtn.setBounds(42, 549, 115, 29);
-			panel_1.add(updateBtn);
+			requestBtn.setBounds(42, 193, 115, 29);
+			panel_1.add(requestBtn);
 			
 			idtxt = new JTextField();
 			idtxt.setBounds(15, 16, 169, 29);
@@ -248,7 +251,7 @@ public class ListComponente extends JDialog {
 			}
 		}
 		deleteBtn.setEnabled(false);
-		updateBtn.setEnabled(false);
+		requestBtn.setEnabled(false);
 		BuyBtn.setEnabled(false);
 	}
 	
@@ -295,7 +298,7 @@ public class ListComponente extends JDialog {
 			}
 			
 			deleteBtn.setEnabled(false);
-			updateBtn.setEnabled(false);
+			requestBtn.setEnabled(false);
 			BuyBtn.setEnabled(false);
 		}
 	}
