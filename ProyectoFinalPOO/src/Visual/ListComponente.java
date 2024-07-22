@@ -14,7 +14,6 @@ import Logica.Componente;
 import Logica.DiscoDuro;
 import Logica.GPU;
 import Logica.MicroProcesador;
-import Logica.PopUpCant;
 import Logica.Ram;
 import Logica.Tienda;
 
@@ -132,6 +131,7 @@ public class ListComponente extends JDialog {
 			panel_1.add(deleteBtn);
 			
 			requestBtn = new JButton("Pedir");
+			requestBtn.setEnabled(false);
 			requestBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(cod != null) {
@@ -251,7 +251,6 @@ public class ListComponente extends JDialog {
 			}
 		}
 		deleteBtn.setEnabled(false);
-		requestBtn.setEnabled(false);
 		BuyBtn.setEnabled(false);
 	}
 	

@@ -1,4 +1,4 @@
-package Logica;
+package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,7 +20,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 
-import Visual.ListComponente;
+import Logica.Componente;
+import Logica.RoundedBorder;
 
 import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
@@ -67,7 +68,7 @@ public class PopUpCant extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			panel.setBackground(Color.WHITE);
-			panel.setBounds(0, 0, 450, 282);
+			panel.setBounds(0, 0, 450, 300);
 			contentPanel.add(panel);
 			panel.setLayout(null);
 			
@@ -90,8 +91,8 @@ public class PopUpCant extends JDialog {
 			panel.add(lblNewLabel);
 			
 			JLabel lblNewLabel_1 = new JLabel("\u00BFQu\u00E9 Cantidad desea pedir?");
-			lblNewLabel_1.setFont(new Font("Centhury Gothic", Font.BOLD, 18));
-			lblNewLabel_1.setBounds(148, 123, 272, 20);
+			lblNewLabel_1.setFont(new Font("Century Gothic", Font.PLAIN, 18));
+			lblNewLabel_1.setBounds(143, 90, 272, 26);
 			panel.add(lblNewLabel_1);
 			
 			JButton addbtn = new JButton("Pedir");
@@ -114,14 +115,15 @@ public class PopUpCant extends JDialog {
 				}
 			});
 			addbtn.setForeground(Color.WHITE);
-			addbtn.setFont(new Font("Centhury Gothic", Font.BOLD, 18));
+			addbtn.setFont(new Font("Century Gothic", Font.BOLD, 26));
 			addbtn.setBackground(SecondaryC);
 			addbtn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
 			addbtn.setFocusPainted(false);
-			addbtn.setBounds(73, 237, 115, 29);
+			addbtn.setBounds(24, 217, 188, 54);
 			panel.add(addbtn);
 			
 			JSpinner quantityspn = new JSpinner();
+			quantityspn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 			quantityspn.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					int cant = (Integer) quantityspn.getValue();
@@ -129,15 +131,15 @@ public class PopUpCant extends JDialog {
 				}
 			});
 			quantityspn.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-			quantityspn.setBounds(88, 159, 92, 45);
+			quantityspn.setBounds(143, 139, 124, 37);
 			panel.add(quantityspn);
 			
 			quantitytxt = new JTextField();
 			quantitytxt.setHorizontalAlignment(SwingConstants.CENTER);
 			quantitytxt.setEditable(false);
-			quantitytxt.setFont(new Font("Centhury Gothic", Font.BOLD, 18));
+			quantitytxt.setFont(new Font("Century Gothic", Font.BOLD, 20));
 			quantitytxt.setText("0");
-			quantitytxt.setBounds(268, 159, 92, 45);
+			quantitytxt.setBounds(279, 140, 124, 37);
 			panel.add(quantitytxt);
 			quantitytxt.setColumns(10);
 			
@@ -145,12 +147,12 @@ public class PopUpCant extends JDialog {
 			cancelbtn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					cancelbtn.setBackground(hoverEffectColor);
+					cancelbtn.setForeground(hoverEffectColor);
 					cancelbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
 				}
 				@Override
 				public void mouseExited(MouseEvent e) {
-					cancelbtn.setBackground(SecondaryC);
+					cancelbtn.setForeground(SecondaryC);
 					cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
 				}
 			});
@@ -159,12 +161,13 @@ public class PopUpCant extends JDialog {
 					dispose();
 				}
 			});
-			cancelbtn.setForeground(Color.WHITE);
-			cancelbtn.setFont(new Font("Centhury Gothic", Font.BOLD, 18));
-			cancelbtn.setBackground(SecondaryC);
+			cancelbtn.setForeground(SecondaryC);
+			cancelbtn.setFont(new Font("Century Gothic", Font.BOLD, 26));
+			cancelbtn.setBackground(Color.white);
+			cancelbtn.setOpaque(false);
 			cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
 			cancelbtn.setFocusPainted(false);
-			cancelbtn.setBounds(261, 237, 115, 29);
+			cancelbtn.setBounds(236, 217, 188, 54);
 			panel.add(cancelbtn);
 		}
 	}
