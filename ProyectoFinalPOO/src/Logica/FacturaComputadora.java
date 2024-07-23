@@ -1,16 +1,30 @@
 package Logica;
 
 public class FacturaComputadora extends Factura {
-	private static String idComputadora;
+	private int cantComputadoras;
+	private String idComputadora;
 	
-	public FacturaComputadora(String idCliente, String id, Float montoTotal, String idcomputadora) {
+	
+	public FacturaComputadora(String idCliente, String id, Float montoTotal, int cantComputadoras,
+			String idComputadora) {
 		super(idCliente, id, montoTotal);
-		this.idComputadora = idcomputadora;
+		this.cantComputadoras = cantComputadoras;
+		this.idComputadora = idComputadora;
 	}
 
-	public static String getIdComputadora() {
+	public int getCantComputadoras() {
+		return cantComputadoras;
+	}
+	
+	public void setCantComputadoras(int cantComputadoras) {
+		this.cantComputadoras = cantComputadoras;
+	}
+
+	public String getIdComputadora() {
 		return idComputadora;
 	}
 
-	
+	public void setIdComputadora(String idComputadora) {
+		this.idComputadora = idComputadora;
+	}
 }

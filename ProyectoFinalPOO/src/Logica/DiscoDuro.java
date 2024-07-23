@@ -8,11 +8,11 @@ public class DiscoDuro extends Componente {
 	private float velEscritura;
 	private String tipo;
 	private ArrayList<String> tipoConexiones;
-	
 
 	public DiscoDuro(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
-			float almacenamiento, float velLectura, float velEscritura, String tipo, ArrayList<String> tipoConexiones) {
-		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
+			int cantSeleccionado, float almacenamiento, float velLectura, float velEscritura, String tipo,
+			ArrayList<String> tipoConexiones) {
+		super(id, marca, modelo, precio, cantDisponible, cantVendidos, cantSeleccionado);
 		this.almacenamiento = almacenamiento;
 		this.velLectura = velLectura;
 		this.velEscritura = velEscritura;

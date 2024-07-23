@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import javax.swing.JSpinner;
 import javax.swing.JLabel;
 
-public class ListComponente extends JDialog {
+public class ListComponentes extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static JTable table;
@@ -52,7 +52,7 @@ public class ListComponente extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			ListComponente dialog = new ListComponente();
+			ListComponentes dialog = new ListComponentes();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ public class ListComponente extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ListComponente() {
+	public ListComponentes() {
 		setTitle("Listado de Componentes");
 		setBounds(100, 100, 1349, 751);
 		getContentPane().setLayout(new BorderLayout());

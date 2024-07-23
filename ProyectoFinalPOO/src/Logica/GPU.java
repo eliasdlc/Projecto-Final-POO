@@ -6,12 +6,13 @@ public class GPU extends Componente {
 	private float velocidad;
 	private String tipoConexion;
 	
+	
 
-	public GPU(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos, String tipo,
-			float vRAM, float velocidad, String tipoConexion) {
-		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
+	public GPU(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
+			int cantSeleccionado, String tipo, float vRAM, float velocidad, String tipoConexion) {
+		super(id, marca, modelo, precio, cantDisponible, cantVendidos, cantSeleccionado);
 		this.tipo = tipo;
-		this.VRAM = vRAM;
+		VRAM = vRAM;
 		this.velocidad = velocidad;
 		this.tipoConexion = tipoConexion;
 	}

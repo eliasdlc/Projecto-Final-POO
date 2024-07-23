@@ -7,16 +7,18 @@ public class Componente {
 	private float precio;
 	private int cantDisponible;
 	private int cantVendidos;
+	private int cantSeleccionado;
 	private int descuento;
 
 
-	public Componente(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos) {
+	public Componente(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos, int cantSeleccionado) {
 		this.id = id;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.precio = precio;
 		this.cantDisponible = cantDisponible;
 		this.cantVendidos = cantVendidos;
+		this.cantSeleccionado = cantSeleccionado;
 		this.descuento = 0;
 	}
 	
@@ -62,6 +64,14 @@ public class Componente {
 
 	public void setCantVendidos(int cantVendidos) {
 		this.cantVendidos = cantVendidos;
+	}
+	
+	public int getCantSeleccionado() {
+		return cantSeleccionado;
+	}
+
+	public void setCantSeleccionado(int cantSeleccionado) {
+		this.cantSeleccionado = cantSeleccionado;
 	}
 
 	public int getDescuento() {

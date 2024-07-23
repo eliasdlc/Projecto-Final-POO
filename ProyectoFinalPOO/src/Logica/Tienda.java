@@ -132,7 +132,7 @@ public class Tienda {
 	}
 	
 	public Componente searchComponenteMasVendido() {
-		Componente componenteMasVendido = new Componente(null, null, null, 0, 0, 0); // Poner que el componente al menos tenga 0 unidadades vendidas
+		Componente componenteMasVendido = new Componente(null, null, null, 0, 0, 0, 0); // Poner que el componente al menos tenga 0 unidadades vendidas
 		
 		for ( int i = 0; i < misComponentes.size(); i++ ) {
 			if ( misComponentes.get(i).getCantVendidos() > componenteMasVendido.getCantVendidos() ) {
@@ -160,7 +160,7 @@ public class Tienda {
 	public ArrayList<Componente> getListComponentesMasVendidos(){
 		ArrayList<Componente> componentesMasVendidos = new ArrayList<>();
 		
-		Componente componenteMasFamoso = new Componente(null, null, null, 0, 1, 0);
+		Componente componenteMasFamoso = new Componente(null, null, null, 0, 1, 0, 0);
 		
 		for ( Componente comp : misComponentes ) {
 			if ( comp.getCantVendidos() > componenteMasFamoso.getCantVendidos() ) {
@@ -265,23 +265,40 @@ public class Tienda {
 		return componentesByPrecio;
 	}
 	
-	public boolean makeFactura(Componente componente, Computadora pc, Cliente cliente, Factura factura) {
-		float precioTotal = 0;
-		boolean finalizado = false;
-		if ( componente != null && factura instanceof FacturaComponente ) {
-			precioTotal = calcPrecioTotalComponente(cliente);
-			ArrayList<Componente> carrito = cliente.getCarrito();
-			factura = new FacturaComponente(cliente.getId(), "F-" + codFactura, precioTotal, carrito);
-			finalizado = true;
-		} else if ( pc != null && factura instanceof FacturaComputadora ) {
-			precioTotal = calcPrecioTotalComputadora(pc.getComponentes());
-			String id = pc.getId();
-			factura = new FacturaComputadora(cliente.getId(), "F-" + codFactura, precioTotal, id);
-			finalizado = true;
-		}
-		factura.setComprado(true);
-		insertarFactura(factura);
-		return finalizado;
+	public boolean makeFactura(ArrayList<Componente> componentes, Computadora pc, Cliente cliente) {
+	    float precioTotal = 0;
+	    boolean finalizado = false;
+	    Factura factura = null;
+	    String id = "F-" + codFactura;
+
+	    if (!componentes.isEmpty() && pc == null) {
+	        precioTotal = calcPrecioTotalComponente(cliente);
+	        ArrayList<Componente> carrito = cliente.getCarrito();
+	        int[] cantArticulos = calcularCantidadArticulos(carrito);
+	        factura = new FacturaComponente(cliente.getId(), id, precioTotal, cantArticulos, carrito);
+	        finalizado = true;
+	    } else if (pc != null && componentes.isEmpty()) {
+	        precioTotal = calcPrecioTotalComputadora(pc.getComponentes());
+	        factura = new FacturaComputadora(cliente.getId(), id, precioTotal, 1, pc.getId());
+	        finalizado = true;
+	    }
+
+	    if (finalizado) {
+	        factura.setComprado(true);
+	        insertarFactura(factura);
+	    }
+
+	    return finalizado;
+	}
+
+	private int[] calcularCantidadArticulos(ArrayList<Componente> carrito) {
+	    int[] cantidadArticulos = new int[carrito.size()];
+	    
+	    for (int i = 0; i < carrito.size(); i++) {
+	        cantidadArticulos[i] = carrito.get(i).getCantSeleccionado();
+	    }
+	    
+	    return cantidadArticulos;
 	}
 	
 	public boolean makeOferta(Componente componente) {

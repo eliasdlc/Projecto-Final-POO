@@ -8,16 +8,15 @@ public class TarjetaMadre extends Componente {
 	private String tipoRam;
 	private String conectionGPU;
 	private ArrayList<String> tipoDiscoDuro;
-	
-	
 
 	public TarjetaMadre(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos,
-			String conectionSocket, String tipoRam, String conectionGPU, ArrayList<String> tipoDiscoDuro) {
-		super(id, marca, modelo, precio, cantDisponible, cantVendidos);
+			int cantSeleccionado, String conectionSocket, String tipoRam, String conectionGPU,
+			ArrayList<String> tipoDiscoDuro) {
+		super(id, marca, modelo, precio, cantDisponible, cantVendidos, cantSeleccionado);
 		this.conectionSocket = conectionSocket;
 		this.tipoRam = tipoRam;
-		this.tipoDiscoDuro = tipoDiscoDuro;
 		this.conectionGPU = conectionGPU;
+		this.tipoDiscoDuro = tipoDiscoDuro;
 	}
 
 	public String getConectionSocket() {

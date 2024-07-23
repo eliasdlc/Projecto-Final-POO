@@ -6,11 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.RoundRectangle2D;
 
 public class RoundedBorder extends AbstractBorder {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private Color borderColor;
+    private Color borderColor;
     private int thickness;
     private int radius;
 
@@ -26,28 +22,36 @@ public class RoundedBorder extends AbstractBorder {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Crear la forma redondeada
-        RoundRectangle2D roundedRectangle = new RoundRectangle2D.Float(
-            x + thickness / 2f, y + thickness / 2f,
-            width - thickness, height - thickness,
-            radius, radius);
+        RoundRectangle2D roundedRect = new RoundRectangle2D.Float(x, y, width - 1, height - 1, radius, radius);
+        
+        // Crear el área del componente
+        Area cornerArea = new Area(new Rectangle(0, 0, width, height));
+        
+        // Sustraer la forma redondeada
+        cornerArea.subtract(new Area(roundedRect));
 
-        // Crear un area para recortar
-        Area clip = new Area(new Rectangle(0, 0, width, height));
-        clip.subtract(new Area(roundedRectangle));
-
-        // Recortar las esquinas
-        g2d.setClip(clip);
+        // Hacer las esquinas transparentes
+        //g2d.setComposite(AlphaComposite.Clear);
         g2d.setColor(c.getParent().getBackground());
-        g2d.fillRect(x, y, width, height);
-
-        // Resetear el clip
-        g2d.setClip(null);
+        g2d.fill(cornerArea);
+        g2d.setComposite(AlphaComposite.SrcOver);
 
         // Dibujar el borde
         g2d.setColor(borderColor);
         g2d.setStroke(new BasicStroke(thickness));
-        g2d.draw(roundedRectangle);
+        g2d.draw(roundedRect);
 
         g2d.dispose();
+    }
+
+    @Override
+    public Insets getBorderInsets(Component c) {
+        return new Insets(thickness, thickness, thickness, thickness);
+    }
+
+    @Override
+    public Insets getBorderInsets(Component c, Insets insets) {
+        insets.left = insets.top = insets.right = insets.bottom = thickness;
+        return insets;
     }
 }
