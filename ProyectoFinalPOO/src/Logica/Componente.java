@@ -11,14 +11,13 @@ public class Componente {
 	private int descuento;
 
 
-	public Componente(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos, int cantSeleccionado) {
+	public Componente(String id, String marca, String modelo, float precio, int cantDisponible, int cantVendidos) {
 		this.id = id;
 		this.marca = marca;
 		this.modelo = modelo;
 		this.precio = precio;
 		this.cantDisponible = cantDisponible;
 		this.cantVendidos = cantVendidos;
-		this.cantSeleccionado = cantSeleccionado;
 		this.descuento = 0;
 	}
 	

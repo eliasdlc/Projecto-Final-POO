@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import Logica.AnimationType;
 import Logica.Cliente;
+import Logica.ComponentHolder;
 import Logica.Componente;
 import Logica.DiscoDuro;
 import Logica.ErrorType;
@@ -63,9 +64,9 @@ public class ComprarComponente extends JDialog {
 	private static final Color hoverEffectColor = new Color(3, 135, 255);
 	private JTextField idTextField;
 	
-	private Componente componenteElegido;
-	private Componente componenteASeleccinar;
-	private Componente componenteSeleccionado;
+	/*private Componente componenteElegido;
+	private Componente componenteASeleccionar;*/
+	private ComponentHolder componentHolder;
 
 	private Timer timer;
 	Cliente cliente;
@@ -87,8 +88,8 @@ public class ComprarComponente extends JDialog {
 	 * Create the dialog.
 	 */
 	public ComprarComponente(Componente componente1, Componente componente2) {
-		componenteSeleccionado = componente1;
-		componenteASeleccinar = componente2;
+		componentHolder = new ComponentHolder(componente1, componente2);
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ComprarComponente.class.getResource("/carrito.png")));
 		setTitle("Comprar Componente");
 		setResizable(false);
@@ -98,7 +99,6 @@ public class ComprarComponente extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		componenteElegido = componente1;
 		
 		{
 			JPanel panel = new JPanel();
@@ -216,18 +216,18 @@ public class ComprarComponente extends JDialog {
 				
 				panel.add(elegirBttn1);
 			
-			JLabel lblNewLabel = new JLabel("Intel Core i7-14700K");
-			lblNewLabel.setText(componenteElegido.getMarca() + " " + componenteElegido.getModelo());
-			lblNewLabel.setFont(new Font("Century Gothic", Font.BOLD, 24));
-			lblNewLabel.setBounds(348, 266, 436, 55);
-			panel.add(lblNewLabel);
+			JLabel componenteElegidoTitulo = new JLabel("Intel Core i7-14700K");
+			componenteElegidoTitulo.setText(componentHolder.getComponenteElegido().getMarca() + " " + componentHolder.getComponenteElegido().getModelo());
+			componenteElegidoTitulo.setFont(new Font("Century Gothic", Font.BOLD, 24));
+			componenteElegidoTitulo.setBounds(348, 266, 436, 55);
+			panel.add(componenteElegidoTitulo);
 			
-			JLabel precioLabel = new JLabel("$159.99");
-			precioLabel.setText(NumberFormat.getCurrencyInstance().format(componenteElegido.getPrecio()));
-			precioLabel.setForeground(Color.BLACK);
-			precioLabel.setFont(new Font("Century Gothic", Font.PLAIN, 24));
-			precioLabel.setBounds(348, 311, 125, 41);
-			panel.add(precioLabel);
+			JLabel compElegidoPrecioLabel = new JLabel("$159.99");
+			compElegidoPrecioLabel.setText(NumberFormat.getCurrencyInstance().format(componentHolder.getComponenteElegido().getPrecio()));
+			compElegidoPrecioLabel.setForeground(Color.BLACK);
+			compElegidoPrecioLabel.setFont(new Font("Century Gothic", Font.PLAIN, 24));
+			compElegidoPrecioLabel.setBounds(348, 311, 125, 41);
+			panel.add(compElegidoPrecioLabel);
 			
 			
 			JPanel panel_1 = new JPanel();
@@ -241,15 +241,15 @@ public class ComprarComponente extends JDialog {
 			componenteIcon1.setBounds(144, 13, 220, 220);
 			Image img = null;
 			
-			if ( componenteElegido instanceof MicroProcesador ) {
+			if ( componentHolder.getComponenteElegido() instanceof MicroProcesador ) {
 				img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
-			} else if ( componenteElegido instanceof Ram ) {
+			} else if ( componentHolder.getComponenteElegido() instanceof Ram ) {
 				img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
-			} else if ( componenteElegido instanceof GPU ) {
+			} else if ( componentHolder.getComponenteElegido() instanceof GPU ) {
 				img = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
-			} else if ( componenteElegido instanceof DiscoDuro ) {
+			} else if ( componentHolder.getComponenteElegido() instanceof DiscoDuro ) {
 				img = new ImageIcon(this.getClass().getResource("/hard-drive.png")).getImage();
-			} else if ( componenteElegido instanceof TarjetaMadre ) {
+			} else if ( componentHolder.getComponenteElegido() instanceof TarjetaMadre ) {
 				img = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
 			}
 			
@@ -274,18 +274,18 @@ public class ComprarComponente extends JDialog {
 			panel.add(componente1Panel);
 			componente1Panel.setLayout(null);
 			
-			JLabel disponible1Label = new JLabel("Disponibles:");
-			disponible1Label.setFont(new Font("Century Gothic", Font.BOLD, 24));
-			disponible1Label.setBounds(24, 353, 152, 41);
-			componente1Panel.add(disponible1Label);
+			JLabel disponibleElegidoLabel = new JLabel("Disponibles:");
+			disponibleElegidoLabel.setFont(new Font("Century Gothic", Font.BOLD, 24));
+			disponibleElegidoLabel.setBounds(24, 353, 152, 41);
+			componente1Panel.add(disponibleElegidoLabel);
 			
-			JLabel cantDisponibles1Label = new JLabel("");
-			cantDisponibles1Label.setBorder(new EmptyBorder(0, 10, 0, 10));
-			cantDisponibles1Label.setHorizontalAlignment(SwingConstants.TRAILING);
-			cantDisponibles1Label.setText(NumberFormat.getNumberInstance().format(componenteElegido.getCantDisponible()));
-			cantDisponibles1Label.setFont(new Font("Century Gothic", Font.PLAIN, 24));
-			cantDisponibles1Label.setBounds(188, 353, 122, 41);
-			componente1Panel.add(cantDisponibles1Label);
+			JLabel cantDisponiblesElegidoLabel = new JLabel("");
+			cantDisponiblesElegidoLabel.setBorder(new EmptyBorder(0, 10, 0, 10));
+			cantDisponiblesElegidoLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+			cantDisponiblesElegidoLabel.setText(NumberFormat.getNumberInstance().format(componentHolder.getComponenteElegido().getCantDisponible()));
+			cantDisponiblesElegidoLabel.setFont(new Font("Century Gothic", Font.PLAIN, 24));
+			cantDisponiblesElegidoLabel.setBounds(188, 353, 122, 41);
+			componente1Panel.add(cantDisponiblesElegidoLabel);
 			
 			
 			JButton comprarBttn = new JButton("Comprar");
@@ -384,7 +384,7 @@ public class ComprarComponente extends JDialog {
 							Tienda.getInstance();
 							int[] cantArticulos = {Integer.parseInt(cantComponentesSpn.getValue().toString())};
 							Factura newFactura = new FacturaComponente(cliente.getId(), "C-" + Tienda.getCodFactura(), 
-									componenteElegido.getPrecio(), cantArticulos, new ArrayList<Componente>(Arrays.asList(componenteElegido)));
+									componentHolder.getComponenteElegido().getPrecio(), cantArticulos, new ArrayList<Componente>(Arrays.asList(componentHolder.getComponenteElegido())));
 							
 							Tienda.getInstance().insertarFactura(newFactura);
 							cliente.addFactura(newFactura);
@@ -517,17 +517,17 @@ public class ComprarComponente extends JDialog {
 			textPaneComp2.setOpaque(false);
 			componente2Panel.add(textPaneComp2);
 			
-			JLabel label_1 = new JLabel("$499.99");
-			label_1.setText(NumberFormat.getCurrencyInstance().format(componente2.getPrecio()));
-			label_1.setFont(new Font("Century Gothic", Font.PLAIN, 24));
-			label_1.setBounds(22, 311, 436, 41);
-			componente2Panel.add(label_1);
+			JLabel precio2Label = new JLabel("$499.99");
+			precio2Label.setText(NumberFormat.getCurrencyInstance().format(componentHolder.getComponenteASeleccionar().getPrecio()));
+			precio2Label.setFont(new Font("Century Gothic", Font.PLAIN, 24));
+			precio2Label.setBounds(22, 311, 436, 41);
+			componente2Panel.add(precio2Label);
 			
-			JLabel label_2 = new JLabel("NVIDIA GeForce RTX 3070");
-			label_2.setText(componente2.getMarca() + " " + componente2.getModelo());
-			label_2.setFont(new Font("Century Gothic", Font.BOLD, 24));
-			label_2.setBounds(22, 266, 436, 55);
-			componente2Panel.add(label_2);
+			JLabel componente2Label = new JLabel("NVIDIA GeForce RTX 3070");
+			componente2Label.setText(componentHolder.getComponenteASeleccionar().getMarca() + " " + componentHolder.getComponenteASeleccionar().getModelo());
+			componente2Label.setFont(new Font("Century Gothic", Font.BOLD, 24));
+			componente2Label.setBounds(22, 266, 436, 55);
+			componente2Panel.add(componente2Label);
 			
 			JLabel disponible2Label = new JLabel("Disponibles:");
 			disponible2Label.setFont(new Font("Century Gothic", Font.BOLD, 24));
@@ -537,22 +537,38 @@ public class ComprarComponente extends JDialog {
 			JLabel cantDisponibles2Label = new JLabel("");
 			cantDisponibles2Label.setBorder(new EmptyBorder(0, 10, 0, 10));
 			cantDisponibles2Label.setHorizontalAlignment(SwingConstants.TRAILING);
-			cantDisponibles2Label.setText(NumberFormat.getNumberInstance().format(componente2.getCantDisponible()));
+			cantDisponibles2Label.setText(NumberFormat.getNumberInstance().format(componentHolder.getComponenteASeleccionar().getCantDisponible()));
 			cantDisponibles2Label.setFont(new Font("Century Gothic", Font.PLAIN, 24));
 			cantDisponibles2Label.setBounds(188, 353, 122, 41);
 			componente2Panel.add(cantDisponibles2Label);
 			
 			elegirBttn2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					cantComponentesSpn.setVisible(true);
+					comprarBttn.setVisible(true);
+					compararBttn.setVisible(true);
+					textPaneComp1Hide.start();
 					componente2PanelHide.start();
-					componenteElegido = componente2;
-					componenteASeleccinar = componente1;
-					updateComponentes(lblNewLabel, precioLabel, componenteIcon1, componenteIcon1, label_2, cantDisponibles2Label, label_1, componenteIcon2);
+					elegirBttn1Hide.start();
+					cantComponentesSpnShow.start();
+					comprarBttnShow.start();
+					compararBttnShow.start();
+					
+					WindowResizer windowResizerHide = new WindowResizer( (JDialog) SwingUtilities.getWindowAncestor(elegirBttn1),
+							873, 691, 0.8f, AnimationType.EASE_OUT);
+					
+					windowResizerHide.start();
+					
+					Componente temp = componentHolder.getComponenteElegido();
+					componentHolder.setComponenteElegido(componentHolder.getComponenteASeleccionar());
+					componentHolder.setComponenteASeleccionar(temp);
+					updateComponentes(componenteElegidoTitulo, cantDisponiblesElegidoLabel, componenteIcon1, componenteIcon1, componente2Label, cantDisponibles2Label, precio2Label, componenteIcon2);
+					cantComponentesSpn.setValue(new Integer(0));
 				}
 			});
 			elegirBttn1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					componenteElegido = componente1;
+					cantComponentesSpn.setValue(new Integer(0));
 					cantComponentesSpn.setVisible(true);
 					comprarBttn.setVisible(true);
 					compararBttn.setVisible(true);
@@ -590,29 +606,31 @@ public class ComprarComponente extends JDialog {
 				componente1Panel.add(ofertaLabel);
 			}*/
 			
-			
+			updateComponentes(componenteElegidoTitulo, cantDisponiblesElegidoLabel, componenteIcon1, componenteIcon1, componente2Label, cantDisponibles2Label, precio2Label, componenteIcon2);
+			componente1 = componentHolder.getComponenteElegido();
+			componente2 = componentHolder.getComponenteASeleccionar();
 		}
 		
 		
 		
 	}
-	private void updateComponentes(JLabel lblNewLabel, JLabel cantDisponibles1Label, JLabel precioLabel, JLabel componenteIcon1, JLabel label_2,
+	private void updateComponentes(JLabel lblNewLabel, JLabel cantDisponiblesElegidoLabel, JLabel precioLabel, JLabel componenteIcon1, JLabel label_2,
 			JLabel cantDisponibles2Label, JLabel label_1, JLabel componenteIcon2) {
-		lblNewLabel.setText(componenteElegido.getMarca() + " " + componenteElegido.getModelo());
-		cantDisponibles1Label.setText(NumberFormat.getNumberInstance().format(componenteElegido.getCantDisponible()));
-		precioLabel.setText(NumberFormat.getCurrencyInstance().format(componenteElegido.getPrecio()));
+		lblNewLabel.setText(componentHolder.getComponenteElegido().getMarca() + " " + componentHolder.getComponenteElegido().getModelo());
+		cantDisponiblesElegidoLabel.setText(NumberFormat.getNumberInstance().format(componentHolder.getComponenteElegido().getCantDisponible()));
+		precioLabel.setText(NumberFormat.getCurrencyInstance().format(componentHolder.getComponenteElegido().getPrecio()));
 		
 		Image img = null;
 		
-		if ( componenteElegido instanceof MicroProcesador ) {
+		if ( componentHolder.getComponenteElegido() instanceof MicroProcesador ) {
 			img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
-		} else if ( componenteElegido instanceof Ram ) {
+		} else if ( componentHolder.getComponenteElegido() instanceof Ram ) {
 			img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
-		} else if ( componenteElegido instanceof GPU ) {
+		} else if ( componentHolder.getComponenteElegido() instanceof GPU ) {
 			img = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
-		} else if ( componenteElegido instanceof DiscoDuro ) {
+		} else if ( componentHolder.getComponenteElegido() instanceof DiscoDuro ) {
 			img = new ImageIcon(this.getClass().getResource("/hard-drive.png")).getImage();
-		} else if ( componenteElegido instanceof TarjetaMadre ) {
+		} else if ( componentHolder.getComponenteElegido() instanceof TarjetaMadre ) {
 			img = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
 		}
 		
@@ -620,25 +638,27 @@ public class ComprarComponente extends JDialog {
 		componenteIcon1.setIcon(new ImageIcon(scaledImg));
 		
 		
-		label_2.setText(componenteASeleccinar.getMarca() + " " + componenteASeleccinar.getModelo());
-		cantDisponibles2Label.setText(NumberFormat.getNumberInstance().format(componenteASeleccinar.getCantDisponible()));
-		label_1.setText(NumberFormat.getCurrencyInstance().format(componenteASeleccinar.getPrecio()));
+		label_2.setText(componentHolder.getComponenteASeleccionar().getMarca() + " " + componentHolder.getComponenteASeleccionar().getModelo());
+		cantDisponibles2Label.setText(NumberFormat.getNumberInstance().format(componentHolder.getComponenteASeleccionar().getCantDisponible()));
+		label_1.setText(NumberFormat.getCurrencyInstance().format(componentHolder.getComponenteASeleccionar().getPrecio()));
 		
 		Image img2 = null;
 		
-		if ( componenteASeleccinar instanceof MicroProcesador ) {
+		if ( componentHolder.getComponenteASeleccionar() instanceof MicroProcesador ) {
 			img2 = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
-		} else if ( componenteASeleccinar instanceof Ram ) {
+		} else if ( componentHolder.getComponenteASeleccionar() instanceof Ram ) {
 			img2 = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
-		} else if ( componenteASeleccinar instanceof GPU ) {
+		} else if ( componentHolder.getComponenteASeleccionar() instanceof GPU ) {
 			img2 = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
-		} else if ( componenteASeleccinar instanceof DiscoDuro ) {
+		} else if ( componentHolder.getComponenteASeleccionar() instanceof DiscoDuro ) {
 			img2 = new ImageIcon(this.getClass().getResource("/hard-drive.png")).getImage();
-		} else if ( componenteASeleccinar instanceof TarjetaMadre ) {
+		} else if ( componentHolder.getComponenteASeleccionar() instanceof TarjetaMadre ) {
 			img2 = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
 		}
 		
 		Image scaledImg2 = img2.getScaledInstance(componenteIcon2.getHeight(), componenteIcon2.getWidth(), Image.SCALE_SMOOTH);
 		componenteIcon2.setIcon(new ImageIcon(scaledImg2));
+		
+		
 	}
 }

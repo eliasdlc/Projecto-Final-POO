@@ -73,16 +73,16 @@ public class Principal extends JFrame {
 	 * Es temporal!
 	 * */
 	
-	Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, 0, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-	Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 0, 3.6f, "LGA1200", 8);
-	Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, 0, "16GB", "DDR4");
-	Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, 0, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
-	Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 0, 1000.0f, 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-	Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 0, 3.8f, "AM4", 8);
-	Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, 0, "32GB", "DDR4");
-	Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, 0, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
-	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 0, 1000.0f, 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, 0, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
+	Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
+	Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
+	Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
+	Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 3.8f, "AM4", 8);
+	Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
+	Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
+	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
 	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica, disco, memoria2, tarjetaGrafica2, disco2, tarjetaMadre2));
 	
 	//
@@ -120,6 +120,12 @@ public class Principal extends JFrame {
 	private Timer inertiaTimer;
 	private int lastScrollValue;
 	private int scrollVelocity;
+	
+	private boolean menuCompuAbierto = false;
+	private boolean menuCompoAbierto = false;
+	private boolean menuAdminAbierto = false;
+	private boolean menuClientAbierto = false;
+	private boolean menuOpcAbierto = false;
 
 	/**
 	 * Launch the application.
@@ -243,45 +249,17 @@ public class Principal extends JFrame {
 			
 			
 			JButton componentesBttn = new JButton("Componentes");
-			componentesBttn.addActionListener(new ActionListener() {
-				
-				public void actionPerformed(ActionEvent arg0) {
-					pressed = !pressed;
-					if ( pressed ) {
-						componentesBttn.setBackground(HoverEffevtColor);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
-					//panelComponentesShow.start();
-					panelComponentes.setVisible(true);
-					listarComponentesBttn.setVisible(true);
-					regComponentesBttn.setVisible(true);
-					} else {
-						componentesBttn.setBackground(ButtonColor);
-					componentesBttn.setForeground(Color.white);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
-					//panelComponentesHide.start();
-					}
-				}
-			});
-			/*componentesBttn.addMouseListener(new MouseAdapter() {
+			componentesBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					componentesBttn.setBackground(HoverEffevtColor);
 					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
-					//panelComponentesShow.start();
-					panelComponentes.setVisible(true);
-					listarComputadoraBttn.setVisible(true);
-					regComputadoraBttn.setVisible(true);
 				}
 				public void mouseExited(MouseEvent arg0) {
 					componentesBttn.setBackground(ButtonColor);
-					componentesBttn.setForeground(Color.white);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
-					//panelComponentesHide.start();
-					/*panelComponentes.setVisible(false);
-					listarComputadoraBttn.setVisible(false);
-					regComputadoraBttn.setVisible(false);
+					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
 				}
-			});*/
+			});
 			componentesBttn.setFocusPainted(false);
 			componentesBttn.setBackground(ButtonColor);
 			componentesBttn.setForeground(Color.white);	
@@ -298,6 +276,14 @@ public class Principal extends JFrame {
 			regComponentesBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
 			regComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
 			regComponentesBttn.setFocusPainted(false);
+			regComponentesBttn.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        RegComponentes registro = new RegComponentes();
+			        registro.setVisible(true);
+			        cerrarMenuComponentes(panelComponentesHide);
+			    }
+			});
 			regComponentesBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -325,6 +311,14 @@ public class Principal extends JFrame {
 			listarComponentesBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
 			listarComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
 			listarComponentesBttn.setFocusPainted(false);
+			listarComponentesBttn.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        ListComponentes listado = new ListComponentes();
+			        listado.setVisible(true);
+			        cerrarMenuComponentes(panelComponentesHide);
+			    }
+			});
 			listarComponentesBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -342,109 +336,22 @@ public class Principal extends JFrame {
 			});
 			panelComponentes.add(listarComponentesBttn);
 			
-			MouseAdapter mouseAdapter = new MouseAdapter() {
-			    @Override
-			    public void mouseEntered(MouseEvent e) {
-			    	
-			    	componentesBttn.setBackground(HoverEffevtColor);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
-			        panelComponentes.setVisible(true);
-			        listarComponentesBttn.setVisible(true);
-			        regComponentesBttn.setVisible(true);
-			        panelComponentesShow.start();
-			        panelComputadorasHide.start();
-			    }
-			    public void mouseExited(MouseEvent e) {
-			    	if (!panelComponentes.isShowing() || !regComponentesBttn.isShowing() || !listarComponentesBttn.isShowing()) {
-			            // Si ninguno de estos componentes se esta mostrando, no se puede leer la posicion del mouse
-			            panelComponentesHide.start();
-			            componentesBttn.setBackground(ButtonColor);
-						componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
-						regComponentesBttn.setBackground(ButtonColor);
-						regComponentesBttn.setForeground(Color.white);
-						regComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
-						listarComponentesBttn.setBackground(ButtonColor);
-						listarComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+			panelComponentes.setVisible(false);
+		    regComponentesBttn.setVisible(false);
+		    listarComponentesBttn.setVisible(false);
 						
-			        } else {
-			        	pressed = false;
-				        Point mousePosition = e.getPoint();
-				        SwingUtilities.convertPointToScreen(mousePosition, (Component) e.getSource());
-				        Point panelPosition = panelComponentes.getLocationOnScreen();
-				        Point btnRegPosition = regComponentesBttn.getLocationOnScreen();
-				        Point btnListarPosition = listarComponentesBttn.getLocationOnScreen();
-				        
-				        if (!isMouseOverComponent(mousePosition, panelPosition, panelComponentes) &&
-				            !isMouseOverComponent(mousePosition, btnRegPosition, regComponentesBttn) &&
-				            !isMouseOverComponent(mousePosition, btnListarPosition, listarComponentesBttn)) {
-				        	componentesBttn.setBackground(ButtonColor);
-							componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
-							regComponentesBttn.setBackground(ButtonColor);
-							regComponentesBttn.setForeground(Color.white);
-							regComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
-							listarComponentesBttn.setBackground(ButtonColor);
-							listarComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
-				            panelComponentesHide.start();
-
-				        }
-			        }
-			    }
-			};
-			
-			regComponentesBttn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					 Point offScreenPoint = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
-				        MouseEvent mouseEvent = new MouseEvent(
-				            regComponentesBttn, 
-				            MouseEvent.MOUSE_EXITED, 
-				            System.currentTimeMillis(), 
-				            0, 
-				            offScreenPoint.x, 
-				            offScreenPoint.y, 
-				            0, 
-				            false
-				        );
-						
-					mouseAdapter.mouseExited(mouseEvent);
-					panelComponentes.setVisible(false);
-			        listarComponentesBttn.setVisible(false);
-			        regComponentesBttn.setVisible(false);
+			componentesBttn.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if ( !menuCompoAbierto ) {
+						// Abrir el menu
+				        abrirMenuComponentes(panelComponentesShow, panelComputadorasHide);
+					} else {
+						cerrarMenuComponentes(panelComponentesHide);
+					}
 					
-					RegComponentes registro = new RegComponentes();
-					registro.setVisible(true);
-				
 				}
 			});
-			
-			listarComponentesBttn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					 Point offScreenPoint = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
-				        MouseEvent mouseEvent = new MouseEvent(
-				            regComponentesBttn, 
-				            MouseEvent.MOUSE_EXITED, 
-				            System.currentTimeMillis(), 
-				            0, 
-				            offScreenPoint.x, 
-				            offScreenPoint.y, 
-				            0, 
-				            false
-				        );
-						
-					mouseAdapter.mouseExited(mouseEvent);
-					panelComponentes.setVisible(false);
-			        listarComponentesBttn.setVisible(false);
-			        regComponentesBttn.setVisible(false);
-					
-					ListComponentes listar = new ListComponentes();
-					listar.setVisible(true);
-				
-				}
-			});
-			
-			componentesBttn.addMouseListener(mouseAdapter);
-			panelComponentes.addMouseListener(mouseAdapter);
-			regComponentesBttn.addMouseListener(mouseAdapter);
-			listarComponentesBttn.addMouseListener(mouseAdapter);
 			
 			btnComputadoras = new JButton("Computadoras");
 			btnComputadoras.addMouseListener(new MouseAdapter() {
@@ -460,6 +367,7 @@ public class Principal extends JFrame {
 				}
 			});
 			btnComputadoras.setBackground(ButtonColor);
+			btnComputadoras.setFocusPainted(false);
 			btnComputadoras.setForeground(Color.white);
 			btnComputadoras.setHorizontalAlignment(SwingConstants.LEADING);
 			btnComputadoras.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -474,6 +382,16 @@ public class Principal extends JFrame {
 			regComputadorasBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
 			regComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
 			regComputadorasBttn.setFocusPainted(false);
+			/*regComputadorasBttn.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        // Abrir la ventana de registro de computadoras
+			        RegComputadora regComputadora = new RegComputadora();
+			        regComputadora.setVisible(true);
+			        // Opcional: cerrar el menú después de abrir la ventana
+			        cerrarMenuComputadoras();
+			    }
+			});*/
 			regComputadorasBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -483,9 +401,6 @@ public class Principal extends JFrame {
 					regComputadorasBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 10));
 				}
 				public void mouseExited(MouseEvent arg0) {
-					btnComputadoras.setBackground(ButtonColor);
-					btnComputadoras.setForeground(Color.white);
-					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
 					regComputadorasBttn.setBackground(ButtonColor);
 					regComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
 				}
@@ -501,6 +416,14 @@ public class Principal extends JFrame {
 			listarComputadorasBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
 			listarComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
 			listarComputadorasBttn.setFocusPainted(false);
+			listarComputadorasBttn.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        ListComputadoras listComputadoras = new ListComputadoras();
+			        listComputadoras.setVisible(true);
+			        cerrarMenuComputadoras(panelComponentesHide);
+			    }
+			});
 			listarComputadorasBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -510,79 +433,35 @@ public class Principal extends JFrame {
 					listarComputadorasBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 10));
 				}
 				public void mouseExited(MouseEvent arg0) {
-					btnComputadoras.setBackground(ButtonColor);
-					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					/*btnComputadoras.setBackground(ButtonColor);
+					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));*/
 					listarComputadorasBttn.setBackground(ButtonColor);
 					listarComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
 				}
 			});
 			panelComputadoras.add(listarComputadorasBttn);
+
+			panelComputadoras.setVisible(false);
+			regComputadorasBttn.setVisible(false);
+		    listarComputadorasBttn.setVisible(false);
 			
-			MouseAdapter mouseAdapterComp = new MouseAdapter() {
-			    @Override
-			    public void mouseEntered(MouseEvent e) {
-			        panelComputadoras.setVisible(true);
-			        regComponentesBttn.setVisible(true);
-			        listarComponentesBttn.setVisible(true);
-			        panelComputadorasShow.start();
-			        panelComponentesHide.start();
-			    }
-
-			    @Override
-			    public void mouseExited(MouseEvent e) {
-			    	if (!panelComputadoras.isShowing() || !listarComponentesBttn.isShowing() || !regComponentesBttn.isShowing()) {
-			            // Si ninguno de estos componentes se esta mostrando, no se puede leer la posicion del mouse
-			            panelComputadorasHide.start();
-			        } else {
-
-				        Point mousePosition = e.getPoint();
-				        SwingUtilities.convertPointToScreen(mousePosition, (Component) e.getSource());
-				        Point panelCompPosition = panelComputadoras.getLocationOnScreen();
-				        Point btnComprarComponentePosition = listarComponentesBttn.getLocationOnScreen();
-				        Point btnComprarComputadoraPosition = regComponentesBttn.getLocationOnScreen();
-
-				        if (!isMouseOverComponent(mousePosition, panelCompPosition, panelComputadoras) &&
-				            !isMouseOverComponent(mousePosition, btnComprarComponentePosition, listarComponentesBttn) &&
-				            !isMouseOverComponent(mousePosition, btnComprarComputadoraPosition, regComponentesBttn)) {
-				        	panelComputadorasHide.start();
-				        }
-			        }
-			    }
-			};
-
-			listarComputadorasBttn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					 Point offScreenPoint = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
-				        MouseEvent mouseEvent = new MouseEvent(
-				            listarComponentesBttn, 
-				            MouseEvent.MOUSE_EXITED, 
-				            System.currentTimeMillis(), 
-				            0, 
-				            offScreenPoint.x, 
-				            offScreenPoint.y, 
-				            0, 
-				            false
-				        );
-
-					mouseAdapterComp.mouseExited(mouseEvent);
+			btnComputadoras.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if ( !menuCompuAbierto ) {
+						// Abrir el menu
+						abrirMenuComputadoras(panelComputadorasShow, panelComponentesHide);
+					} else {
+						cerrarMenuComputadoras(panelComputadorasHide);
+					}
 					
-					panelComputadoras.setVisible(false);
-		            regComponentesBttn.setVisible(false);
-		            listarComponentesBttn.setVisible(false);
-		            
-		            ListComputadoras listar = new ListComputadoras();
-		            listar.setVisible(true);
-
 				}
 			});
-
-			btnComputadoras.addMouseListener(mouseAdapterComp);
-			panelComputadoras.addMouseListener(mouseAdapterComp);
-			/*listarComputadoraBttn.addMouseListener(mouseAdapterComp);
-			regComputadoraBttn.addMouseListener(mouseAdapterComp);*/
+			
+			
 			
 			btnAdministracion = new JButton("Administracion");
-			/*btnAdministracion.addMouseListener(new MouseAdapter() {
+			btnAdministracion.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					btnAdministracion.setBackground(HoverEffevtColor);
@@ -593,7 +472,7 @@ public class Principal extends JFrame {
 					btnAdministracion.setForeground(Color.white);
 					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
 				}
-			});*/
+			});
 			btnAdministracion.setBackground(ButtonColor);
 			btnAdministracion.setForeground(Color.white);
 			btnAdministracion.setHorizontalAlignment(SwingConstants.LEADING);
@@ -603,7 +482,7 @@ public class Principal extends JFrame {
 			panel_1.add(btnAdministracion);
 			
 			btnCliente = new JButton("Cliente");
-			/*btnCliente.addMouseListener(new MouseAdapter() {
+			btnCliente.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					btnCliente.setBackground(HoverEffevtColor);
@@ -615,7 +494,7 @@ public class Principal extends JFrame {
 					btnCliente.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
 					
 				}
-			});*/
+			});
 			btnCliente.setBackground(ButtonColor);
 			btnCliente.setForeground(Color.white);
 			btnCliente.setHorizontalAlignment(SwingConstants.LEADING);
@@ -625,7 +504,7 @@ public class Principal extends JFrame {
 			panel_1.add(btnCliente);
 			
 			bttnOpciones = new JButton("Opciones");
-			/*bttnOpciones.addMouseListener(new MouseAdapter() {
+			bttnOpciones.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					bttnOpciones.setBackground(HoverEffevtColor);
@@ -636,7 +515,7 @@ public class Principal extends JFrame {
 					bttnOpciones.setForeground(Color.white);
 					bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
 				}
-			});*/
+			});
 			bttnOpciones.setBackground(ButtonColor);
 			bttnOpciones.setForeground(Color.white);
 			bttnOpciones.setHorizontalAlignment(SwingConstants.LEADING);
@@ -710,6 +589,61 @@ public class Principal extends JFrame {
 			
 
 		}
+	}
+	
+	private void abrirMenuComponentes(MoveToXY panelComponentesShow, MoveToXY panelComputadorasHide) {
+		panelComponentes.setVisible(true);
+	    listarComponentesBttn.setVisible(true);
+	    regComponentesBttn.setVisible(true);
+	    panelComponentesShow.start();
+	    panelComputadorasHide.start();
+	    menuCompoAbierto = true;
+	    menuCompuAbierto = false;
+	}
+
+	private void cerrarMenuComponentes(MoveToXY panelComponentesHide) {
+		panelComponentesHide.start();
+		
+		Timer timer = new Timer(750, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	panelComponentes.setVisible(false);
+        	    regComponentesBttn.setVisible(false);
+        	    listarComponentesBttn.setVisible(false);
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+		
+	    
+		menuCompoAbierto = false;
+	}
+	
+	private void abrirMenuComputadoras(MoveToXY panelComputadorasShow, MoveToXY panelComponentesHide) {
+	    panelComputadoras.setVisible(true);
+	    regComponentesBttn.setVisible(true);
+	    listarComponentesBttn.setVisible(true);
+	    panelComputadorasShow.start();
+	    panelComponentesHide.start();
+	    menuCompuAbierto = true;
+	    menuCompoAbierto = false;
+	}
+
+	private void cerrarMenuComputadoras(MoveToXY panelComputadorasHide) {
+	    panelComputadorasHide.start();
+	    Timer timer = new Timer(750, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	panelComputadoras.setVisible(false);
+        	    regComponentesBttn.setVisible(false);
+        	    listarComponentesBttn.setVisible(false);
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+	    menuCompuAbierto = false;
 	}
 	
 	private void startInertiaAnimation(final JScrollBar scrollBar) {

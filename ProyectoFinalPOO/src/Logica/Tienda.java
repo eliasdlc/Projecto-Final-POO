@@ -132,7 +132,7 @@ public class Tienda {
 	}
 	
 	public Componente searchComponenteMasVendido() {
-		Componente componenteMasVendido = new Componente(null, null, null, 0, 0, 0, 0); // Poner que el componente al menos tenga 0 unidadades vendidas
+		Componente componenteMasVendido = new Componente(null, null, null, 0, 0, 0); // Poner que el componente al menos tenga 0 unidadades vendidas
 		
 		for ( int i = 0; i < misComponentes.size(); i++ ) {
 			if ( misComponentes.get(i).getCantVendidos() > componenteMasVendido.getCantVendidos() ) {
@@ -160,7 +160,7 @@ public class Tienda {
 	public ArrayList<Componente> getListComponentesMasVendidos(){
 		ArrayList<Componente> componentesMasVendidos = new ArrayList<>();
 		
-		Componente componenteMasFamoso = new Componente(null, null, null, 0, 1, 0, 0);
+		Componente componenteMasFamoso = new Componente(null, null, null, 0, 1, 0);
 		
 		for ( Componente comp : misComponentes ) {
 			if ( comp.getCantVendidos() > componenteMasFamoso.getCantVendidos() ) {
