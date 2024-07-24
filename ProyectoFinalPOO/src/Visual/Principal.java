@@ -622,8 +622,8 @@ public class Principal extends JFrame {
 	
 	private void abrirMenuComputadoras(MoveToXY panelComputadorasShow, MoveToXY panelComponentesHide) {
 	    panelComputadoras.setVisible(true);
-	    regComponentesBttn.setVisible(true);
-	    listarComponentesBttn.setVisible(true);
+	    regComputadorasBttn.setVisible(true);
+	    listarComputadorasBttn.setVisible(true);
 	    panelComputadorasShow.start();
 	    panelComponentesHide.start();
 	    menuCompuAbierto = true;
