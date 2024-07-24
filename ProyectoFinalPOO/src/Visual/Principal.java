@@ -176,7 +176,7 @@ public class Principal extends JFrame {
 			MoveToXY panelComponentesHide = new MoveToXY(panelComponentes, 0, panelComponentes.getY(), 0.5f, AnimationType.EASE_OUT);
 			MoveToXY panelComponentesShow = new MoveToXY(panelComponentes, 332, panelComponentes.getY(), 0.5f, AnimationType.EASE_IN);
 			panelComponentes.setBackground(ButtonColor);
-			panelComponentes.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+			panelComponentes.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 			panel.add(panelComponentes);
 			
 			panelComputadoras = new JPanel();
@@ -186,7 +186,7 @@ public class Principal extends JFrame {
 			panelComputadoras.setVisible(false);
 			panelComputadoras.setBackground(ButtonColor);
 			panelComputadoras.setLayout(null);
-			panelComputadoras.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+			panelComputadoras.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 			panel.add(panelComputadoras);
 			
 			
@@ -197,26 +197,26 @@ public class Principal extends JFrame {
 			JPanel masCompradosPanel = new JPanel();
 			masCompradosPanel.setBackground(PrimaryC);
 			masCompradosPanel.setBounds(354, 0, 1560, 1040);
-			masCompradosPanel.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			masCompradosPanel.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			masCompradosPanel.setFocusable(true);
 			panel.add(masCompradosPanel);
 			masCompradosPanel.setLayout(null);
 			
 			/*JPanel panel_2 = new JPanel();
 			panel_2.setBounds(12, 12, 1536, 374);
-			panel_2.setBorder(new RoundedBorder(Color.white, 1, 10));
+			panel_2.setBorder(new RoundedBorder(Color.white, 1, 20));
 			panel_2.setBackground(Color.white);
 			masCompradosPanel.add(panel_2);*/
 			
 			scrollPane = new JScrollPane();
-			scrollPane.setBorder(new RoundedBorder(Color.white, 1, 10));
+			scrollPane.setBorder(new RoundedBorder(Color.white, 1, 20));
 			scrollPane.setBounds(12, 12, 1536, 400);
 			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 			masCompradosPanel.add(scrollPane);
 
 			innerPanel = new JPanel();
-			innerPanel.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			innerPanel.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			innerPanel.setBackground(PrimaryC);
 			scrollPane.setViewportView(innerPanel);
 			
@@ -226,7 +226,7 @@ public class Principal extends JFrame {
 			searchField.setBackground(ThirdC);
 			searchField.setForeground(Color.black);
 			searchField.setFont(new Font("Tahoma", Font.PLAIN, 18));
-			RoundedBorder roundedBorder = new RoundedBorder(Color.white, 1, 10);
+			RoundedBorder roundedBorder = new RoundedBorder(Color.white, 1, 20);
 			EmptyBorder emptyBorder = new EmptyBorder(0, 80, 0, 10);
 			CompoundBorder compoundBorder = new CompoundBorder(roundedBorder, emptyBorder);
 			searchField.setBorder(compoundBorder);
@@ -253,11 +253,11 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					componentesBttn.setBackground(HoverEffevtColor);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					componentesBttn.setBackground(ButtonColor);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 			});
 			componentesBttn.setFocusPainted(false);
@@ -266,7 +266,7 @@ public class Principal extends JFrame {
 			componentesBttn.setFont(new Font("Tahoma", Font.BOLD, 24));
 			componentesBttn.setHorizontalAlignment(SwingConstants.LEADING);
 			componentesBttn.setBounds(12, 198, 332, 76);
-			componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+			componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 			panel_1.add(componentesBttn);
 			
 			regComponentesBttn = new JButton("Reg. Componente");
@@ -274,7 +274,7 @@ public class Principal extends JFrame {
 			regComponentesBttn.setBackground(ButtonColor);
 			regComponentesBttn.setForeground(Color.WHITE);
 			regComponentesBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
-			regComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+			regComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 			regComponentesBttn.setFocusPainted(false);
 			regComponentesBttn.addActionListener(new ActionListener() {
 			    @Override
@@ -288,16 +288,16 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					componentesBttn.setBackground(HoverEffevtColor);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 					regComponentesBttn.setBackground(HoverEffevtColor);
-					regComponentesBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 10));
+					regComponentesBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					componentesBttn.setBackground(ButtonColor);
 					componentesBttn.setForeground(Color.white);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 					regComponentesBttn.setBackground(ButtonColor);
-					regComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+					regComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 				}
 			});
 			panelComponentes.setLayout(null);
@@ -309,7 +309,7 @@ public class Principal extends JFrame {
 			listarComponentesBttn.setBackground(ButtonColor);
 			listarComponentesBttn.setForeground(Color.WHITE);
 			listarComponentesBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
-			listarComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+			listarComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 			listarComponentesBttn.setFocusPainted(false);
 			listarComponentesBttn.addActionListener(new ActionListener() {
 			    @Override
@@ -323,15 +323,15 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					componentesBttn.setBackground(HoverEffevtColor);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 					listarComponentesBttn.setBackground(HoverEffevtColor);
-					listarComponentesBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 10));
+					listarComponentesBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					componentesBttn.setBackground(ButtonColor);
-					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 					listarComponentesBttn.setBackground(ButtonColor);
-					listarComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+					listarComponentesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 				}
 			});
 			panelComponentes.add(listarComponentesBttn);
@@ -358,11 +358,11 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					btnComputadoras.setBackground(HoverEffevtColor);
-					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					btnComputadoras.setBackground(ButtonColor);
-					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 
 				}
 			});
@@ -371,7 +371,7 @@ public class Principal extends JFrame {
 			btnComputadoras.setForeground(Color.white);
 			btnComputadoras.setHorizontalAlignment(SwingConstants.LEADING);
 			btnComputadoras.setFont(new Font("Tahoma", Font.BOLD, 24));
-			btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+			btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 			btnComputadoras.setBounds(12, 287, 332, 76);
 			panel_1.add(btnComputadoras);
 			
@@ -380,7 +380,7 @@ public class Principal extends JFrame {
 			regComputadorasBttn.setBackground(ButtonColor);
 			regComputadorasBttn.setForeground(Color.WHITE);
 			regComputadorasBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
-			regComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+			regComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 			regComputadorasBttn.setFocusPainted(false);
 			/*regComputadorasBttn.addActionListener(new ActionListener() {
 			    @Override
@@ -396,13 +396,13 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					btnComputadoras.setBackground(HoverEffevtColor);
-					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 					regComputadorasBttn.setBackground(HoverEffevtColor);
-					regComputadorasBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 10));
+					regComputadorasBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					regComputadorasBttn.setBackground(ButtonColor);
-					regComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+					regComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 				}
 			});
 			panelComputadoras.setLayout(null);
@@ -414,7 +414,7 @@ public class Principal extends JFrame {
 			listarComputadorasBttn.setBackground(ButtonColor);
 			listarComputadorasBttn.setForeground(Color.WHITE);
 			listarComputadorasBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
-			listarComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+			listarComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 			listarComputadorasBttn.setFocusPainted(false);
 			listarComputadorasBttn.addActionListener(new ActionListener() {
 			    @Override
@@ -428,15 +428,15 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					btnComputadoras.setBackground(HoverEffevtColor);
-					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 					listarComputadorasBttn.setBackground(HoverEffevtColor);
-					listarComputadorasBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 10));
+					listarComputadorasBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					/*btnComputadoras.setBackground(ButtonColor);
-					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));*/
+					btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));*/
 					listarComputadorasBttn.setBackground(ButtonColor);
-					listarComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+					listarComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 				}
 			});
 			panelComputadoras.add(listarComputadorasBttn);
@@ -465,19 +465,19 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					btnAdministracion.setBackground(HoverEffevtColor);
-					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					btnAdministracion.setBackground(ButtonColor);
 					btnAdministracion.setForeground(Color.white);
-					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 			});
 			btnAdministracion.setBackground(ButtonColor);
 			btnAdministracion.setForeground(Color.white);
 			btnAdministracion.setHorizontalAlignment(SwingConstants.LEADING);
 			btnAdministracion.setFont(new Font("Tahoma", Font.BOLD, 24));
-			btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+			btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 			btnAdministracion.setBounds(12, 376, 332, 76);
 			panel_1.add(btnAdministracion);
 			
@@ -486,12 +486,12 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					btnCliente.setBackground(HoverEffevtColor);
-					btnCliente.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnCliente.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					btnCliente.setBackground(ButtonColor);
 					btnCliente.setForeground(Color.white);
-					btnCliente.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					btnCliente.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 					
 				}
 			});
@@ -499,7 +499,7 @@ public class Principal extends JFrame {
 			btnCliente.setForeground(Color.white);
 			btnCliente.setHorizontalAlignment(SwingConstants.LEADING);
 			btnCliente.setFont(new Font("Tahoma", Font.BOLD, 24));
-			btnCliente.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+			btnCliente.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 			btnCliente.setBounds(12, 465, 332, 76);
 			panel_1.add(btnCliente);
 			
@@ -508,19 +508,19 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					bttnOpciones.setBackground(HoverEffevtColor);
-					bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					bttnOpciones.setBackground(ButtonColor);
 					bttnOpciones.setForeground(Color.white);
-					bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+					bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				}
 			});
 			bttnOpciones.setBackground(ButtonColor);
 			bttnOpciones.setForeground(Color.white);
 			bttnOpciones.setHorizontalAlignment(SwingConstants.LEADING);
 			bttnOpciones.setFont(new Font("Tahoma", Font.BOLD, 24));
-			bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+			bttnOpciones.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 			bttnOpciones.setBounds(12, 936, 332, 76);
 			panel_1.add(bttnOpciones);
 			
@@ -719,7 +719,7 @@ public class Principal extends JFrame {
 			JPanel newPanel = new JPanel();			
 
 			newPanel.setLayout(null);
-			newPanel.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+			newPanel.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 			newPanel.setBackground(SecondaryC);
 			newPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 			newPanel.setBounds(posX, PANEL_GAP, PANEL_WIDTH, PANEL_HEIGHT);
@@ -772,7 +772,7 @@ public class Principal extends JFrame {
 			descripcionPane.setBackground(Color.white);
 			descripcionPane.setForeground(Color.black);
 			
-			//descripcionPane.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 1, 10), new EmptyBorder(10, 10, 10, 10)));
+			//descripcionPane.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 1, 20), new EmptyBorder(10, 10, 10, 10)));
 			//descripcion.setBorder(new EmptyBorder(10, 10, 10, 10));
 			descripcionPane.setOpaque(false);
 			descripcionPane.setBounds(185, 65, 150, 150);
@@ -784,11 +784,11 @@ public class Principal extends JFrame {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					bttnComprar.setBackground(AccentHoverColor);
-					bttnComprar.setBorder(new RoundedBorder(AccentHoverColor, 1, 10));
+					bttnComprar.setBorder(new RoundedBorder(AccentHoverColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					bttnComprar.setBackground(AccentColor);
-					bttnComprar.setBorder(new RoundedBorder(AccentColor, 1, 10));
+					bttnComprar.setBorder(new RoundedBorder(AccentColor, 1, 20));
 				}
 			});
 			bttnComprar.addActionListener(new ActionListener() {
@@ -802,14 +802,14 @@ public class Principal extends JFrame {
 			bttnComprar.setFont(new Font("Century Gothic", Font.BOLD, 20));
 			bttnComprar.setBackground(AccentColor);
 			bttnComprar.setForeground(Color.white);
-			bttnComprar.setBorder(new RoundedBorder(AccentColor, 1, 10));
+			bttnComprar.setBorder(new RoundedBorder(AccentColor, 1, 20));
 			bttnComprar.setBounds(15, 285, 320, 50);
 			newPanel.add(bttnComprar);
 			
 			JPanel precioPanel = new JPanel();
 			precioPanel.setBounds(15, 230, 320, 100);
 			precioPanel.setBackground(ThirdC);
-			precioPanel.setBorder(new RoundedBorder(ThirdC, 1, 10));
+			precioPanel.setBorder(new RoundedBorder(ThirdC, 1, 20));
 			newPanel.add(precioPanel);
 			
 		}

@@ -97,18 +97,18 @@ public class PopUpError extends JDialog {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					okBttn.setBackground(hoverEffectColor);
-					okBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					okBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					okBttn.setBackground(PrimaryC);
-					okBttn.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+					okBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 				}
 			});
 			
 			okBttn.setForeground(Color.WHITE);
 			okBttn.setFont(new Font("Century Gothic", Font.BOLD, 26));
 			okBttn.setBackground(PrimaryC);
-			okBttn.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			okBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			okBttn.setFocusPainted(false);
 			okBttn.setBounds(131, 193, 188, 54); 
 			
@@ -119,11 +119,11 @@ public class PopUpError extends JDialog {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					cancelarBttn.setForeground(hoverEffectColor);
-					cancelarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					cancelarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					cancelarBttn.setForeground(PrimaryC);
-					cancelarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+					cancelarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 				}
 			});
 			cancelarBttn.addActionListener(new ActionListener() {
@@ -134,7 +134,7 @@ public class PopUpError extends JDialog {
 			cancelarBttn.setForeground(PrimaryC);
 			cancelarBttn.setFont(new Font("Century Gothic", Font.BOLD, 26));
 			cancelarBttn.setFocusPainted(false);
-			cancelarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			cancelarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			cancelarBttn.setBackground(Color.white);
 			cancelarBttn.setOpaque(false);
 			cancelarBttn.setBounds(236, 193, 188, 54);

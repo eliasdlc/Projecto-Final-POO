@@ -158,7 +158,7 @@ public class RegComponentes extends JDialog {
 		
 		JPanel generalInfoPanel = new JPanel();
 		generalInfoPanel.setBackground(new Color(2, 78, 137));
-		generalInfoPanel.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10));
+		generalInfoPanel.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20));
 		
 		generalInfoPanel.setBounds(7, 24, 1232, 224);
 		panel.add(generalInfoPanel);
@@ -233,7 +233,7 @@ public class RegComponentes extends JDialog {
 		
 		
 		JPanel infoGeneralPanel = new JPanel();
-		RoundedBorder roundedBorder = new RoundedBorder(new Color(240, 240, 240), 1, 10);
+		RoundedBorder roundedBorder = new RoundedBorder(new Color(240, 240, 240), 1, 20);
 		TitledBorder titledBorder = new TitledBorder(new CompoundBorder(), "Informacion General", TitledBorder.CENTER, TitledBorder.TOP, null, Color.black);
 		titledBorder.setTitleFont(new Font("Century Gothic", Font.PLAIN, 15));
 
@@ -242,7 +242,7 @@ public class RegComponentes extends JDialog {
 		generalInfoPanel.add(infoGeneralPanel);
 		
 		JPanel ComponentIconPanel = new JPanel();
-		ComponentIconPanel.setBorder(new RoundedBorder(new Color(240, 240, 240), 1, 10));
+		ComponentIconPanel.setBorder(new RoundedBorder(new Color(240, 240, 240), 1, 20));
 		ComponentIconPanel.setBounds(12, 13, 229, 198);
 		generalInfoPanel.add(ComponentIconPanel);
 		ComponentIconPanel.setLayout(null);
@@ -256,7 +256,7 @@ public class RegComponentes extends JDialog {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(0, 78, 137));
-		panel_2.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10));
+		panel_2.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20));
 		panel_2.setBounds(7, 261, 1232, 439);
 		panel.add(panel_2);
 		panel_2.setLayout(null);
@@ -264,7 +264,7 @@ public class RegComponentes extends JDialog {
 		JPanel componentInfoPanel = new JPanel();
 		TitledBorder titledBorder2 = new TitledBorder(new CompoundBorder(), "Informacion de RAM", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 		titledBorder2.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-		componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), titledBorder2));
+		componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), titledBorder2));
 		componentInfoPanel.setBounds(356, 13, 864, 413);
 		panel_2.add(componentInfoPanel);
 		componentInfoPanel.setLayout(null);
@@ -272,7 +272,7 @@ public class RegComponentes extends JDialog {
 		conexionDiscoDuroPanel = new JPanel();
 		conexionDiscoDuroPanel.setBounds(500, 139, 206, 177);
 		conexionDiscoDuroPanel.setBackground(new Color(255, 255, 255));
-		conexionDiscoDuroPanel.setBorder(new RoundedBorder(new Color(255, 255, 255), 1, 10));
+		conexionDiscoDuroPanel.setBorder(new RoundedBorder(new Color(255, 255, 255), 1, 20));
 		conexionDiscoDuroPanel.setLayout(new GridLayout(0, 2));
 		
 		conexionDiscoDuroPanel.setVisible(false);
@@ -463,7 +463,7 @@ public class RegComponentes extends JDialog {
 		});
 		abrirListaBttn.setBackground(Color.white);
 		abrirListaBttn.setBounds(306, 195, 177, 38);
-		abrirListaBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
+		abrirListaBttn.setBorder(new RoundedBorder(Color.white, 1, 20));
 		abrirListaBttn.setFocusPainted(false);
 		componentInfoPanel.add(abrirListaBttn);
 		
@@ -541,7 +541,7 @@ public class RegComponentes extends JDialog {
 		
 		hddToggleBttn.setFont(new Font("Century Gothic", Font.BOLD, 19));
 		hddToggleBttn.setBackground(Color.WHITE);
-		hddToggleBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
+		hddToggleBttn.setBorder(new RoundedBorder(Color.white, 1, 20));
 		hddToggleBttn.setFocusPainted(false);
 		hddToggleBttn.setSelected(true);
 		hddToggleBttn.setBounds(255, 83, 92, 38);
@@ -551,7 +551,7 @@ public class RegComponentes extends JDialog {
 		
 		ssdToggleBttn.setFont(new Font("Century Gothic", Font.BOLD, 19));
 		ssdToggleBttn.setBackground(Color.WHITE);
-		ssdToggleBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
+		ssdToggleBttn.setBorder(new RoundedBorder(Color.white, 1, 20));
 		ssdToggleBttn.setFocusPainted(false);
 		ssdToggleBttn.setBounds(359, 83, 92, 38);
 		componentInfoPanel.add(ssdToggleBttn);
@@ -746,7 +746,7 @@ public class RegComponentes extends JDialog {
 		panel_2.add(gpuRdoBttn);
 		
 		JPanel selectionPanel = new JPanel();
-		selectionPanel.setBorder(new RoundedBorder(new Color(239, 239, 229), 1, 10));
+		selectionPanel.setBorder(new RoundedBorder(new Color(239, 239, 229), 1, 20));
 		selectionPanel.setBounds(12, 13, 332, 413);
 		panel_2.add(selectionPanel);
 		
@@ -772,7 +772,7 @@ public class RegComponentes extends JDialog {
 				
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de RAM", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
 				
 				setEverythingTo(false);
 				
@@ -799,7 +799,7 @@ public class RegComponentes extends JDialog {
 				
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de GPU", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
 				
 				setEverythingTo(false);
 				
@@ -829,7 +829,7 @@ public class RegComponentes extends JDialog {
 				
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de Disco Duro", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
 				
 				setEverythingTo(false);
 				
@@ -866,7 +866,7 @@ public class RegComponentes extends JDialog {
 				
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de Tarjeta Madre", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
 				
 				setEverythingTo(false);
 				
@@ -898,7 +898,7 @@ public class RegComponentes extends JDialog {
 				
 				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de Mircoprocesador", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 10), border));
+				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
 				
 				setEverythingTo(false);
 				
@@ -1001,17 +1001,17 @@ public class RegComponentes extends JDialog {
 					public void mouseEntered(MouseEvent arg0) {
 						regBttn.setBackground(new Color(11, 182, 72));
 						regBttn.setForeground(Color.white);
-						regBttn.setBorder(new RoundedBorder(new Color(11, 182, 72), 1, 10));
+						regBttn.setBorder(new RoundedBorder(new Color(11, 182, 72), 1, 20));
 					}
 					public void mouseExited(MouseEvent arg0) {
 						regBttn.setBackground(Color.white);
 						regBttn.setForeground(Color.black);
-						regBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
+						regBttn.setBorder(new RoundedBorder(Color.white, 1, 20));
 					}
 				});
 				regBttn.setBounds(480, 5, 136, 36);
 				regBttn.setFont(new Font("Century Gothic", Font.BOLD, 19));
-				regBttn.setBorder(new RoundedBorder(Color.white, 1, 10));
+				regBttn.setBorder(new RoundedBorder(Color.white, 1, 20));
 				regBttn.setFocusPainted(false);
 				regBttn.setBackground(Color.white);
 				regBttn.setActionCommand("Registrar");
@@ -1029,18 +1029,18 @@ public class RegComponentes extends JDialog {
 					public void mouseEntered(MouseEvent arg0) {
 						cancelButton.setBackground(new Color(167, 34, 34));
 						cancelButton.setForeground(Color.white);
-						cancelButton.setBorder(new RoundedBorder(new Color(167, 34, 34), 1, 10));
+						cancelButton.setBorder(new RoundedBorder(new Color(167, 34, 34), 1, 20));
 					}
 					public void mouseExited(MouseEvent arg0) {
 						cancelButton.setBackground(Color.white);
 						cancelButton.setForeground(Color.black);
-						cancelButton.setBorder(new RoundedBorder(Color.white, 1, 10));
+						cancelButton.setBorder(new RoundedBorder(Color.white, 1, 20));
 					}
 				});
 				cancelButton.setBounds(621, 5, 136, 36);
 				cancelButton.setFont(new Font("Century Gothic", Font.BOLD, 19));
 				cancelButton.setFocusPainted(false);
-				cancelButton.setBorder(new RoundedBorder(Color.white, 1, 10));
+				cancelButton.setBorder(new RoundedBorder(Color.white, 1, 20));
 				cancelButton.setBackground(Color.white);
 				cancelButton.setActionCommand("Cancel");
 			}

@@ -100,12 +100,12 @@ public class PopUpCant extends JDialog {
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					addbtn.setBackground(hoverEffectColor);
-					addbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					addbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 				}
 				@Override
 				public void mouseExited(MouseEvent e) {
 					addbtn.setBackground(SecondaryC);
-					addbtn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+					addbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 				}
 			});
 			addbtn.addActionListener(new ActionListener() {
@@ -117,7 +117,7 @@ public class PopUpCant extends JDialog {
 			addbtn.setForeground(Color.WHITE);
 			addbtn.setFont(new Font("Century Gothic", Font.BOLD, 26));
 			addbtn.setBackground(SecondaryC);
-			addbtn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+			addbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 			addbtn.setFocusPainted(false);
 			addbtn.setBounds(24, 217, 188, 54);
 			panel.add(addbtn);
@@ -148,12 +148,12 @@ public class PopUpCant extends JDialog {
 				@Override
 				public void mouseEntered(MouseEvent e) {
 					cancelbtn.setForeground(hoverEffectColor);
-					cancelbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					cancelbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 				}
 				@Override
 				public void mouseExited(MouseEvent e) {
 					cancelbtn.setForeground(SecondaryC);
-					cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+					cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 				}
 			});
 			cancelbtn.addActionListener(new ActionListener() {
@@ -165,7 +165,7 @@ public class PopUpCant extends JDialog {
 			cancelbtn.setFont(new Font("Century Gothic", Font.BOLD, 26));
 			cancelbtn.setBackground(Color.white);
 			cancelbtn.setOpaque(false);
-			cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+			cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 			cancelbtn.setFocusPainted(false);
 			cancelbtn.setBounds(236, 217, 188, 54);
 			panel.add(cancelbtn);

@@ -111,7 +111,6 @@ public class DisplayFactura extends JDialog {
 			elementosCompradosTable.setBackground(Color.LIGHT_GRAY);
 			
 			model = new DefaultTableModel();
-			elementosCompradosTable = new JTable();
 			elementosCompradosTable.setDefaultEditor(Object.class, null);
 			elementosCompradosTable.addMouseListener(new MouseAdapter() {
 				@Override
@@ -133,7 +132,7 @@ public class DisplayFactura extends JDialog {
 			elementosCompradosTable.getTableHeader().setPreferredSize(new Dimension(10, 40));
 			elementosCompradosTable.getTableHeader().setBackground(PrimaryC);
 			elementosCompradosTable.getTableHeader().setForeground(Color.white);
-			elementosCompradosTable.getTableHeader().setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			elementosCompradosTable.getTableHeader().setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			
 			elementosCompradosTable.getColumnModel().getColumn(0).setPreferredWidth(200); // Columna "Articulo"
 			elementosCompradosTable.getColumnModel().getColumn(1).setPreferredWidth(75); // Columna "Cantidad"
@@ -146,7 +145,7 @@ public class DisplayFactura extends JDialog {
 			//elementosCompradosTable.getTableHeader().setBorder(new EmptyBorder(0, 0, 0, 0));
 			
 			elementosCompradosTable.setRowHeight(30);
-			elementosCompradosTable.setBorder(new RoundedBorder(Color.white, 1, 10));
+			elementosCompradosTable.setBorder(new RoundedBorder(Color.white, 1, 20));
 			
 			elementosCompradosTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
 			    @Override
@@ -165,14 +164,14 @@ public class DisplayFactura extends JDialog {
 			JPanel panel_2 = new JPanel();
 			panel_2.setBackground(Color.WHITE);
 			panel_2.setBounds(12, 686, 737, 144);
-			panel_2.setBorder(new RoundedBorder(Color.white, 1, 10));
+			panel_2.setBorder(new RoundedBorder(Color.white, 1, 20));
 			panel.add(panel_2);
 			panel_2.setLayout(null);
 			
 			JPanel panel_3 = new JPanel();
 			panel_3.setBackground(Color.WHITE);
 			panel_3.setBounds(12, 13, 737, 316);
-			panel_3.setBorder(new RoundedBorder(Color.white, 1, 10));
+			panel_3.setBorder(new RoundedBorder(Color.white, 1, 20));
 			panel.add(panel_3);
 			panel_3.setLayout(null);
 			
@@ -238,7 +237,7 @@ public class DisplayFactura extends JDialog {
 			
 			JPanel panel_4 = new JPanel();
 			panel_4.setBounds(380, 0, 357, 144);
-			panel_4.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			panel_4.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			panel_4.setBackground(PrimaryC);
 			panel_2.add(panel_4);
 			panel_4.setLayout(null);
@@ -293,11 +292,11 @@ public class DisplayFactura extends JDialog {
 			cerrarBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
-					cerrarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					cerrarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 					cerrarBttn.setBackground(hoverEffectColor);
 				}
 				public void mouseExited(MouseEvent arg0) {
-					cerrarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+					cerrarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 					cerrarBttn.setBackground(PrimaryC);
 				}
 			});
@@ -306,7 +305,7 @@ public class DisplayFactura extends JDialog {
 					dispose();
 				}
 			});
-			cerrarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 10));
+			cerrarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			cerrarBttn.setFocusPainted(false);
 			cerrarBttn.setBackground(PrimaryC);
 			cerrarBttn.setForeground(Color.white);

@@ -156,7 +156,7 @@ public class ComprarComponente extends JDialog {
 				idTextField = new JTextField();
 				idTextField.setFont(new Font("Century Gothic", Font.PLAIN, 18));
 				idTextField.setBounds(44, 291, 235, 39);
-				idTextField.setBorder(new CompoundBorder(new RoundedBorder(Color.WHITE, 1, 10), new EmptyBorder(0, 10, 0, 10)));
+				idTextField.setBorder(new CompoundBorder(new RoundedBorder(Color.WHITE, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 				idTextField.setBackground(Color.WHITE);
 				panelIngresarCliente.add(idTextField);
 				idTextField.setColumns(10);
@@ -184,7 +184,7 @@ public class ComprarComponente extends JDialog {
 				});
 				btnNewButton.setFont(new Font("Century Gothic", Font.BOLD, 20));
 				btnNewButton.setBounds(91, 343, 141, 39);
-				btnNewButton.setBorder(new RoundedBorder(Color.WHITE, 1, 10));
+				btnNewButton.setBorder(new RoundedBorder(Color.WHITE, 1, 20));
 				btnNewButton.setBackground(Color.WHITE);
 				panelIngresarCliente.add(btnNewButton);
 				
@@ -199,17 +199,17 @@ public class ComprarComponente extends JDialog {
 				elegirBttn1.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent arg0) {
-						elegirBttn1.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+						elegirBttn1.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 						elegirBttn1.setBackground(hoverEffectColor);
 						elegirBttn1.setForeground(Color.WHITE);
 					}
 					public void mouseExited(MouseEvent arg0) {
-						elegirBttn1.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+						elegirBttn1.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 						elegirBttn1.setBackground(SecondaryC);
 						elegirBttn1.setForeground(Color.WHITE);
 					}
 				});
-				elegirBttn1.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+				elegirBttn1.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 				elegirBttn1.setBackground(SecondaryC);
 				elegirBttn1.setForeground(Color.WHITE);
 				elegirBttn1.setFont(new Font("Century Gothic", Font.BOLD, 18));
@@ -232,7 +232,7 @@ public class ComprarComponente extends JDialog {
 			
 			JPanel panel_1 = new JPanel();
 			panel_1.setBounds(335, 13, 508, 245);
-			panel_1.setBorder(new RoundedBorder(Color.white, 1, 10));
+			panel_1.setBorder(new RoundedBorder(Color.white, 1, 20));
 			panel_1.setBackground(new Color(240, 240, 240));
 			panel.add(panel_1);
 			panel_1.setLayout(null);
@@ -297,17 +297,17 @@ public class ComprarComponente extends JDialog {
 			comprarBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
-					comprarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					comprarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 					comprarBttn.setBackground(hoverEffectColor);
 					comprarBttn.setForeground(Color.WHITE);
 				}
 				public void mouseExited(MouseEvent arg0) {
-					comprarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+					comprarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 					comprarBttn.setBackground(SecondaryC);
 					comprarBttn.setForeground(Color.WHITE);
 				}
 			});
-			comprarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+			comprarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 			comprarBttn.setBackground(SecondaryC);
 			comprarBttn.setForeground(Color.WHITE);
 			comprarBttn.setFont(new Font("Century Gothic", Font.BOLD, 18));
@@ -321,18 +321,18 @@ public class ComprarComponente extends JDialog {
 				compararBttn.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseEntered(MouseEvent e) {
-						compararBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+						compararBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 						//compararBttn.setBackground(new Color(248, 248, 248));
 						compararBttn.setForeground(hoverEffectColor);
 						compararBttn.setOpaque(true);
 					}
 					public void mouseExited(MouseEvent e) {
-						compararBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+						compararBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 						compararBttn.setForeground(SecondaryC);
 						compararBttn.setOpaque(false);
 					}
 				});
-				compararBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+				compararBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 				compararBttn.setForeground(SecondaryC);
 				compararBttn.setBackground(new Color(248, 248, 248));
 				compararBttn.setOpaque(false);
@@ -351,18 +351,18 @@ public class ComprarComponente extends JDialog {
 					cancelarBttn.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseEntered(MouseEvent e) {
-							cancelarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+							cancelarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 							//compararBttn.setBackground(new Color(248, 248, 248));
 							cancelarBttn.setForeground(hoverEffectColor);
 							cancelarBttn.setOpaque(true);
 						}
 						public void mouseExited(MouseEvent e) {
-							cancelarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+							cancelarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 							cancelarBttn.setForeground(SecondaryC);
 							cancelarBttn.setOpaque(false);
 						}
 					});
-					cancelarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+					cancelarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 					cancelarBttn.setForeground(SecondaryC);
 					cancelarBttn.setBackground(new Color(248, 248, 248));
 					cancelarBttn.setOpaque(false);
@@ -410,7 +410,7 @@ public class ComprarComponente extends JDialog {
 			JPanel panel_2 = new JPanel();
 			panel_2.setBounds(12, 13, 508, 245);
 			panel_2.setLayout(null);
-			panel_2.setBorder(new RoundedBorder(Color.white, 1, 10));
+			panel_2.setBorder(new RoundedBorder(Color.white, 1, 20));
 			panel_2.setBackground(Color.WHITE);
 			
 			componente2Panel.add(panel_2);
@@ -471,19 +471,19 @@ public class ComprarComponente extends JDialog {
 			elegirBttn2.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
-					elegirBttn2.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					elegirBttn2.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 					elegirBttn2.setBackground(hoverEffectColor);
 					elegirBttn2.setForeground(Color.WHITE);
 				}
 				public void mouseExited(MouseEvent arg0) {
-					elegirBttn2.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+					elegirBttn2.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 					elegirBttn2.setBackground(SecondaryC);
 					elegirBttn2.setForeground(Color.WHITE);
 				}
 			});
 			elegirBttn2.setForeground(Color.WHITE);
 			elegirBttn2.setFont(new Font("Century Gothic", Font.BOLD, 18));
-			elegirBttn2.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+			elegirBttn2.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 			elegirBttn2.setBackground(new Color(3, 104, 196));
 			elegirBttn2.setBounds(24, 508, 483, 55);
 			componente2Panel.add(elegirBttn2);
@@ -492,13 +492,13 @@ public class ComprarComponente extends JDialog {
 			cambiarBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					cambiarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					cambiarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 					//compararBttn.setBackground(new Color(248, 248, 248));
 					cambiarBttn.setForeground(hoverEffectColor);
 					cambiarBttn.setOpaque(true);
 				}
 				public void mouseExited(MouseEvent e) {
-					cambiarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+					cambiarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 					cambiarBttn.setForeground(SecondaryC);
 					cambiarBttn.setOpaque(false);
 				}
@@ -506,7 +506,7 @@ public class ComprarComponente extends JDialog {
 			cambiarBttn.setOpaque(false);
 			cambiarBttn.setForeground(new Color(3, 104, 196));
 			cambiarBttn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-			cambiarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+			cambiarBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 			cambiarBttn.setBackground(new Color(248, 248, 248));
 			cambiarBttn.setBounds(24, 576, 483, 55);
 			componente2Panel.add(cambiarBttn);

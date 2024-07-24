@@ -97,11 +97,11 @@ public class PopUp extends JDialog {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
 					okBttn.setBackground(hoverEffectColor);
-					okBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					okBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
 				}
 				public void mouseExited(MouseEvent arg0) {
 					okBttn.setBackground(SecondaryC);
-					okBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+					okBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 				}
 			});
 			okBttn.addActionListener(new ActionListener() {
@@ -112,7 +112,7 @@ public class PopUp extends JDialog {
 			okBttn.setForeground(Color.WHITE);
 			okBttn.setFont(new Font("Century Gothic", Font.BOLD, 26));
 			okBttn.setBackground(SecondaryC);
-			okBttn.setBorder(new RoundedBorder(SecondaryC, 1, 10));
+			okBttn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
 			okBttn.setFocusPainted(false);
 			okBttn.setBounds(131, 193, 188, 54);
 			panel.add(okBttn);
