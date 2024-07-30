@@ -1,7 +1,9 @@
 package Visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,13 +17,17 @@ import Logica.DiscoDuro;
 import Logica.GPU;
 import Logica.MicroProcesador;
 import Logica.Ram;
+import Logica.RoundedBorder;
 import Logica.Tienda;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.prefs.BackingStoreException;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListComponentesPC extends JDialog {
 
@@ -30,6 +36,9 @@ public class ListComponentesPC extends JDialog {
 	private DefaultTableModel model;
 	private Object row[];
 	private JButton cancelButton;
+
+	private static final Color SecondaryC = new Color(3, 104, 196);
+	private static final Color hoverEffectColor = new Color(3, 135, 255);
 
 	/**
 	 * Launch the application.
@@ -66,6 +75,7 @@ public class ListComponentesPC extends JDialog {
 					table = new JTable();
 					table.setDefaultEditor(Object.class, null);
 					
+					table.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 					String headers[] = {"Id", "Marca", "Modelo", "Precio", "Descuento", "Tipo"};
 					model.setColumnIdentifiers(headers);
 					table.setModel(model);
@@ -75,15 +85,35 @@ public class ListComponentesPC extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(SecondaryC);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				cancelButton = new JButton("Cancelar");
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						cancelButton.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
+						cancelButton.setForeground(hoverEffectColor);
+						cancelButton.setOpaque(true);
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						cancelButton.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+						cancelButton.setForeground(SecondaryC);
+						cancelButton.setOpaque(true);
+					}
+				});
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
+				cancelButton.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+				cancelButton.setForeground(SecondaryC);
+				cancelButton.setBackground(new Color(248, 248, 248));
+				cancelButton.setOpaque(true);
+				cancelButton.setFont(new Font("Century Gothic", Font.BOLD, 18));
 				cancelButton.setActionCommand("Cancelar");
 				buttonPane.add(cancelButton);
 			}

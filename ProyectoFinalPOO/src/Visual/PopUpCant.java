@@ -36,6 +36,7 @@ public class PopUpCant extends JDialog {
 	private static final Color SecondaryC = new Color(3, 104, 196);
 	private static final Color hoverEffectColor = new Color(3, 135, 255);
 	private JTextField quantitytxt;
+	private JSpinner quantityspn;
 	/**
 	 * Launch the application.
 	 */
@@ -110,8 +111,11 @@ public class PopUpCant extends JDialog {
 			});
 			addbtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					//Logica para operacion 
-					//ListComponente.loadComponente(null);
+					int cant = new Integer(quantityspn.getValue().toString());
+					comp.setCantDisponible(comp.getCantDisponible() + cant);
+					ListComponentes.loadComponente(null);
+					
+					
 				}
 			});
 			addbtn.setForeground(Color.WHITE);
@@ -122,12 +126,13 @@ public class PopUpCant extends JDialog {
 			addbtn.setBounds(24, 217, 188, 54);
 			panel.add(addbtn);
 			
-			JSpinner quantityspn = new JSpinner();
+			quantityspn = new JSpinner();
 			quantityspn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 			quantityspn.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					int cant = (Integer) quantityspn.getValue();
-					quantitytxt.setText(String.valueOf(cant));
+					int cantOg = comp.getCantDisponible();
+					quantitytxt.setText(String.valueOf(cant + cantOg));
 				}
 			});
 			quantityspn.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -138,7 +143,7 @@ public class PopUpCant extends JDialog {
 			quantitytxt.setHorizontalAlignment(SwingConstants.CENTER);
 			quantitytxt.setEditable(false);
 			quantitytxt.setFont(new Font("Century Gothic", Font.BOLD, 20));
-			quantitytxt.setText("0");
+			quantitytxt.setText(String.valueOf(comp.getCantDisponible()));
 			quantitytxt.setBounds(279, 140, 124, 37);
 			panel.add(quantitytxt);
 			quantitytxt.setColumns(10);

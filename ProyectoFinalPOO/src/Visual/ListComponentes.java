@@ -1,7 +1,10 @@
 package Visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.SecondaryLoop;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -15,6 +18,8 @@ import Logica.DiscoDuro;
 import Logica.GPU;
 import Logica.MicroProcesador;
 import Logica.Ram;
+import Logica.RoundedBorder;
+import Logica.TarjetaMadre;
 import Logica.Tienda;
 
 import javax.swing.BoxLayout;
@@ -46,6 +51,9 @@ public class ListComponentes extends JDialog {
 	private static Object row[];
 	private static DefaultTableModel model;
 	private String cod = "";
+
+	private static final Color SecondaryC = new Color(3, 104, 196);
+	private static final Color hoverEffectColor = new Color(3, 135, 255);
 
 	/**
 	 * Launch the application.
@@ -94,6 +102,7 @@ public class ListComponentes extends JDialog {
 					}
 				}
 			});
+			table.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 			table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			String headers[] = {"Id", "Marca", "Modelo", "Precio", "Cant. Disponible", "Descuento", "Tipo"};
 			model.setColumnIdentifiers(headers);
@@ -101,20 +110,54 @@ public class ListComponentes extends JDialog {
 			scrollPane.setViewportView(table);
 			
 			JPanel panel_1 = new JPanel();
+			panel_1.setBackground(SecondaryC);
 			panel_1.setBounds(1118, 0, 199, 685);
 			panel.add(panel_1);
 			panel_1.setLayout(null);
 			
 			cancelbtn = new JButton("Cancelar");
+			cancelbtn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					cancelbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
+					cancelbtn.setForeground(hoverEffectColor);
+					cancelbtn.setOpaque(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+					cancelbtn.setForeground(SecondaryC);
+					cancelbtn.setOpaque(true);
+				}
+			});
 			cancelbtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();
 				}
 			});
+			cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+			cancelbtn.setForeground(SecondaryC);
+			cancelbtn.setBackground(new Color(248, 248, 248));
+			cancelbtn.setOpaque(true);
+			cancelbtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
 			cancelbtn.setBounds(42, 640, 115, 29);
 			panel_1.add(cancelbtn);
 			
 			deleteBtn = new JButton("Eliminar");
+			deleteBtn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					deleteBtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
+					deleteBtn.setForeground(hoverEffectColor);
+					deleteBtn.setOpaque(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					deleteBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+					deleteBtn.setForeground(SecondaryC);
+					deleteBtn.setOpaque(true);
+				}
+			});
 			deleteBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(cod != null) {
@@ -122,15 +165,34 @@ public class ListComponentes extends JDialog {
 						if(option == JOptionPane.YES_OPTION) {
 							Tienda.getInstance().deleteComponente(cod);
 							loadComponente(null);
-							JOptionPane.showMessageDialog(null, "Eliminaci�n realizada correctamente", "Eliminaci�n", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Eliminación realizada correctamente", "Eliminación", JOptionPane.INFORMATION_MESSAGE);
 						}
 					}
 				}
 			});
+			deleteBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+			deleteBtn.setForeground(SecondaryC);
+			deleteBtn.setBackground(new Color(248, 248, 248));
+			deleteBtn.setOpaque(true);
+			deleteBtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
 			deleteBtn.setBounds(42, 594, 115, 29);
 			panel_1.add(deleteBtn);
 			
 			requestBtn = new JButton("Pedir");
+			requestBtn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					requestBtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
+					requestBtn.setForeground(hoverEffectColor);
+					requestBtn.setOpaque(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					requestBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+					requestBtn.setForeground(SecondaryC);
+					requestBtn.setOpaque(true);
+				}
+			});
 			requestBtn.setEnabled(false);
 			requestBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -144,15 +206,35 @@ public class ListComponentes extends JDialog {
 					}
 				}
 			});
+			requestBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+			requestBtn.setForeground(SecondaryC);
+			requestBtn.setBackground(new Color(248, 248, 248));
+			requestBtn.setOpaque(true);
+			requestBtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
 			requestBtn.setBounds(42, 193, 115, 29);
 			panel_1.add(requestBtn);
 			
 			idtxt = new JTextField();
+			idtxt.setFont(new Font("Century Gothic", Font.PLAIN, 18));
 			idtxt.setBounds(15, 16, 169, 29);
 			panel_1.add(idtxt);
 			idtxt.setColumns(10);
 			
 			searchBtn = new JButton("Buscar");
+			searchBtn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					searchBtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
+					searchBtn.setForeground(hoverEffectColor);
+					searchBtn.setOpaque(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					searchBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+					searchBtn.setForeground(SecondaryC);
+					searchBtn.setOpaque(true);
+				}
+			});
 			searchBtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(idtxt.getText().equalsIgnoreCase("")) {
@@ -164,6 +246,11 @@ public class ListComponentes extends JDialog {
 					}
 				}
 			});
+			searchBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+			searchBtn.setForeground(SecondaryC);
+			searchBtn.setBackground(new Color(248, 248, 248));
+			searchBtn.setOpaque(true);
+			searchBtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
 			searchBtn.setBounds(42, 58, 115, 29);
 			panel_1.add(searchBtn);
 			
@@ -174,16 +261,45 @@ public class ListComponentes extends JDialog {
 					loadFilter(tipo);
 				}
 			});
-			filtercmb.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Disco Duro", "GPU", "Micro Procesador", "RAM", "Tarjeta Madre"}));
+			filtercmb.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+			filtercmb.setForeground(SecondaryC);
+			filtercmb.setFont(new Font("Century Gothic", Font.BOLD, 18));
+			filtercmb.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Disco Duro", "GPU", "MicroProcesador", "RAM", "Tarjeta Madre"}));
 			filtercmb.setBounds(15, 103, 169, 29);
 			panel_1.add(filtercmb);
 			
 			BuyBtn = new JButton("Comprar");
-			BuyBtn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					//Logica para comprar
+			BuyBtn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					BuyBtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
+					BuyBtn.setForeground(hoverEffectColor);
+					BuyBtn.setOpaque(true);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					BuyBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+					BuyBtn.setForeground(SecondaryC);
+					BuyBtn.setOpaque(true);
 				}
 			});
+			BuyBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(cod != null) {
+						Componente comp = Tienda.getInstance().searchComponenteById(cod);
+						if(comp != null) {
+							ComprarComponente comprar = new ComprarComponente(comp, null);
+							comprar.setModal(true);
+							comprar.setVisible(true);
+						}
+					}
+				}
+			});
+			BuyBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+			BuyBtn.setForeground(SecondaryC);
+			BuyBtn.setBackground(new Color(248, 248, 248));
+			BuyBtn.setOpaque(true);
+			BuyBtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
 			BuyBtn.setBounds(42, 148, 115, 29);
 			panel_1.add(BuyBtn);
 		}
@@ -209,7 +325,7 @@ public class ListComponentes extends JDialog {
 				} else if(comp instanceof GPU) {
 					tipo = "GPU";
 				} else if(comp instanceof MicroProcesador) {
-					tipo = "Microprocesador";
+					tipo = "MicroProcesador";
 				} else if(comp instanceof Ram) {
 					tipo = "RAM";
 				} else {
@@ -237,7 +353,7 @@ public class ListComponentes extends JDialog {
 				} else if(componente instanceof GPU) {
 					tipo = "GPU";
 				} else if(componente instanceof MicroProcesador) {
-					tipo = "Microprocesador";
+					tipo = "MicroProcesador";
 				} else if(componente instanceof Ram) {
 					tipo = "RAM";
 				} else {
@@ -258,47 +374,44 @@ public class ListComponentes extends JDialog {
 		ArrayList<Componente> aux = Tienda.getInstance().getMisComponentes();
 		model.setRowCount(0);
 		row = new Object[table.getColumnCount()];
-		boolean valido = true;
+		boolean valido = false;
 		
-		for(Componente comp : aux) {
-			if(tipo.equalsIgnoreCase("Disco Duro")) {
-				if(!(comp instanceof DiscoDuro)) {
+		if(!(tipo.equalsIgnoreCase("<Seleccione>"))) {
+				for(Componente comp : aux) {
 					valido = false;
-				}
-			} else if(tipo.equalsIgnoreCase("GPU")) {
-				if(!(comp instanceof GPU)) {
-					valido = false;
-				}
-			} else if(tipo.equalsIgnoreCase("Microprocesador")) {
-				if(!(comp instanceof MicroProcesador)) {
-					valido = false;
-				}
-			} else if(tipo.equalsIgnoreCase("RAM")) {
-				if(!(comp instanceof Ram)) {
-					valido = false;
-				}
-			} else if(tipo.equalsIgnoreCase("Tarjeta Madre")) {
-				if(comp instanceof DiscoDuro || comp instanceof GPU
-					|| comp instanceof MicroProcesador || comp instanceof Ram) {
-					valido = false;
+					
+					if(tipo.equalsIgnoreCase("Disco Duro") && comp instanceof DiscoDuro) {
+					    valido = true;
+					} else if(tipo.equalsIgnoreCase("GPU") && comp instanceof GPU) {
+					    valido = true;
+					} else if(tipo.equalsIgnoreCase("MicroProcesador") && comp instanceof MicroProcesador) {
+					    valido = true;
+					} else if(tipo.equalsIgnoreCase("RAM") && comp instanceof Ram) {
+					    valido = true;
+					} else if(tipo.equalsIgnoreCase("Tarjeta Madre") && comp instanceof TarjetaMadre) {
+					    valido = true;
+					}
+					
+				
+				if(valido) {
+					row[0] = comp.getId();
+					row[1] = comp.getMarca();
+					row[2] = comp.getModelo();
+					row[3] = comp.getPrecio();
+					row[4] = comp.getCantDisponible();
+					row[5] = comp.getDescuento() + "%";
+					row[6] = tipo;
+				
+					model.addRow(row);
 				}
 			}
-			
-			if(valido) {
-				row[0] = comp.getId();
-				row[1] = comp.getMarca();
-				row[2] = comp.getModelo();
-				row[3] = comp.getPrecio();
-				row[4] = comp.getCantDisponible();
-				row[5] = comp.getDescuento() + "%";
-				row[6] = tipo;
-			
-				model.addRow(row);
-			}
+		}
+		else {
+			loadComponente(null);
+		}
 			
 			deleteBtn.setEnabled(false);
 			requestBtn.setEnabled(false);
 			BuyBtn.setEnabled(false);
-		}
 	}
 }

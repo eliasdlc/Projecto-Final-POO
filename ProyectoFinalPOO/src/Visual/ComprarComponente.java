@@ -47,6 +47,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
+import javax.swing.SpinnerNumberModel;
 
 public class ComprarComponente extends JDialog {
 
@@ -370,6 +371,7 @@ public class ComprarComponente extends JDialog {
 				}
 				
 				JSpinner cantComponentesSpn = new JSpinner();
+				cantComponentesSpn.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 				cantComponentesSpn.setBounds(355, 355, 152, 41);
 				componente1Panel.add(cantComponentesSpn);
 				MoveToXY cantComponentesSpnHide = new MoveToXY(cantComponentesSpn, -200, cantComponentesSpn.getY(), 0.8f, AnimationType.EASE_OUT);
