@@ -1,4 +1,4 @@
-package Logica;
+ package Logica;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,19 +13,23 @@ public class Tienda {
 	private ArrayList<Componente> misComponentes;
 	private ArrayList<Factura> misFacturas;
 	private ArrayList<Computadora> misComputadoras;
+	private ArrayList<Usuarios> misUsuarios;
 	private static Tienda miTienda = null; 
 	public static int codCliente = 1;
 	public static int codComponente = 1;
 	public static int codFactura = 1;
 	public static int codComputadora = 1;
+	public Boolean permisoAdministrado = false;
 	
 	public Tienda() {
 		super();
+		this.setMisUsuarios(new ArrayList<Usuarios>());
 		this.misClientes = new ArrayList<Cliente>();
 		this.misComponentes = new ArrayList<Componente>();
 		this.misFacturas = new ArrayList<Factura>();
 		this.misComputadoras = new ArrayList<Computadora>();
 	}
+	
 	
 	public static Tienda getInstance() {
 		if(miTienda == null) {
@@ -81,6 +85,16 @@ public class Tienda {
 		this.misComputadoras = misComputadoras;
 	}
 
+	public ArrayList<Usuarios> getMisUsuarios() {
+		return misUsuarios;
+	}
+
+
+	public void setMisUsuarios(ArrayList<Usuarios> misUsuarios) {
+		this.misUsuarios = misUsuarios;
+	}
+
+
 	public void insertarCliente(Cliente cliente) {
 		misClientes.add(cliente);
 		codCliente++;
@@ -99,6 +113,10 @@ public class Tienda {
 	public void insertarComputadora(Computadora computadora) {
 		misComputadoras.add(computadora);
 		codComputadora++;
+	}
+	
+	public void insertarUsuario(Usuarios usuario) {
+		misUsuarios.add(usuario);
 	}
 	
 	public void updateCliente(Cliente cliente, int ind) {
@@ -373,23 +391,25 @@ public class Tienda {
 	                ArrayList<Object> objetos = (ArrayList<Object>) ois.readObject();
 	                for (Object obj : objetos) {
 	                    if (obj instanceof Cliente) {
-	                        Tienda.getInstance().insertarCliente((Cliente) obj);
+	                        misClientes.add((Cliente) obj);
 	                    } else if (obj instanceof Componente) {
 	                    	if(obj instanceof Ram) {
-	                    		Tienda.getInstance().insertarComponente((Ram) obj);
+	                    		misComponentes.add((Ram) obj);
 	                    	}else if (obj instanceof DiscoDuro) {
-	                    		Tienda.getInstance().insertarComponente((DiscoDuro) obj);
+	                    		misComponentes.add((DiscoDuro) obj);
 							}else if (obj instanceof GPU) {
-	                    		Tienda.getInstance().insertarComponente((GPU) obj);
+								misComponentes.add((GPU) obj);
 							}else if (obj instanceof TarjetaMadre) {
-	                    		Tienda.getInstance().insertarComponente((TarjetaMadre) obj);
+								misComponentes.add((TarjetaMadre) obj);
 							}else if (obj instanceof MicroProcesador) {
-	                    		Tienda.getInstance().insertarComponente((MicroProcesador) obj);
+								misComponentes.add((MicroProcesador) obj);
 							}
 	                    } else if (obj instanceof Factura) {
 	                        Tienda.getInstance().insertarFactura((Factura) obj);
 	                    } else if (obj instanceof Computadora) {
 	                        Tienda.getInstance().insertarComputadora((Computadora) obj);
+	                    }else if (obj instanceof Usuarios) {
+	                    	misUsuarios.add((Usuarios) obj);
 	                    }
 	                }
 	            }
@@ -411,10 +431,19 @@ public class Tienda {
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objetos.dat"))) {
             oos.writeObject(objetos);
-            System.out.println("Objeto añadido al archivo.");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+	public Boolean getPermisoAdministrado() {
+		return permisoAdministrado;
+	}
+
+
+	public void setPermisoAdministrado(Boolean permisoAdministrado) {
+		this.permisoAdministrado = permisoAdministrado;
+	}
 
 }

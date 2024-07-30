@@ -16,6 +16,8 @@ import javax.swing.border.EmptyBorder;
 import Logica.AnimationType;
 import Logica.MoveToXY;
 import Logica.RoundedBorder;
+import Logica.Tienda;
+import Logica.Usuarios;
 
 import javax.swing.JTextField;
 import java.awt.Font;
@@ -29,6 +31,7 @@ import javax.swing.JFormattedTextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.JDesktopPane;
 import java.awt.event.ActionListener;
@@ -41,6 +44,9 @@ public class LogIn extends JDialog {
 	private JPasswordField passwordField;
 	private JLabel logInLineLabel;
 	private JLabel logInLabel;
+	public String usuario;
+	private String password;
+	private ArrayList<Usuarios> usuarios;
 	
 	private static final Color PrimaryC = new Color(3, 88, 157);
 	private static final Color SecondaryC = new Color(3, 104, 196);
@@ -72,6 +78,9 @@ public class LogIn extends JDialog {
 	 * Create the dialog.
 	 */
 	public LogIn() {
+		
+		Tienda.getInstance().cargarArchivo();
+		
 		setBounds(100, 100, 512, 500);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -134,11 +143,16 @@ public class LogIn extends JDialog {
 		
 		JButton logInBttn = new JButton("Iniciar sesion");
 		logInBttn.addActionListener(new ActionListener() {
-			private String password;
 			public void actionPerformed(ActionEvent e) {
-				String usuario = nombreField.getText();
+				usuario = nombreField.getText();
 				password = passwordField.getText();
-				
+				if (inicioSession()) {
+					Principal principal = new Principal();
+					principal.setVisible(true);
+					dispose();
+				}else {
+					System.out.println("No hizo nada");
+				}
 				
 			}
 		});
@@ -273,4 +287,23 @@ public class LogIn extends JDialog {
 			}
 		});
 	}
+	
+	private boolean inicioSession() {
+		Boolean existe = false;
+		if (usuario.equals("admin") && password.equals("admin")) {
+			System.out.println("Inicio de session exitoso");
+			Tienda.getInstance().setPermisoAdministrado(true);
+			existe = true;
+		}else {
+			usuarios = Tienda.getInstance().getMisUsuarios();
+			for (Usuarios usuarios2 : usuarios) {
+				if (usuario.equals(usuarios2.getUsuario()) && password.equals(usuarios2.getPassword())) {
+					existe = true;
+				}
+			}
+			
+		}
+		return existe;
+	}
+	
 }

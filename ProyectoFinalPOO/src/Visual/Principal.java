@@ -142,8 +142,9 @@ public class Principal extends JFrame {
 		dim = getToolkit().getScreenSize();
 		setSize(dim.width, dim.height);
 		
-		Tienda.getInstance().setMisComponentes(componentesMasFamosos);
-		Tienda.getInstance().cargarArchivo();
+		for (Componente comp : componentesMasFamosos) {
+			Tienda.getInstance().insertarComponente(comp);
+		}
 		
 		setLocationRelativeTo(null);
 		
@@ -453,6 +454,14 @@ public class Principal extends JFrame {
 			
 			
 			btnAdministracion = new JButton("Administracion");
+			btnAdministracion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (Tienda.getInstance().getPermisoAdministrado()) {
+						Regusuarios regusuarios = new Regusuarios();
+						regusuarios.setVisible(true);
+					}
+				}
+			});
 			btnAdministracion.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -496,6 +505,10 @@ public class Principal extends JFrame {
 			panel_1.add(btnCliente);
 			
 			bttnOpciones = new JButton("Opciones");
+			bttnOpciones.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
 			bttnOpciones.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
