@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Logica.Componente;
+import Logica.Computadora;
 import Logica.RoundedBorder;
 
 import javax.swing.JLabel;
@@ -46,10 +47,12 @@ public class PopUp extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PopUp(Componente comp) {
+	public PopUp(String mensaje) {
 		setUndecorated(true);
 		setBounds(100, 100, 450, 282);
 		setModal(true);
+		
+		setLocationRelativeTo(getParent());
 		
 		int arcWidth = 20;
         int arcHeight = 20;
@@ -61,7 +64,7 @@ public class PopUp extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
-			panel.setBackground(Color.WHITE);
+			panel.setBackground(new Color(247, 247, 247));
 			panel.setBounds(0, 0, 450, 282);
 			contentPanel.add(panel);
 			panel.setLayout(null);
@@ -88,7 +91,7 @@ public class PopUp extends JDialog {
 			textPane.setFont(new Font("Century Gothic", Font.PLAIN, 16));
 			textPane.setBounds(150, 90, 243, 74);
 			textPane.setEditable(false);
-			textPane.setText("El componente " + comp.getId() + " Fue agregado exitosamente!");
+			textPane.setText(mensaje);
 			textPane.setOpaque(false);
 			panel.add(textPane);
 			

@@ -51,6 +51,7 @@ public class PopUpError extends JDialog {
 		setUndecorated(true);
 		setBounds(100, 100, 450, 282);
 		setModal(true);
+		setLocationRelativeTo(getParent());
 		
 		int arcWidth = 20;
         int arcHeight = 20;
@@ -62,7 +63,7 @@ public class PopUpError extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
-			panel.setBackground(Color.WHITE);
+			panel.setBackground(new Color(247, 247, 247));
 			panel.setBounds(0, 0, 450, 282);
 			contentPanel.add(panel);
 			panel.setLayout(null);
@@ -82,12 +83,13 @@ public class PopUpError extends JDialog {
 			
 			JLabel lblNewLabel = new JLabel("Se ha cometido un error!");
 			lblNewLabel.setFont(new Font("Century Gothic", Font.BOLD, 22));
-			lblNewLabel.setBounds(148, 51, 272, 26);
+			lblNewLabel.setBounds(148, 51, 277, 26);
 			panel.add(lblNewLabel);
 			
 			JTextPane mensajeTextPane = new JTextPane();
+			mensajeTextPane.setBorder(new EmptyBorder(0,0,0,0));
 			mensajeTextPane.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-			mensajeTextPane.setBounds(150, 90, 243, 74);
+			mensajeTextPane.setBounds(148, 90, 277, 99);
 			mensajeTextPane.setEditable(false);
 			mensajeTextPane.setOpaque(false);
 			panel.add(mensajeTextPane);
@@ -110,7 +112,7 @@ public class PopUpError extends JDialog {
 			okBttn.setBackground(PrimaryC);
 			okBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			okBttn.setFocusPainted(false);
-			okBttn.setBounds(131, 193, 188, 54); 
+			okBttn.setBounds(132, 210, 188, 54); 
 			
 			panel.add(okBttn);
 			
@@ -137,11 +139,11 @@ public class PopUpError extends JDialog {
 			cancelarBttn.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 			cancelarBttn.setBackground(Color.white);
 			cancelarBttn.setOpaque(false);
-			cancelarBttn.setBounds(236, 193, 188, 54);
+			cancelarBttn.setBounds(237, 210, 188, 54);
 			panel.add(cancelarBttn);
 			
 			if ( errorType == ErrorType.CLIENT_MISSING ) {
-				okBttn.setBounds(24, 193, 188, 54);
+				okBttn.setBounds(24, 210, 188, 54);
 				cancelarBttn.setVisible(true);
 				lblNewLabel.setText("El cliente no existe!");
 				mensajeTextPane.setText(mensaje);
@@ -151,7 +153,7 @@ public class PopUpError extends JDialog {
 					}
 				});
 			} else if ( errorType == ErrorType.WARNING ) {
-				okBttn.setBounds(131, 193, 188, 54);
+				okBttn.setBounds(131, 210, 188, 54);
 				cancelarBttn.setVisible(false);
 				lblNewLabel.setText("Se ha cometido un error!");
 				mensajeTextPane.setText(mensaje);

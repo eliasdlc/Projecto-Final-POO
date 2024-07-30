@@ -968,6 +968,7 @@ public class RegComponentes extends JDialog {
 
 						} else if ( discoDuroRdoBttn.isSelected() ) {
 							float almacenamiento = Float.parseFloat(almacenamientoSpn.getValue().toString());
+							String almTipo = discoMedidaCbx.getSelectedItem().toString();
 							if (discoMedidaCbx.getSelectedItem().toString().equals("TB")) {
 						        almacenamiento *= 1000; // Convertir a GB si está en TB
 						    }
@@ -985,11 +986,11 @@ public class RegComponentes extends JDialog {
 						    if (m2SataCheckBox.isSelected()) tipoConexiones.add("M.2 SATA");
 						    if (eSataCheckBox.isSelected()) tipoConexiones.add("eSATA");
 						    
-						    newComponente = new DiscoDuro(id, marca, modelo, precio, cantidad, 0, almacenamiento, velLectura, velEscritura, tipo, tipoConexiones);
+						    newComponente = new DiscoDuro(id, marca, modelo, precio, cantidad, 0, almacenamiento, almTipo, velLectura, velEscritura, tipo, tipoConexiones);
 						}
 						
 						Tienda.getInstance().insertarComponente(newComponente);
-						PopUp newPopUp = new PopUp(newComponente);
+						PopUp newPopUp = new PopUp("El componente " + newComponente.getId() + " fue agregado exitosamente!");
 						newPopUp.setLocationRelativeTo(contentPanel);
 						newPopUp.setVisible(true);
 						
