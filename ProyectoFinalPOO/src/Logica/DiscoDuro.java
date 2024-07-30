@@ -3,6 +3,10 @@ package Logica;
 import java.util.ArrayList;
 
 public class DiscoDuro extends Componente {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float almacenamiento;
 	private String almTipo;
 	private float velLectura;

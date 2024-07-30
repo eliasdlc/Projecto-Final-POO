@@ -1,6 +1,10 @@
 package Logica;
 
 public class Ram extends Componente {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String memoria;
 	private String tipoMemoria;
 

@@ -1,6 +1,10 @@
 package Logica;
 
 public class GPU extends Componente {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String tipo;
 	private float VRAM;
 	private float velocidad;

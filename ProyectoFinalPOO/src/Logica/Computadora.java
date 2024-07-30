@@ -1,8 +1,13 @@
 package Logica;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Computadora {
+public class Computadora implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private ArrayList<Componente> componentes;
 	private float precio;
