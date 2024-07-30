@@ -139,6 +139,8 @@ public class Principal extends JFrame {
 		setResizable(false);
 		setBounds(100, 100, 1918, 991);
 		
+		Tienda.getInstance().cargarArchivo();
+		
 		dim = getToolkit().getScreenSize();
 		setSize(dim.width, dim.height);
 		
