@@ -389,6 +389,7 @@ public class ComprarComponente extends JDialog {
 									componentHolder.getComponenteElegido().getPrecio(), cantArticulos, new ArrayList<Componente>(Arrays.asList(componentHolder.getComponenteElegido())));
 							
 							Tienda.getInstance().insertarFactura(newFactura);
+							Tienda.getInstance().escribirArchivo(newFactura);
 							cliente.addFactura(newFactura);
 							dispose();
 						} else if ( cliente == null ) {

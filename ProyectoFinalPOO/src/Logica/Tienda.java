@@ -377,19 +377,14 @@ public class Tienda {
 	                    } else if (obj instanceof Componente) {
 	                    	if(obj instanceof Ram) {
 	                    		Tienda.getInstance().insertarComponente((Ram) obj);
-	                    		System.out.println("Se agrego Ram");
 	                    	}else if (obj instanceof DiscoDuro) {
 	                    		Tienda.getInstance().insertarComponente((DiscoDuro) obj);
-	                    		System.out.println("Se agrego DiscoDuro");
 							}else if (obj instanceof GPU) {
 	                    		Tienda.getInstance().insertarComponente((GPU) obj);
-	                    		System.out.println("Se agrego GPU");
 							}else if (obj instanceof TarjetaMadre) {
 	                    		Tienda.getInstance().insertarComponente((TarjetaMadre) obj);
-	                    		System.out.println("Se agrego Tarjeta");
 							}else if (obj instanceof MicroProcesador) {
 	                    		Tienda.getInstance().insertarComponente((MicroProcesador) obj);
-	                    		System.out.println("Se agrego CPU");
 							}
 	                    } else if (obj instanceof Factura) {
 	                        Tienda.getInstance().insertarFactura((Factura) obj);
