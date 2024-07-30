@@ -617,7 +617,7 @@ public class RegComputadoras extends JDialog {
 					PopUpError error = new PopUpError("Debe llenar todos los espacios antes de registrar la computadora!", ErrorType.WARNING);
 					error.setVisible(true);
 				} else {
-					Computadora newComputer = new Computadora(id, componentesPc, precio, cantidad, tipo);
+					Computadora newComputer = new Computadora(id, componentesPc, precio, cantidad, tipo, 0);
 					Tienda.getInstance().insertarComputadora(newComputer);
 					PopUp newPopUp = new PopUp("La computadora " + newComputer.getId() + " fue creada exitosamente!");
 					newPopUp.setVisible(true);
