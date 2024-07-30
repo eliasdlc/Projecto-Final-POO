@@ -154,7 +154,7 @@ public class ComprarComputadora extends JDialog {
 							CorreoLabel.setVisible(true);
 							correoText.setVisible(true);
 						} else if ( cliente == null ) {
-							PopUpError popUp = new PopUpError("El usuario no fue encontrado, desea crear uno nuevo?", ErrorType.CLIENT_MISSING);
+							PopUpError popUp = new PopUpError("El usuario no fue encontrado, desea crear uno nuevo?", ErrorType.CLIENT_MISSING, id);
 							popUp.setLocationRelativeTo(contentPanel);
 							popUp.setVisible(true);
 						}

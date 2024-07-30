@@ -611,10 +611,10 @@ public class RegComputadoras extends JDialog {
 				int cantidad = Integer.parseInt(cantidadSpn.getValue().toString());
 				
 				if ( !tarjetaMadrePanel.isVisible() || !ramPanel.isVisible() || !microProcesadorPanel.isVisible() || !discoDuroPanel.isVisible() || !gpuPanel.isVisible() ) {
-					PopUpError error = new PopUpError("Debe seleccionar cada tipo de componentes correspondiente antes de registrar la computadora!", ErrorType.WARNING);
+					PopUpError error = new PopUpError("Debe seleccionar cada tipo de componentes correspondiente antes de registrar la computadora!", ErrorType.WARNING, null);
 					error.setVisible(true);
 				} else if ( precio == 1f && tipo.isEmpty() ) {
-					PopUpError error = new PopUpError("Debe llenar todos los espacios antes de registrar la computadora!", ErrorType.WARNING);
+					PopUpError error = new PopUpError("Debe llenar todos los espacios antes de registrar la computadora!", ErrorType.WARNING, null);
 					error.setVisible(true);
 				} else {
 					Computadora newComputer = new Computadora(id, componentesPc, precio, cantidad, tipo, 0);

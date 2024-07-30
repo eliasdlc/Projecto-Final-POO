@@ -12,17 +12,21 @@ public class Cliente implements Serializable{
 	private String nombre;
 	private String correo;
 	private String desc;
+	private String numero;
+	private String direccion;
 	private ArrayList<Componente> carrito;
 	private ArrayList<Factura> misFacturas;
 	
-	public Cliente(String id, String nombre, String correo, String desc, ArrayList<Componente> carrito, ArrayList<Factura> misFacturas) {
+	public Cliente(String id, String nombre, String correo, String desc, String numero, String direccion) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.correo = correo;
 		this.desc = desc;
-		this.carrito = carrito;
-		this.misFacturas = misFacturas;
+		this.numero = numero;
+		this.direccion = direccion;
+		this.carrito = new ArrayList<>();;
+		this.misFacturas = new ArrayList<>();
 	}
 	
 	public String getNombre() {
@@ -45,6 +49,22 @@ public class Cliente implements Serializable{
 	}
 	public String getId() {
 		return id;
+	}
+	
+	public String getNumero() {
+		return numero;
+	}
+	
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+	
+	public String getDireccion() {
+		return direccion;
+	}
+	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
 	}
 
 	public ArrayList<Componente> getCarrito() {

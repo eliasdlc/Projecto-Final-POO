@@ -177,7 +177,7 @@ public class ComprarComponente extends JDialog {
 							CorreoLabel.setVisible(true);
 							correoText.setVisible(true);
 						} else if ( cliente == null ) {
-							PopUpError popUp = new PopUpError("El usuario no fue encontrado, desea crear uno nuevo?", ErrorType.CLIENT_MISSING);
+							PopUpError popUp = new PopUpError("El usuario no fue encontrado, desea crear uno nuevo?", ErrorType.CLIENT_MISSING, null);
 							popUp.setLocationRelativeTo(contentPanel);
 							popUp.setVisible(true);
 						}
@@ -393,7 +393,7 @@ public class ComprarComponente extends JDialog {
 							cliente.addFactura(newFactura);
 							dispose();
 						} else if ( cliente == null ) {
-							PopUpError popUp = new PopUpError("Debe ingresar un cliente antes de realizar la compra!", ErrorType.WARNING);
+							PopUpError popUp = new PopUpError("Debe ingresar un cliente antes de realizar la compra!", ErrorType.WARNING, null);
 							popUp.setLocationRelativeTo(contentPanel);
 							popUp.setVisible(true);
 							

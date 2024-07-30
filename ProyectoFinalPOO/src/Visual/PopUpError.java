@@ -36,7 +36,7 @@ public class PopUpError extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			PopUpError dialog = new PopUpError(null, ErrorType.CLIENT_MISSING);
+			PopUpError dialog = new PopUpError(null, ErrorType.CLIENT_MISSING, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -47,7 +47,7 @@ public class PopUpError extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PopUpError(String mensaje, ErrorType errorType) {
+	public PopUpError(String mensaje, ErrorType errorType, String id) {
 		setUndecorated(true);
 		setBounds(100, 100, 450, 282);
 		setModal(true);
@@ -149,7 +149,10 @@ public class PopUpError extends JDialog {
 				mensajeTextPane.setText(mensaje);
 				okBttn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						// Regitrar Cliente
+						dispose();
+						PopUpRegCliente regCliente = new PopUpRegCliente(id);
+						regCliente.setModal(true);
+						regCliente.setVisible(true);
 					}
 				});
 			} else if ( errorType == ErrorType.WARNING ) {
