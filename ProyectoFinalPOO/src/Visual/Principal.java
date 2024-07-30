@@ -139,12 +139,11 @@ public class Principal extends JFrame {
 		setResizable(false);
 		setBounds(100, 100, 1918, 991);
 		
-		Tienda.getInstance().cargarArchivo();
-		
 		dim = getToolkit().getScreenSize();
 		setSize(dim.width, dim.height);
 		
 		Tienda.getInstance().setMisComponentes(componentesMasFamosos);
+		Tienda.getInstance().cargarArchivo();
 		
 		setLocationRelativeTo(null);
 		
@@ -443,9 +442,7 @@ public class Principal extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if ( !menuCompuAbierto ) {
-						// Abrir el menu
 						abrirMenuComputadoras(panelComputadorasShow, panelComponentesHide);
-						innerPanel.setComponentZOrder(bttnComprar, 1);
 					} else {
 						cerrarMenuComputadoras(panelComputadorasHide);
 					}

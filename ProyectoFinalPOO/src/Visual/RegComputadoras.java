@@ -619,6 +619,7 @@ public class RegComputadoras extends JDialog {
 				} else {
 					Computadora newComputer = new Computadora(id, componentesPc, precio, cantidad, tipo, 0);
 					Tienda.getInstance().insertarComputadora(newComputer);
+					Tienda.getInstance().escribirArchivo(newComputer);
 					PopUp newPopUp = new PopUp("La computadora " + newComputer.getId() + " fue creada exitosamente!");
 					newPopUp.setVisible(true);
 					clean();

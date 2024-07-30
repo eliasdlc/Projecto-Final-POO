@@ -375,7 +375,22 @@ public class Tienda {
 	                    if (obj instanceof Cliente) {
 	                        Tienda.getInstance().insertarCliente((Cliente) obj);
 	                    } else if (obj instanceof Componente) {
-	                        Tienda.getInstance().insertarComponente((Componente) obj);
+	                    	if(obj instanceof Ram) {
+	                    		Tienda.getInstance().insertarComponente((Ram) obj);
+	                    		System.out.println("Se agrego Ram");
+	                    	}else if (obj instanceof DiscoDuro) {
+	                    		Tienda.getInstance().insertarComponente((DiscoDuro) obj);
+	                    		System.out.println("Se agrego DiscoDuro");
+							}else if (obj instanceof GPU) {
+	                    		Tienda.getInstance().insertarComponente((GPU) obj);
+	                    		System.out.println("Se agrego GPU");
+							}else if (obj instanceof TarjetaMadre) {
+	                    		Tienda.getInstance().insertarComponente((TarjetaMadre) obj);
+	                    		System.out.println("Se agrego Tarjeta");
+							}else if (obj instanceof MicroProcesador) {
+	                    		Tienda.getInstance().insertarComponente((MicroProcesador) obj);
+	                    		System.out.println("Se agrego CPU");
+							}
 	                    } else if (obj instanceof Factura) {
 	                        Tienda.getInstance().insertarFactura((Factura) obj);
 	                    } else if (obj instanceof Computadora) {
@@ -390,11 +405,21 @@ public class Tienda {
 	}
 	
 	public void escribirArchivo(Object objeto) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objetos.dat"))) {
-            oos.writeObject(objeto);
+        ArrayList<Object> objetos = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objetos.dat"))) {
+            objetos = (ArrayList<Object>) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Archivo vacío o no encontrado. Se creará uno nuevo.");
+        }
+
+        objetos.add(objeto);
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objetos.dat"))) {
+            oos.writeObject(objetos);
+            System.out.println("Objeto añadido al archivo.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}
+    }
 
 }
