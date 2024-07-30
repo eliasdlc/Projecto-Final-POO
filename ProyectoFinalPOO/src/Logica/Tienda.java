@@ -325,10 +325,10 @@ public class Tienda {
 		return oferta;
 	}
 	
-	public boolean makeComputadora(String id, ArrayList<Componente> componentes, int cantDisponibles, String tipo) {
+	public boolean makeComputadora(String id, ArrayList<Componente> componentes, int cantDisponibles, String tipo, int cantVendido) {
 		boolean creado = false;
 		float precioPc = calcPrecioTotalComputadora(componentes);
-		Computadora pc = new Computadora(id, componentes, precioPc, cantDisponibles, tipo);
+		Computadora pc = new Computadora(id, componentes, precioPc, cantDisponibles, tipo, cantVendido);
 		
 		if ( isCompatible(pc) ) {
 			creado = true;

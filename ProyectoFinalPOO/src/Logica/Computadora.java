@@ -13,14 +13,16 @@ public class Computadora implements Serializable{
 	private float precio;
 	private int cantDisponible;
 	private String tipo;
+	private int cantVendido;
 	
-	public Computadora(String id, ArrayList<Componente> componentes, float precio, int cantDisponible, String tipo) {
+	public Computadora(String id, ArrayList<Componente> componentes, float precio, int cantDisponible, String tipo, int cantVendido) {
 		super();
 		this.id = id;
 		this.componentes = componentes;
 		this.precio = precio;
 		this.cantDisponible = cantDisponible;
 		this.tipo = tipo;
+		this.cantVendido = cantVendido;
 	}
 
 	public ArrayList<Componente> getComponentes() {
@@ -59,7 +61,11 @@ public class Computadora implements Serializable{
 		this.tipo = tipo;
 	}
 	
+	public int getCantVendido() {
+		return cantVendido;
+	}
 	
-	
-	
+	public void setCantVendido(int cantVendido) {
+		this.cantVendido = cantVendido;
+	}
 }
