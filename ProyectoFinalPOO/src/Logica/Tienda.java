@@ -1,5 +1,11 @@
 package Logica;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class Tienda {
@@ -354,6 +360,41 @@ public class Tienda {
 			
 		}
 		return compatible;
+	}
+	
+	public void cargarArchivo() {
+	    try {
+	        File archivo = new File("objetos.dat");
+	        if (!archivo.exists()) {
+	            archivo.createNewFile();
+	            System.out.println("Archivo creado: " + "objetos.dat");
+	        }else {
+	            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objetos.dat"))) {
+	                ArrayList<Object> objetos = (ArrayList<Object>) ois.readObject();
+	                for (Object obj : objetos) {
+	                    if (obj instanceof Cliente) {
+	                        Tienda.getInstance().insertarCliente((Cliente) obj);
+	                    } else if (obj instanceof Componente) {
+	                        Tienda.getInstance().insertarComponente((Componente) obj);
+	                    } else if (obj instanceof Factura) {
+	                        Tienda.getInstance().insertarFactura((Factura) obj);
+	                    } else if (obj instanceof Computadora) {
+	                        Tienda.getInstance().insertarComputadora((Computadora) obj);
+	                    }
+	                }
+	            }
+	        }
+	    } catch (IOException | ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void escribirArchivo(Object objeto) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objetos.dat"))) {
+            oos.writeObject(objeto);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 }

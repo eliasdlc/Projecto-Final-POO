@@ -13,9 +13,6 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 
 import Logica.AnimationType;
 import Logica.Componente;
@@ -23,7 +20,6 @@ import Logica.DiscoDuro;
 import Logica.GPU;
 import Logica.MicroProcesador;
 import Logica.MoveToXY;
-import Logica.PanelHoverEffect;
 import Logica.Ram;
 import Logica.RoundedBorder;
 import Logica.TarjetaMadre;
@@ -36,14 +32,11 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
 
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import java.awt.event.ActionListener;
@@ -55,8 +48,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.text.NumberFormat;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
 public class Principal extends JFrame {
 
@@ -77,13 +68,13 @@ public class Principal extends JFrame {
 	Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
 	Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
 	Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
-	Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	//Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
 	Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 3.8f, "AM4", 8);
 	Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
 	Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
-	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	//Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
 	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
-	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica, disco, memoria2, tarjetaGrafica2, disco2, tarjetaMadre2));
+	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica/*, disco*/, memoria2, tarjetaGrafica2/*, disco2*/, tarjetaMadre2));
 	
 	//
 	
@@ -95,6 +86,7 @@ public class Principal extends JFrame {
 	private JButton btnAdministracion;
 	private JButton btnCliente;
 	private JButton bttnOpciones;
+	private JButton bttnComprar;
 	private JPanel panelComputadoras;
 	private JButton regComputadorasBttn;
 	private JButton listarComputadorasBttn;
@@ -146,6 +138,8 @@ public class Principal extends JFrame {
 	public Principal() {
 		setResizable(false);
 		setBounds(100, 100, 1918, 991);
+		
+		Tienda.getInstance().cargarArchivo();
 		
 		dim = getToolkit().getScreenSize();
 		setSize(dim.width, dim.height);
@@ -451,6 +445,7 @@ public class Principal extends JFrame {
 					if ( !menuCompuAbierto ) {
 						// Abrir el menu
 						abrirMenuComputadoras(panelComputadorasShow, panelComponentesHide);
+						innerPanel.setComponentZOrder(bttnComprar, 1);
 					} else {
 						cerrarMenuComputadoras(panelComputadorasHide);
 					}
@@ -829,4 +824,5 @@ public class Principal extends JFrame {
 	    Rectangle bounds = new Rectangle(componentPosition, component.getSize());
 	    return bounds.contains(mousePosition);
 	}
+	
 }

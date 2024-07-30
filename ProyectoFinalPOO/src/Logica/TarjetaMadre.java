@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class TarjetaMadre extends Componente {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String conectionSocket;
 	private String tipoRam;
 	private String conectionGPU;

@@ -1,6 +1,10 @@
 package Logica;
 
 public class FacturaComputadora extends Factura {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int cantComputadoras;
 	private String idComputadora;
 	

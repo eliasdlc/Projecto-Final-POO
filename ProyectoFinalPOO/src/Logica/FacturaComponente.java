@@ -3,6 +3,10 @@ package Logica;
 import java.util.ArrayList;
 
 public class FacturaComponente extends Factura {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int[] cantArticulos;
 	private ArrayList<Componente> listaComponentes;
 
