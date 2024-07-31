@@ -534,11 +534,10 @@ public class Tienda {
         objetos.addAll(misUsuarios);
 
 
-        try (FileOutputStream fos = new FileOutputStream("archivo.dat", false);  // false indica que sobrescribirá el archivo
+        try (FileOutputStream fos = new FileOutputStream("objetos.dat", false);
                 ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 
                oos.writeObject(objetos);
-               System.out.println("Archivo sobrescrito con éxito.");
 
            } catch (IOException e) {
                e.printStackTrace();
