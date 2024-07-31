@@ -525,21 +525,24 @@ public class Tienda {
 	    }
 	}
 	
-	public void escribirArchivo(Object objeto) {
+	public void escribirArchivo() {
         ArrayList<Object> objetos = new ArrayList<>();
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("objetos.dat"))) {
-            objetos = (ArrayList<Object>) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Archivo vacío o no encontrado. Se creará uno nuevo.");
-        }
+        objetos.addAll(misClientes);
+        objetos.addAll(misComponentes);
+        objetos.addAll(misComputadoras);
+        objetos.addAll(misFacturas);
+        objetos.addAll(misUsuarios);
 
-        objetos.add(objeto);
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("objetos.dat"))) {
-            oos.writeObject(objetos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        try (FileOutputStream fos = new FileOutputStream("archivo.dat", false);  // false indica que sobrescribirá el archivo
+                ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+
+               oos.writeObject(objetos);
+               System.out.println("Archivo sobrescrito con éxito.");
+
+           } catch (IOException e) {
+               e.printStackTrace();
+           }
     }
 
 

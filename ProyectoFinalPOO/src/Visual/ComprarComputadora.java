@@ -251,8 +251,8 @@ public class ComprarComputadora extends JDialog {
 							comp.setCantVendido(comp.getCantVendido() + cantArticulos);
 							
 							
-							Tienda.getInstance().escribirArchivo(newFactura);
 							cliente.addFactura(newFactura);
+							Tienda.getInstance().escribirArchivo();
 							
 							DisplayFacturaComputadora display = new DisplayFacturaComputadora((FacturaComputadora)newFactura);
 							display.setVisible(true);

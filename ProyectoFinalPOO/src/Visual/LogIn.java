@@ -14,6 +14,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import Logica.AnimationType;
+import Logica.ErrorType;
 import Logica.MoveToXY;
 import Logica.RoundedBorder;
 import Logica.Tienda;
@@ -148,10 +149,12 @@ public class LogIn extends JDialog {
 				password = passwordField.getText();
 				if (inicioSession()) {
 					Principal principal = new Principal();
-					principal.setVisible(true);
 					dispose();
+					principal.setVisible(true);
 				}else {
-					System.out.println("No hizo nada");
+					PopUpError popUp = new PopUpError("El usuario no esta registrado", ErrorType.WARNING, null);
+					popUp.setLocationRelativeTo(contentPanel);
+					popUp.setVisible(true);
 				}
 				
 			}
@@ -291,7 +294,6 @@ public class LogIn extends JDialog {
 	private boolean inicioSession() {
 		Boolean existe = false;
 		if (usuario.equals("admin") && password.equals("admin")) {
-			System.out.println("Inicio de session exitoso");
 			Tienda.getInstance().setPermisoAdministrado(true);
 			existe = true;
 		}else {

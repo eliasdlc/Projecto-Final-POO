@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import Logica.AnimationType;
+import Logica.ErrorType;
 import Logica.MoveToXY;
 import Logica.RoundedBorder;
 import Logica.Tienda;
@@ -176,10 +177,18 @@ public class Regusuarios extends JDialog {
 				if(completado() && passwordField.getText().equals(passwordField_1.getText())) {
 					Usuarios usuario = new Usuarios(txtUsuario.getText(), passwordField.getText(), txtNombre.getText(), txtDireccion.getText(), txtTelefono.getText(), txtCorreo.getText());
 					Tienda.getInstance().insertarUsuario(usuario);
-					Tienda.getInstance().escribirArchivo(usuario);
+					Tienda.getInstance().escribirArchivo();
 					dispose();
 				}else {
-					System.out.println("algo no completo o contrasena no coinciden");
+					if(!completado()) {
+						PopUpError popUp = new PopUpError("Tiene que rellenar todos los campos", ErrorType.WARNING, null);
+						popUp.setLocationRelativeTo(contentPanel);
+						popUp.setVisible(true);
+					}else {
+						PopUpError popUp = new PopUpError("Las contraseñsa tienen que ser iguales", ErrorType.WARNING, null);
+						popUp.setLocationRelativeTo(contentPanel);
+						popUp.setVisible(true);
+					}
 				}
 			}
 		});

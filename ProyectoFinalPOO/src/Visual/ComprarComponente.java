@@ -401,7 +401,7 @@ public class ComprarComponente extends JDialog {
 								comp.setCantVendidos(comp.getCantVendidos() + cantArticulos);
 								
 								
-								Tienda.getInstance().escribirArchivo(newFactura);
+								Tienda.getInstance().escribirArchivo();
 								cliente.addFactura(newFactura);
 								
 								DisplayFacturaComponente display = new DisplayFacturaComponente(newFactura);

@@ -985,7 +985,7 @@ public class RegComponentes extends JDialog {
 						}
 						
 						Tienda.getInstance().insertarComponente(newComponente);
-						Tienda.getInstance().escribirArchivo(newComponente);
+						Tienda.getInstance().escribirArchivo();
 						PopUp newPopUp = new PopUp("El componente " + newComponente.getId() + " fue agregado exitosamente!");
 						newPopUp.setLocationRelativeTo(contentPanel);
 						newPopUp.setVisible(true);

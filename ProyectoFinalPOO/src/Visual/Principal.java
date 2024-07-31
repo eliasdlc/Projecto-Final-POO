@@ -19,6 +19,7 @@ import Logica.Cliente;
 import Logica.Componente;
 import Logica.Computadora;
 import Logica.DiscoDuro;
+import Logica.ErrorType;
 import Logica.GPU;
 import Logica.MicroProcesador;
 import Logica.MoveToXY;
@@ -480,6 +481,10 @@ public class Principal extends JFrame {
 						} else {
 							cerrarMenuAdmin(panelAdminHide);
 						}
+					}else {
+						PopUpError popUp = new PopUpError("No tienes permiso de administrador para acceder", ErrorType.WARNING, null);
+						popUp.setLocationRelativeTo(contentPanel);
+						popUp.setVisible(true);
 					}
 				}
 			});
