@@ -114,8 +114,7 @@ public class PopUpCant extends JDialog {
 					int cant = new Integer(quantityspn.getValue().toString());
 					comp.setCantDisponible(comp.getCantDisponible() + cant);
 					ListComponentes.loadComponente(null);
-					
-					
+					dispose();
 				}
 			});
 			addbtn.setForeground(Color.WHITE);
