@@ -130,6 +130,7 @@ public class Principal extends JFrame {
 
 	public static Socket sfd;
 	public static ObjectOutputStream sld;
+	private JButton reporteBtn;
 	/**
 	 * Launch the application.
 	 */
@@ -528,6 +529,36 @@ public class Principal extends JFrame {
 				}
 			});
 			panelAdministracion.add(regUsuarioBttn);
+			
+			reporteBtn = new JButton("Rep. Ventas");
+			reporteBtn.setBackground(ButtonColor);
+			reporteBtn.setForeground(Color.WHITE);
+			reporteBtn.setFont(new Font("Tahoma", Font.BOLD, 20));
+			reporteBtn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+			reporteBtn.setFocusPainted(false);
+			reporteBtn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnAdministracion.setBackground(HoverEffevtColor);
+					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
+					reporteBtn.setBackground(HoverEffevtColor);
+					reporteBtn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					reporteBtn.setBackground(ButtonColor);
+					reporteBtn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+				}
+			});
+			reporteBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					PopUpReporte reporte = new PopUpReporte();
+					reporte.setModal(true);
+					reporte.setVisible(true);
+				}
+			});
+			reporteBtn.setBounds(24, 76, 320, 76);
+			panelAdministracion.add(reporteBtn);
 			
 			
 			
