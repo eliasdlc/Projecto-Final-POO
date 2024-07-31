@@ -9,6 +9,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 
 import javax.swing.ImageIcon;
@@ -26,10 +28,18 @@ import javax.swing.border.EmptyBorder;
 import Logica.AnimationType;
 import Logica.Cliente;
 import Logica.ComponentHolder;
+import Logica.Componente;
 import Logica.Computadora;
+import Logica.DiscoDuro;
 import Logica.ErrorType;
+import Logica.Factura;
+import Logica.FacturaComputadora;
+import Logica.GPU;
+import Logica.MicroProcesador;
 import Logica.MoveToXY;
+import Logica.Ram;
 import Logica.RoundedBorder;
+import Logica.TarjetaMadre;
 import Logica.Tienda;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -74,6 +84,8 @@ public class ComprarComputadora extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ComprarComponente.class.getResource("/carrito.png")));
 		setTitle("Comprar Computadora");
 		setResizable(false);
+		setModal(true);
+		setLocationRelativeTo(getParent());
 		setBounds(100, 100, 873, 691);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -188,6 +200,13 @@ public class ComprarComputadora extends JDialog {
 			panel1.setBackground(new Color(240, 240, 240));
 			panel.add(panel1);
 			panel1.setLayout(null);
+			
+			JLabel componenteIcon = new JLabel("");
+			componenteIcon.setBounds(144, 12, 220, 220);
+			Image img = new ImageIcon(this.getClass().getResource("/ordenador.png")).getImage();
+			Image scaledImg = img.getScaledInstance(componenteIcon.getHeight(), componenteIcon.getWidth(), Image.SCALE_SMOOTH);
+			componenteIcon.setIcon(new ImageIcon(scaledImg));
+			panel1.add(componenteIcon);
 		
 			JPanel pcPanel = new JPanel();
 			pcPanel.setBackground(Color.WHITE);
@@ -217,6 +236,46 @@ public class ComprarComputadora extends JDialog {
 			cantPcSpn.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 		
 			JButton comprarBtn = new JButton("Comprar");
+			comprarBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if ( cliente != null ) {
+						int cantArticulos = Integer.parseInt(cantPcSpn.getValue().toString());
+						
+						Factura newFactura = Tienda.getInstance().makeFactura(null, 0, pc, cantArticulos, cliente);
+						
+						if ( newFactura != null ) {
+							
+							
+							Computadora comp = Tienda.getInstance().searchComputadoraById(pc.getId());
+							comp.setCantDisponible(comp.getCantDisponible() - cantArticulos );
+							comp.setCantVendido(comp.getCantVendido() + cantArticulos);
+							
+							
+							Tienda.getInstance().escribirArchivo(newFactura);
+							cliente.addFactura(newFactura);
+							
+							DisplayFacturaComputadora display = new DisplayFacturaComputadora((FacturaComputadora)newFactura);
+							display.setVisible(true);
+							
+							//cliente.getCarrito().remove(componentHolder.getComponenteElegido());
+							dispose();
+						} else {
+							PopUpError popUp = new PopUpError("Ocurrio un error al intentar crear la factura!", ErrorType.WARNING, null);
+							popUp.setLocationRelativeTo(contentPanel);
+							popUp.setVisible(true);
+							
+							//cliente.getCarrito().remove(componentHolder.getComponenteElegido());
+						}
+						
+						
+					} else if ( cliente == null ) {
+						PopUpError popUp = new PopUpError("Debe ingresar un cliente antes de realizar la compra!", ErrorType.WARNING, null);
+						popUp.setLocationRelativeTo(contentPanel);
+						popUp.setVisible(true);
+						
+					}
+				}
+			});
 			comprarBtn.setBounds(24, 508, 483, 55);
 			pcPanel.add(comprarBtn);
 			

@@ -90,7 +90,8 @@ public class ComprarComponente extends JDialog {
 	 */
 	public ComprarComponente(Componente componente1, Componente componente2) {
 		componentHolder = new ComponentHolder(componente1, componente2);
-
+		setModal(true);
+		setLocationRelativeTo(getParent());
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ComprarComponente.class.getResource("/carrito.png")));
 		setTitle("Comprar Componente");
 		setResizable(false);
@@ -371,7 +372,7 @@ public class ComprarComponente extends JDialog {
 				}
 				
 				JSpinner cantComponentesSpn = new JSpinner();
-				cantComponentesSpn.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+				cantComponentesSpn.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), new Integer(componentHolder.getComponenteElegido().getCantDisponible()), new Integer(1)));
 				cantComponentesSpn.setBounds(355, 355, 152, 41);
 				componente1Panel.add(cantComponentesSpn);
 				MoveToXY cantComponentesSpnHide = new MoveToXY(cantComponentesSpn, -200, cantComponentesSpn.getY(), 0.8f, AnimationType.EASE_OUT);
@@ -382,16 +383,41 @@ public class ComprarComponente extends JDialog {
 				
 				comprarBttn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						
 						if ( cliente != null ) {
-							Tienda.getInstance();
-							int[] cantArticulos = {Integer.parseInt(cantComponentesSpn.getValue().toString())};
-							Factura newFactura = new FacturaComponente(cliente.getId(), "C-" + Tienda.getCodFactura(), 
-									componentHolder.getComponenteElegido().getPrecio(), cantArticulos, new ArrayList<Componente>(Arrays.asList(componentHolder.getComponenteElegido())));
+							int cantArticulos = Integer.parseInt(cantComponentesSpn.getValue().toString());
 							
-							Tienda.getInstance().insertarFactura(newFactura);
-							Tienda.getInstance().escribirArchivo(newFactura);
-							cliente.addFactura(newFactura);
-							dispose();
+							cliente.addToCarrito(componentHolder.getComponenteElegido());
+							componentHolder.getComponenteElegido().setCantSeleccionado(cantArticulos);
+							
+							ArrayList<Componente> componentes = new ArrayList<Componente>(Arrays.asList(componentHolder.getComponenteElegido()));
+							Factura newFactura = Tienda.getInstance().makeFactura(componentes, cantArticulos, null, 0, cliente);
+							
+							if ( newFactura != null ) {
+								
+								
+								Componente comp = Tienda.getInstance().searchComponenteById(componentHolder.getComponenteElegido().getId());
+								comp.setCantDisponible(comp.getCantDisponible() - cantArticulos );
+								comp.setCantVendidos(comp.getCantVendidos() + cantArticulos);
+								
+								
+								Tienda.getInstance().escribirArchivo(newFactura);
+								cliente.addFactura(newFactura);
+								
+								DisplayFacturaComponente display = new DisplayFacturaComponente(newFactura);
+								display.setVisible(true);
+								
+								cliente.getCarrito().remove(componentHolder.getComponenteElegido());
+								dispose();
+							} else {
+								PopUpError popUp = new PopUpError("Ocurrio un error al intentar crear la factura!", ErrorType.WARNING, null);
+								popUp.setLocationRelativeTo(contentPanel);
+								popUp.setVisible(true);
+								
+								cliente.getCarrito().remove(componentHolder.getComponenteElegido());
+							}
+							
+							
 						} else if ( cliente == null ) {
 							PopUpError popUp = new PopUpError("Debe ingresar un cliente antes de realizar la compra!", ErrorType.WARNING, null);
 							popUp.setLocationRelativeTo(contentPanel);
@@ -421,7 +447,7 @@ public class ComprarComponente extends JDialog {
 			
 			JLabel componenteIcon2 = new JLabel("");
 			componenteIcon2.setBounds(144, 12, 220, 220);
-			Image img2 = null;
+			Image img2 = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();;
 			
 			if ( componente2 instanceof MicroProcesador ) {
 				img2 = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
@@ -621,7 +647,6 @@ public class ComprarComponente extends JDialog {
 			JLabel cantDisponibles2Label, JLabel label_1, JLabel componenteIcon2) {
 		lblNewLabel.setText(componentHolder.getComponenteElegido().getMarca() + " " + componentHolder.getComponenteElegido().getModelo());
 		cantDisponiblesElegidoLabel.setText(NumberFormat.getNumberInstance().format(componentHolder.getComponenteElegido().getCantDisponible()));
-		precioLabel.setText(NumberFormat.getCurrencyInstance().format(componentHolder.getComponenteElegido().getPrecio()));
 		
 		Image img = null;
 		
