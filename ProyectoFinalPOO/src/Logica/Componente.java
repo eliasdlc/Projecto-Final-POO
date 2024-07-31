@@ -24,6 +24,7 @@ public class Componente implements Serializable{
 		this.precio = precio;
 		this.cantDisponible = cantDisponible;
 		this.cantVendidos = cantVendidos;
+		this.cantSeleccionado = 0;
 		this.descuento = 0;
 	}
 	
