@@ -138,6 +138,7 @@ public class Principal extends JFrame {
 	public static Socket sfd;
 	public static ObjectOutputStream sld;
 	private JButton reporteBtn;
+	private JScrollPane scrollPane_1;
 	/**
 	 * Launch the application.
 	 */
@@ -163,18 +164,10 @@ public class Principal extends JFrame {
 		
 		computadorasMasVendidas = Tienda.getInstance().getListComputadorasMasVendidas();
 		computadoras = makePcMasCompradosPanels(0, computadorasMasVendidas);
-		
-		Cliente newCliente = new Cliente("C-1", "Elias De La Cruz", "eliasdlc2005@gmail.com", "", "", "");
-		Tienda.getInstance().insertarCliente(newCliente);
-		
-		
+
 		
 		dim = getToolkit().getScreenSize();
 		setSize(1933, 1080);
-		
-		/*for (Componente comp : componentesMasFamosos) {
-			Tienda.getInstance().insertarComponente(comp);
-		}*/
 		
 		setLocationRelativeTo(null);
 		
@@ -764,7 +757,7 @@ public class Principal extends JFrame {
 			label.setFont(new Font("Century Gothic", Font.PLAIN, 25));
 			
 			
-			JScrollPane scrollPane_1 = new JScrollPane();
+			scrollPane_1 = new JScrollPane();
 			scrollPane_1.setBorder(new EmptyBorder(0,0,0,0));
 			scrollPane_1.setBounds(12, 520, 1536, 400);
 			scrollPane_1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -822,6 +815,9 @@ public class Principal extends JFrame {
 			displayHorizontalList(computadoras, innerPanel2);
 			
 			updateMostFamousComponents();
+			
+			
+
 		}
 	}
 	
@@ -842,6 +838,14 @@ public class Principal extends JFrame {
 
 	    SwingUtilities.invokeLater(() -> {
 	        scrollPane.getHorizontalScrollBar().setValue(currentScrollPosition);
+	    });
+	    
+	    computadorasMasVendidas = Tienda.getInstance().getListComputadorasMasVendidas();
+		computadoras = makePcMasCompradosPanels(0, computadorasMasVendidas);
+		displayHorizontalList(computadoras, innerPanel2);
+		
+		SwingUtilities.invokeLater(() -> {
+			scrollPane_1.getHorizontalScrollBar().setValue(currentScrollPosition);
 	    });
 	}
 	
@@ -1192,6 +1196,14 @@ public class Principal extends JFrame {
 			precioPanel.setBackground(ThirdC);
 			precioPanel.setBorder(new RoundedBorder(ThirdC, 1, 20));
 			newPanel.add(precioPanel);
+			
+			if ( Tienda.getInstance().returnStockStatus(comp) ) {
+				JLabel stockLabel = new JLabel("");
+				stockLabel.setBounds(0, 0, 125, 41);
+				stockLabel.setForeground(new Color(167, 34, 34));
+				stockLabel.setText("Stock bajo!");
+				newPanel.add(stockLabel);
+			}
 			
 		}
 		return componentes;

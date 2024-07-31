@@ -649,13 +649,7 @@ public class ComprarComponente extends JDialog {
 				ofertaLabel.setBounds(167, 311, 125, 41);
 				componente1Panel.add(ofertaLabel);
 			}
-			/*if ( Tienda.getInstance().returnStockStatus(componentHolder.getComponenteElegido()) ) {
-				JLabel stockLabel = new JLabel("");
-				stockLabel.setBounds(167, 341, 125, 41);
-				stockLabel.setForeground(new Color(167, 34, 34));
-				stockLabel.setText("Stock bajo!");
-				componente1Panel.add(stockLabel);
-			}*/
+			
 			
 			
 			

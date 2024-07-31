@@ -99,13 +99,8 @@ public class PopUpRegCliente extends JDialog {
 			panel.add(titleTxt);
 			
 			idtxt = new JTextField();
-			if(id != null) {
-				idtxt.setEditable(false);
-				idtxt.setText(id);
-			}
-			else {
-				idtxt.setEditable(true);
-			}
+			idtxt.setText("CL-" + Tienda.getInstance().codCliente);
+			idtxt.setEditable(false);
 			idtxt.setFont(new Font("Century Gothic", Font.BOLD, 16));
 			idtxt.setBounds(133, 73, 164, 26);
 			panel.add(idtxt);
@@ -180,6 +175,7 @@ public class PopUpRegCliente extends JDialog {
 					
 					Cliente cli = new Cliente(id, name, email, desc, phone, dir);
 					Tienda.getInstance().insertarCliente(cli);
+					Tienda.getInstance().escribirArchivo();
 					clean();
 					dispose();
 				}
