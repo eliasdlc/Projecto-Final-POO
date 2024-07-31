@@ -35,6 +35,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import javax.swing.JFrame;
+import javax.sound.midi.SysexMessage;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 
@@ -53,6 +54,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
@@ -123,6 +128,9 @@ public class Principal extends JFrame {
 	private JPanel panel_2;
 	private JButton componentesBttn;
 
+	public static Socket sfd;
+	public static ObjectOutputStream sld;
+	private JButton reporteBtn;
 	/**
 	 * Launch the application.
 	 */
@@ -522,6 +530,36 @@ public class Principal extends JFrame {
 			});
 			panelAdministracion.add(regUsuarioBttn);
 			
+			reporteBtn = new JButton("Rep. Ventas");
+			reporteBtn.setBackground(ButtonColor);
+			reporteBtn.setForeground(Color.WHITE);
+			reporteBtn.setFont(new Font("Tahoma", Font.BOLD, 20));
+			reporteBtn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+			reporteBtn.setFocusPainted(false);
+			reporteBtn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					btnAdministracion.setBackground(HoverEffevtColor);
+					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
+					reporteBtn.setBackground(HoverEffevtColor);
+					reporteBtn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					reporteBtn.setBackground(ButtonColor);
+					reporteBtn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+				}
+			});
+			reporteBtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					PopUpReporte reporte = new PopUpReporte();
+					reporte.setModal(true);
+					reporte.setVisible(true);
+				}
+			});
+			reporteBtn.setBounds(24, 76, 320, 76);
+			panelAdministracion.add(reporteBtn);
+			
 			
 			
 			btnCliente = new JButton("Cliente");
@@ -558,7 +596,9 @@ public class Principal extends JFrame {
 			regClienteBttn = new JButton("Reg. Cliente");
 			regClienteBttn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-						// Registro cliente
+						PopUpRegCliente regCliente = new PopUpRegCliente(null);
+						regCliente.setModal(true);
+						regCliente.setVisible(true);
 					}
 				});
 			
@@ -584,7 +624,7 @@ public class Principal extends JFrame {
 			panelClientes.add(regClienteBttn);
 			
 			
-			listarClientesBttn = new JButton("List. Computadora");
+			listarClientesBttn = new JButton("List. Cliente");
 			listarClientesBttn.setBounds(24, 76, 320, 76);
 			listarClientesBttn.setBackground(ButtonColor);
 			listarClientesBttn.setForeground(Color.WHITE);
@@ -594,7 +634,9 @@ public class Principal extends JFrame {
 			listarClientesBttn.addActionListener(new ActionListener() {
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
-			        //listar Clientes
+			        ListCliente lista = new ListCliente();
+			        lista.setModal(true);
+			        lista.setVisible(true);
 			    }
 			});
 			listarClientesBttn.addMouseListener(new MouseAdapter() {
@@ -616,6 +658,34 @@ public class Principal extends JFrame {
 			bttnOpciones = new JButton("Respaldo");
 			bttnOpciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					try {
+						sfd = new Socket("localhost", 7000);
+						sld = new ObjectOutputStream(sfd.getOutputStream());
+						Tienda tienda = Tienda.getInstance();
+					
+						sld.writeObject(tienda);
+						sld.flush();
+					}
+					catch (UnknownHostException uhe) {
+						System.out.println("No se puede acceder al servidor");
+						System.exit(1);
+					}
+					catch (IOException ioe) {
+						System.out.println("Comunicacion rechazada");
+						System.exit(1);
+					}
+					finally {
+						try {
+							if(sld != null) {
+								sld.close();
+							}
+							if(sfd != null) {
+								sfd.close();
+							}
+						} catch (IOException ioe) {
+							ioe.printStackTrace();
+						}
+					}
 				}
 			});
 			bttnOpciones.addMouseListener(new MouseAdapter() {
