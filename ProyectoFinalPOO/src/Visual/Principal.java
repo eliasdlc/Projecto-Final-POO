@@ -54,8 +54,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.NumberFormat;
@@ -659,33 +666,50 @@ public class Principal extends JFrame {
 			bttnOpciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					try {
-						sfd = new Socket("localhost", 7000);
-						sld = new ObjectOutputStream(sfd.getOutputStream());
-						Tienda tienda = Tienda.getInstance();
-					
-						sld.writeObject(tienda);
-						sld.flush();
+					    sfd = new Socket("127.0.0.1", 7001);
+					    sld = new ObjectOutputStream(sfd.getOutputStream());
+
+					    String filePath = "objetos.dat"; // Especifica la ruta de tu archivo
+
+					    try (FileInputStream fileInputStream = new FileInputStream(filePath);
+					         BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+					         OutputStream outputStream = sfd.getOutputStream()) {
+
+					        // Enviar el nombre del archivo
+					        DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+					        dataOutputStream.writeUTF(new File(filePath).getName());
+
+					        // Enviar el contenido del archivo
+					        byte[] buffer = new byte[4096];
+					        int bytesRead;
+					        while ((bytesRead = bufferedInputStream.read(buffer, 0, buffer.length)) != -1) {
+					            outputStream.write(buffer, 0, bytesRead);
+					        }
+
+					        System.out.println("Archivo enviado exitosamente!");
+
+					    } catch (IOException e1) {
+					        e1.printStackTrace();
+					    }
+					} catch (UnknownHostException uhe) {
+					    System.out.println("No se puede acceder al servidor");
+					    System.exit(1);
+					} catch (IOException ioe) {
+					    System.out.println("1Comunicacion rechazada");
+					    System.exit(1);
+					} finally {
+					    try {
+					        if (sld != null) {
+					            sld.close();
+					        }
+					        if (sfd != null) {
+					            sfd.close();
+					        }
+					    } catch (IOException ioe) {
+					        ioe.printStackTrace();
+					    }
 					}
-					catch (UnknownHostException uhe) {
-						System.out.println("No se puede acceder al servidor");
-						System.exit(1);
-					}
-					catch (IOException ioe) {
-						System.out.println("Comunicacion rechazada");
-						System.exit(1);
-					}
-					finally {
-						try {
-							if(sld != null) {
-								sld.close();
-							}
-							if(sfd != null) {
-								sfd.close();
-							}
-						} catch (IOException ioe) {
-							ioe.printStackTrace();
-						}
-					}
+
 				}
 			});
 			bttnOpciones.addMouseListener(new MouseAdapter() {
@@ -859,6 +883,8 @@ public class Principal extends JFrame {
 	}
 	
 	private void abrirMenuAdmin(MoveToXY panelAdminShow, MoveToXY panelClientesHide, MoveToXY panelComputadorasHide, MoveToXY panelComponentesHide) {
+		regUsuarioBttn.setVisible(true);
+		reporteBtn.setVisible(true);
 		panelAdministracion.setVisible(true);
 		panelAdminShow.start();
 		cerrarMenuCliente(panelClientesHide);
@@ -889,6 +915,8 @@ public class Principal extends JFrame {
 	}
 	
 	private void abrirMenuCliente(MoveToXY panelClientesShow, MoveToXY panelComputadorasHide, MoveToXY panelComponentesHide, MoveToXY panelAdminHide) {
+		regClienteBttn.setVisible(true);
+		listarClientesBttn.setVisible(true);
 		panelClientes.setVisible(true);
 		panelClientesShow.start();
 		cerrarMenuComputadoras(panelComputadorasHide);

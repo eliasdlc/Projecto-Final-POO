@@ -3,44 +3,55 @@ package server;
 import java.io.*;
 import java.net.*;
 
-import Logica.Tienda;
-
 public class Servidor extends Thread {
 
-	public static void main(String args[]) {
-		ServerSocket sfd = null;
-		try {
-			System.out.println("Iniciando");
-			sfd = new ServerSocket(7000);
-			System.out.println("Aceptando Conexion de la ip: " + sfd.getInetAddress());
-			
-			while(true) {
-				try {
-					Socket nsfd = sfd.accept();
-					System.out.println("Conexion aceptada de la ip: " + nsfd.getInetAddress());
-					
-					ObjectInputStream inputStream = new ObjectInputStream(nsfd.getInputStream());
-					try {
-						Tienda tienda = (Tienda)inputStream.readObject();
-						System.out.println("Llego el respaldo");
-					} catch (ClassNotFoundException e) {
-					System.out.println("Error en conexion: " + e.getMessage());
-				}
-					
-				} catch(IOException ioe) {
-					System.out.println("Error: " + ioe);
-				}
-			}
-		}catch (IOException ioe) {
-			System.out.println("Comunicacion Rechazada" + ioe);
-		} finally {
-			if(sfd != null && !sfd.isClosed()) {
-				try {
-					sfd.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+    public static void main(String[] args) {
+        ServerSocket serverSocket = null;
+        try {
+            System.out.println("Iniciando conexión");
+            serverSocket = new ServerSocket(7001);
+            System.out.println("Esperando conexiones en el puerto 7000...");
+
+            while (true) {
+                try (Socket clientSocket = serverSocket.accept();
+                     DataInputStream dataInputStream = new DataInputStream(clientSocket.getInputStream())) {
+
+                    System.out.println("Conexión aceptada de: " + clientSocket.getInetAddress());
+
+                    // Leer el nombre del archivo
+                    String fileName = dataInputStream.readUTF();
+                    System.out.println("Nombre del archivo recibido: " + fileName);
+
+                    // Preparar para escribir el archivo recibido
+                    try (FileOutputStream fileOutputStream = new FileOutputStream("servidor_" + fileName)) {
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+
+                        // Leer el archivo y escribirlo en el servidor
+                        while ((bytesRead = dataInputStream.read(buffer)) != -1) {
+                            fileOutputStream.write(buffer, 0, bytesRead);
+                        }
+
+                        System.out.println("Archivo " + fileName + " recibido y guardado.");
+                    }
+
+                } catch (EOFException e) {
+                    System.out.println("Archivo recibido completamente.");
+                } catch (IOException ioe) {
+                    System.out.println("Error en la comunicación con el cliente: " + ioe.getMessage());
+                }
+            }
+        } catch (IOException ioe) {
+            System.out.println("Comunicación rechazada: " + ioe.getMessage());
+            System.exit(1);
+        } finally {
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    System.out.println("Error al cerrar el serverSocket: " + e.getMessage());
+                }
+            }
+        }
+    }
 }
