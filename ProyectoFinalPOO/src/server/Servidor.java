@@ -1,7 +1,10 @@
 package server;
 
-import java.io.*;
-import java.net.*;
+import java.io.DataInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Servidor extends Thread {
 
@@ -10,40 +13,33 @@ public class Servidor extends Thread {
         try {
             System.out.println("Iniciando conexión");
             serverSocket = new ServerSocket(7001);
-            System.out.println("Esperando conexiones en el puerto 7000...");
+            System.out.println("Esperando conexiones en el puerto 7001...");
 
             while (true) {
-                try (Socket clientSocket = serverSocket.accept();
-                     DataInputStream dataInputStream = new DataInputStream(clientSocket.getInputStream())) {
-
+                try {
+                    Socket clientSocket = serverSocket.accept();
                     System.out.println("Conexión aceptada de: " + clientSocket.getInetAddress());
 
-                    // Leer el nombre del archivo
-                    String fileName = dataInputStream.readUTF();
-                    System.out.println("Nombre del archivo recibido: " + fileName);
+                    try (DataInputStream dataInputStream = new DataInputStream(clientSocket.getInputStream())) {
+                        String fileName = dataInputStream.readUTF();
+                        System.out.println("Nombre del archivo recibido: " + fileName);
 
-                    // Preparar para escribir el archivo recibido
-                    try (FileOutputStream fileOutputStream = new FileOutputStream("servidor_" + fileName)) {
-                        byte[] buffer = new byte[4096];
-                        int bytesRead;
-
-                        // Leer el archivo y escribirlo en el servidor
-                        while ((bytesRead = dataInputStream.read(buffer)) != -1) {
-                            fileOutputStream.write(buffer, 0, bytesRead);
+                        try (FileOutputStream fileOutputStream = new FileOutputStream("servidor_" + fileName)) {
+                            byte[] buffer = new byte[4096];
+                            int bytesRead;
+                            while ((bytesRead = dataInputStream.read(buffer)) != -1) {
+                                fileOutputStream.write(buffer, 0, bytesRead);
+                            }
+                            System.out.println("Archivo " + fileName + " recibido y guardado.");
                         }
-
-                        System.out.println("Archivo " + fileName + " recibido y guardado.");
                     }
-
-                } catch (EOFException e) {
-                    System.out.println("Archivo recibido completamente.");
                 } catch (IOException ioe) {
-                    System.out.println("Error en la comunicación con el cliente: " + ioe.getMessage());
+                    System.out.println("Error al aceptar o manejar la conexión del cliente: " + ioe.getMessage());
                 }
             }
         } catch (IOException ioe) {
-            System.out.println("Comunicación rechazada: " + ioe.getMessage());
-            System.exit(1);
+            System.out.println("Error al crear el ServerSocket: " + ioe.getMessage());
+            ioe.printStackTrace();
         } finally {
             if (serverSocket != null && !serverSocket.isClosed()) {
                 try {
