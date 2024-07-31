@@ -15,7 +15,9 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import Logica.AnimationType;
+import Logica.Cliente;
 import Logica.Componente;
+import Logica.Computadora;
 import Logica.DiscoDuro;
 import Logica.GPU;
 import Logica.MicroProcesador;
@@ -37,17 +39,23 @@ import java.awt.Font;
 
 
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+
+import javax.swing.ScrollPaneConstants;
 
 public class Principal extends JFrame {
 
@@ -64,21 +72,22 @@ public class Principal extends JFrame {
 	 * Es temporal!
 	 * */
 	
-	Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", "PCIe 4.0", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
 	Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
 	Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
 	Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
-	//Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, "TB", 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
 	Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 3.8f, "AM4", 8);
 	Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
 	Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
-	//Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
-	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica/*, disco*/, memoria2, tarjetaGrafica2/*, disco2*/, tarjetaMadre2));
+	Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 1000, 300, 1000.0f, "TB", 500.0f, 300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
+	Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "PCIe 2.0", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
+	private ArrayList<Componente> iniComponentes = new ArrayList<>(Arrays.asList(cpu, memoria, tarjetaMadre, cpu2, tarjetaGrafica, disco, memoria2, tarjetaGrafica2, disco2, tarjetaMadre2));
+	private ArrayList<Componente> componentesMasFamosos = new ArrayList<>();
+	private ArrayList<Computadora> computadorasMasVendidas = new ArrayList<>();
 	
-	//
-	
-	private ArrayList<JPanel> componentes = getMasComprados(0, componentesMasFamosos);
+	private ArrayList<JPanel> componentes = new ArrayList<>();
+	private ArrayList<JPanel> computadoras = new ArrayList<>();
 	private JPanel panelComponentes;
 	private JButton listarComponentesBttn;
 	private JButton regComponentesBttn;
@@ -86,10 +95,12 @@ public class Principal extends JFrame {
 	private JButton btnAdministracion;
 	private JButton btnCliente;
 	private JButton bttnOpciones;
-	private JButton bttnComprar;
 	private JPanel panelComputadoras;
 	private JButton regComputadorasBttn;
 	private JButton listarComputadorasBttn;
+	private JButton regUsuarioBttn;
+	private JButton regClienteBttn;
+	private JButton listarClientesBttn;
 	boolean pressed = false;
 	
 	private static final Color PrimaryC = new Color(3, 88, 157);
@@ -112,12 +123,18 @@ public class Principal extends JFrame {
 	private Timer inertiaTimer;
 	private int lastScrollValue;
 	private int scrollVelocity;
+	private Timer updateTimer;
 	
 	private boolean menuCompuAbierto = false;
 	private boolean menuCompoAbierto = false;
 	private boolean menuAdminAbierto = false;
 	private boolean menuClientAbierto = false;
-	private boolean menuOpcAbierto = false;
+	private JButton btnActualizar;
+	private JPanel innerPanel2;
+	private JPanel panelAdministracion;
+	private JPanel panelClientes;
+	private JLabel label;
+	private JPanel panel_2;
 
 	/**
 	 * Launch the application.
@@ -139,12 +156,24 @@ public class Principal extends JFrame {
 		setResizable(false);
 		setBounds(100, 100, 1918, 991);
 		
-		dim = getToolkit().getScreenSize();
-		setSize(dim.width, dim.height);
+		Tienda.getInstance().setMisComponentes(iniComponentes);
+		componentesMasFamosos = Tienda.getInstance().getListComponentesMasVendidos();
+		componentes = makeCompMasCompradosPanels(0, componentesMasFamosos);
 		
-		for (Componente comp : componentesMasFamosos) {
+		computadorasMasVendidas = Tienda.getInstance().getListComputadorasMasVendidas();
+		computadoras = makePcMasCompradosPanels(0, computadorasMasVendidas);
+		
+		Cliente newCliente = new Cliente("C-1", "Elias De La Cruz", "eliasdlc2005@gmail.com", "", "", "");
+		Tienda.getInstance().insertarCliente(newCliente);
+		
+		
+		
+		dim = getToolkit().getScreenSize();
+		setSize(1933, 1080);
+		
+		/*for (Componente comp : componentesMasFamosos) {
 			Tienda.getInstance().insertarComponente(comp);
-		}
+		}*/
 		
 		setLocationRelativeTo(null);
 		
@@ -154,7 +183,7 @@ public class Principal extends JFrame {
 		contentPanel.setLayout(null);
 		{
 			JPanel panel = new JPanel();
-			panel.setBounds(0, 5, 1914, 1040);
+			panel.setBounds(0, 0, 1914, 1045);
 			panel.setBackground(Color.WHITE);
 			contentPanel.add(panel);
 			panel.setLayout(null);
@@ -184,63 +213,56 @@ public class Principal extends JFrame {
 			panel.add(panelComputadoras);
 			
 			
+			panelAdministracion = new JPanel();
+			panelAdministracion.setBounds(0, 376, 344, 152);
+			MoveToXY panelAdminHide = new MoveToXY(panelAdministracion, 0, panelAdministracion.getY(), 0.5f, AnimationType.EASE_OUT);
+			MoveToXY panelAdminShow = new MoveToXY(panelAdministracion, 332, panelAdministracion.getY(), 0.5f, AnimationType.EASE_IN);
+			panelAdministracion.setVisible(false);
+			panelAdministracion.setBackground(ButtonColor);
+			panelAdministracion.setLayout(null);
+			panelAdministracion.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+			panel.add(panelAdministracion);
+			
+			panelClientes = new JPanel();
+			panelClientes.setBounds(0, 465, 344, 152);
+			MoveToXY panelClientesHide = new MoveToXY(panelClientes, 0, panelClientes.getY(), 0.5f, AnimationType.EASE_OUT);
+			MoveToXY panelClientesShow = new MoveToXY(panelClientes, 332, panelClientes.getY(), 0.5f, AnimationType.EASE_IN);
+			panelClientes.setVisible(false);
+			panelClientes.setBackground(ButtonColor);
+			panelClientes.setLayout(null);
+			panelClientes.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+			panel.add(panelClientes);
+			
+			
 			panel.setComponentZOrder(panel_1, 0);
 			panel.setComponentZOrder(panelComponentes, 1);
 			panel.setComponentZOrder(panelComputadoras, 1);
+			panel.setComponentZOrder(panelClientes, 1);
 			
 			JPanel masCompradosPanel = new JPanel();
 			masCompradosPanel.setBackground(PrimaryC);
-			masCompradosPanel.setBounds(354, 0, 1560, 1040);
-			masCompradosPanel.setBorder(new RoundedBorder(PrimaryC, 1, 20));
+			masCompradosPanel.setBounds(354, 0, 1574, 1040);
 			masCompradosPanel.setFocusable(true);
 			panel.add(masCompradosPanel);
 			masCompradosPanel.setLayout(null);
 			
-			/*JPanel panel_2 = new JPanel();
-			panel_2.setBounds(12, 12, 1536, 374);
-			panel_2.setBorder(new RoundedBorder(Color.white, 1, 20));
-			panel_2.setBackground(Color.white);
-			masCompradosPanel.add(panel_2);*/
+			
 			
 			scrollPane = new JScrollPane();
-			scrollPane.setBorder(new RoundedBorder(Color.white, 1, 20));
-			scrollPane.setBounds(12, 12, 1536, 400);
+			scrollPane.setBorder(new EmptyBorder(0,0,0,0));
+			scrollPane.setBounds(12, 56, 1536, 400);
 			scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 			masCompradosPanel.add(scrollPane);
 
 			innerPanel = new JPanel();
-			innerPanel.setBorder(new RoundedBorder(PrimaryC, 1, 20));
+			innerPanel.setLayout(null);
+			innerPanel.setBorder(new EmptyBorder(0,0,0,0));
 			innerPanel.setBackground(PrimaryC);
 			scrollPane.setViewportView(innerPanel);
-			
-			
-			
-			JTextField searchField = new JTextField("");
-			searchField.setBackground(ThirdC);
-			searchField.setForeground(Color.black);
-			searchField.setFont(new Font("Tahoma", Font.PLAIN, 18));
 			RoundedBorder roundedBorder = new RoundedBorder(Color.white, 1, 20);
 			EmptyBorder emptyBorder = new EmptyBorder(0, 80, 0, 10);
-			CompoundBorder compoundBorder = new CompoundBorder(roundedBorder, emptyBorder);
-			searchField.setBorder(compoundBorder);
-			
-			searchField.setBounds(12, 118, 332, 67);
-			
-			JLabel lblNewLabel = new JLabel("");
-			lblNewLabel.setBounds(8, 6, 55, 55);
-			
-			ImageIcon originalIcon = new ImageIcon("C://Users//elias//git//Projecto-Final-POO//ProyectoFinalPOO//images//lupa.png");
-			int labelWidth = lblNewLabel.getWidth();
-			int labelHeight = lblNewLabel.getHeight();
-			Image scaledImage = originalIcon.getImage().getScaledInstance(labelWidth, labelHeight, Image.SCALE_SMOOTH);
-			ImageIcon scaledIcon = new ImageIcon(scaledImage);
-			
-			lblNewLabel.setIcon(scaledIcon);
-			searchField.add(lblNewLabel);
-			panel_1.add(searchField);
-			
-			
+			CompoundBorder compoundBorder = new CompoundBorder(roundedBorder, emptyBorder);		
 			
 			JButton componentesBttn = new JButton("Componentes");
 			componentesBttn.addMouseListener(new MouseAdapter() {
@@ -259,7 +281,7 @@ public class Principal extends JFrame {
 			componentesBttn.setForeground(Color.white);	
 			componentesBttn.setFont(new Font("Tahoma", Font.BOLD, 24));
 			componentesBttn.setHorizontalAlignment(SwingConstants.LEADING);
-			componentesBttn.setBounds(12, 198, 332, 76);
+			componentesBttn.setBounds(12, 191, 332, 76);
 			componentesBttn.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
 			panel_1.add(componentesBttn);
 			
@@ -339,7 +361,7 @@ public class Principal extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					if ( !menuCompoAbierto ) {
 						// Abrir el menu
-				        abrirMenuComponentes(panelComponentesShow, panelComputadorasHide);
+				        abrirMenuComponentes(panelComponentesShow, panelComputadorasHide, panelClientesHide, panelAdminHide);
 					} else {
 						cerrarMenuComponentes(panelComponentesHide);
 					}
@@ -366,26 +388,22 @@ public class Principal extends JFrame {
 			btnComputadoras.setHorizontalAlignment(SwingConstants.LEADING);
 			btnComputadoras.setFont(new Font("Tahoma", Font.BOLD, 24));
 			btnComputadoras.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
-			btnComputadoras.setBounds(12, 287, 332, 76);
+			btnComputadoras.setBounds(12, 280, 332, 76);
 			panel_1.add(btnComputadoras);
 			
 			regComputadorasBttn = new JButton("Reg. Computadora");
+			regComputadorasBttn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					RegComputadora registro = new RegComputadora();
+					registro.setVisible(true);
+				}
+			});
 			regComputadorasBttn.setBounds(24, 0, 320, 76);
 			regComputadorasBttn.setBackground(ButtonColor);
 			regComputadorasBttn.setForeground(Color.WHITE);
 			regComputadorasBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
 			regComputadorasBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
 			regComputadorasBttn.setFocusPainted(false);
-			/*regComputadorasBttn.addActionListener(new ActionListener() {
-			    @Override
-			    public void actionPerformed(ActionEvent e) {
-			        // Abrir la ventana de registro de computadoras
-			        RegComputadora regComputadora = new RegComputadora();
-			        regComputadora.setVisible(true);
-			        // Opcional: cerrar el menú después de abrir la ventana
-			        cerrarMenuComputadoras();
-			    }
-			});*/
 			regComputadorasBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -443,7 +461,7 @@ public class Principal extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if ( !menuCompuAbierto ) {
-						abrirMenuComputadoras(panelComputadorasShow, panelComponentesHide);
+						abrirMenuComputadoras(panelComputadorasShow, panelComponentesHide, panelClientesHide, panelAdminHide);
 					} else {
 						cerrarMenuComputadoras(panelComputadorasHide);
 					}
@@ -457,8 +475,11 @@ public class Principal extends JFrame {
 			btnAdministracion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (Tienda.getInstance().getPermisoAdministrado()) {
-						Regusuarios regusuarios = new Regusuarios();
-						regusuarios.setVisible(true);
+						if ( !menuAdminAbierto ) {
+							abrirMenuAdmin(panelAdminShow, panelClientesHide, panelComponentesHide, panelComputadorasHide);
+						} else {
+							cerrarMenuAdmin(panelAdminHide);
+						}
 					}
 				}
 			});
@@ -479,10 +500,51 @@ public class Principal extends JFrame {
 			btnAdministracion.setHorizontalAlignment(SwingConstants.LEADING);
 			btnAdministracion.setFont(new Font("Tahoma", Font.BOLD, 24));
 			btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
-			btnAdministracion.setBounds(12, 376, 332, 76);
+			btnAdministracion.setBounds(12, 369, 332, 76);
 			panel_1.add(btnAdministracion);
 			
+
+			regUsuarioBttn = new JButton("Reg. Usuario");
+			regUsuarioBttn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+						Regusuarios regusuarios = new Regusuarios();
+						regusuarios.setVisible(true);
+					}
+				});
+			
+			regUsuarioBttn.setBounds(24, 0, 320, 76);
+			regUsuarioBttn.setBackground(ButtonColor);
+			regUsuarioBttn.setForeground(Color.WHITE);
+			regUsuarioBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
+			regUsuarioBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+			regUsuarioBttn.setFocusPainted(false);
+			regUsuarioBttn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnAdministracion.setBackground(HoverEffevtColor);
+					btnAdministracion.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
+					regUsuarioBttn.setBackground(HoverEffevtColor);
+					regUsuarioBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
+				}
+				public void mouseExited(MouseEvent arg0) {
+					regUsuarioBttn.setBackground(ButtonColor);
+					regUsuarioBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+				}
+			});
+			panelAdministracion.add(regUsuarioBttn);
+			
+			
+			
 			btnCliente = new JButton("Cliente");
+			btnCliente.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if ( !menuClientAbierto ) {
+						abrirMenuCliente(panelClientesShow, panelComponentesHide, panelComputadorasHide, panelAdminHide);
+					} else {
+						cerrarMenuComputadoras(panelClientesHide);
+					}
+				}
+			});
 			btnCliente.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -501,10 +563,68 @@ public class Principal extends JFrame {
 			btnCliente.setHorizontalAlignment(SwingConstants.LEADING);
 			btnCliente.setFont(new Font("Tahoma", Font.BOLD, 24));
 			btnCliente.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
-			btnCliente.setBounds(12, 465, 332, 76);
+			btnCliente.setBounds(12, 458, 332, 76);
 			panel_1.add(btnCliente);
 			
-			bttnOpciones = new JButton("Opciones");
+			regClienteBttn = new JButton("Reg. Cliente");
+			regClienteBttn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+						// Registro cliente
+					}
+				});
+			
+			regClienteBttn.setBounds(24, 0, 320, 76);
+			regClienteBttn.setBackground(ButtonColor);
+			regClienteBttn.setForeground(Color.WHITE);
+			regClienteBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
+			regClienteBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+			regClienteBttn.setFocusPainted(false);
+			regClienteBttn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnCliente.setBackground(HoverEffevtColor);
+					btnCliente.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
+					regClienteBttn.setBackground(HoverEffevtColor);
+					regClienteBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
+				}
+				public void mouseExited(MouseEvent arg0) {
+					regClienteBttn.setBackground(ButtonColor);
+					regClienteBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+				}
+			});
+			panelClientes.add(regClienteBttn);
+			
+			
+			listarClientesBttn = new JButton("List. Computadora");
+			listarClientesBttn.setBounds(24, 76, 320, 76);
+			listarClientesBttn.setBackground(ButtonColor);
+			listarClientesBttn.setForeground(Color.WHITE);
+			listarClientesBttn.setFont(new Font("Tahoma", Font.BOLD, 20));
+			listarClientesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+			listarClientesBttn.setFocusPainted(false);
+			listarClientesBttn.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        //listar Clientes
+			    }
+			});
+			listarClientesBttn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					btnCliente.setBackground(HoverEffevtColor);
+					btnCliente.setBorder(new CompoundBorder(new RoundedBorder(HoverEffevtColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
+					listarClientesBttn.setBackground(HoverEffevtColor);
+					listarClientesBttn.setBorder(new RoundedBorder(HoverEffevtColor, 1, 20));
+				}
+				public void mouseExited(MouseEvent arg0) {
+					listarClientesBttn.setBackground(ButtonColor);
+					listarClientesBttn.setBorder(new RoundedBorder(ButtonColor, 1, 20));
+				}
+			});
+			panelClientes.add(listarClientesBttn);
+			
+			
+			bttnOpciones = new JButton("Respaldo");
 			bttnOpciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 				}
@@ -538,75 +658,223 @@ public class Principal extends JFrame {
 			techNexusLabel.setForeground(PrimaryC);
 			techNexusLabel.setBounds(12, 13, 329, 92);
 			panel_1.add(techNexusLabel);
-		
+			Date fecha = new Date();
+			SimpleDateFormat formatoFecha = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy", new Locale("es", "ES"));
+			String fechaFormateada = formatoFecha.format(fecha);
+			
+			panel_2 = new JPanel();
+			panel_2.setBounds(12, 118, 332, 60);
+			panel_2.setBorder(new RoundedBorder(Color.white, 1, 20));
+			panel_2.setBackground(Color.white);
+			panel_1.add(panel_2);
+			panel_2.setLayout(null);
+			
+			label = new JLabel("");
+			label.setBounds(7, 14, 317, 32);
+			panel_2.add(label);
+			
+			label.setText("Hoy es " + fechaFormateada);
+			label.setHorizontalAlignment(SwingConstants.CENTER);
+			label.setForeground(Color.black);
+			label.setFont(new Font("Century Gothic", Font.PLAIN, 25));
 			
 			
-			displayHorizontalList(masCompradosPanel, componentes);
+			JScrollPane scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBorder(new EmptyBorder(0,0,0,0));
+			scrollPane_1.setBounds(12, 520, 1536, 400);
+			scrollPane_1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane_1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+			masCompradosPanel.add(scrollPane_1);
 			
-			componentes = getMasComprados(0, componentesMasFamosos);
-			displayHorizontalList(innerPanel, componentes);
-			innerPanel.setLayout(null);
+			innerPanel2 = new JPanel();
+			innerPanel2.setLayout(null);
+			innerPanel2.setPreferredSize(new Dimension(0, 350));
+			innerPanel2.setBorder(new EmptyBorder(0,0,0,0));
+			innerPanel2.setBackground(new Color(3, 88, 157));
+			scrollPane_1.setViewportView(innerPanel2);
+			
+			btnActualizar = new JButton("Actualizar");
+			btnActualizar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					updateMostFamousComponents();
+				}
+			});
+			btnActualizar.setForeground(Color.WHITE);
+			btnActualizar.setFont(new Font("Tahoma", Font.BOLD, 24));
+			btnActualizar.setBorder(new CompoundBorder(new RoundedBorder(ButtonBorderColor, 1, 20), new EmptyBorder(0, 10, 0, 10)));
+			btnActualizar.setBackground(new Color(42, 145, 230));
+			btnActualizar.setBounds(1216, 936, 332, 76);
+			masCompradosPanel.add(btnActualizar);
+			
+			JLabel lblNewLabel_1 = new JLabel("Computadoras Mas Vendidas");
+			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel_1.setFont(new Font("Century Gothic", Font.BOLD, 32));
+			lblNewLabel_1.setForeground(Color.WHITE);
+			lblNewLabel_1.setBounds(477, 469, 607, 38);
+			masCompradosPanel.add(lblNewLabel_1);
+			
+			JLabel lblComponentesMasVendidas = new JLabel("Componentes Mas Vendidas");
+			lblComponentesMasVendidas.setHorizontalAlignment(SwingConstants.CENTER);
+			lblComponentesMasVendidas.setForeground(Color.WHITE);
+			lblComponentesMasVendidas.setFont(new Font("Century Gothic", Font.BOLD, 32));
+			lblComponentesMasVendidas.setBounds(477, 5, 607, 38);
+			masCompradosPanel.add(lblComponentesMasVendidas);
 			
 			
 
 			// Agregar un MouseWheelListener para scroll horizontal
 			
 
-			scrollPane.addMouseWheelListener(new MouseWheelListener() {
-			    @Override
-			    public void mouseWheelMoved(MouseWheelEvent e) {
-			        if (scrollTimer != null && scrollTimer.isRunning()) {
-			            scrollTimer.stop();
-			        }
-			        if (inertiaTimer != null && inertiaTimer.isRunning()) {
-			            inertiaTimer.stop();
-			        }
-			        
-			        JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
-			        int delta = e.getWheelRotation() * 90;
-			        targetScrollValue = horizontalBar.getValue() + delta;
-			        targetScrollValue = Math.max(0, Math.min(targetScrollValue, horizontalBar.getMaximum()));
-			        
-			        startScrollAnimation(horizontalBar);
-			        
-			        // Iniciar el timer de inercia
-			        lastScrollValue = horizontalBar.getValue();
-			        scrollVelocity = delta;
-			        startInertiaAnimation(horizontalBar);
-			    }
-			});
+			addScrollWheelListener(scrollPane);
+			addScrollWheelListener(scrollPane_1);
 			
+			componentesMasFamosos = Tienda.getInstance().getListComponentesMasVendidos();
+			componentes = makeCompMasCompradosPanels(0, componentesMasFamosos);
+			displayHorizontalList(componentes, innerPanel);
 			
-			/*
-			 * Basicamente se iran agregando los paneles con el for, tengo que chequear lo del la posicion del panel,
-			 * creo que lo mas eficiente seria crear el panel dentro del for y simplemente agregarlo*/
+			computadorasMasVendidas = Tienda.getInstance().getListComputadorasMasVendidas();
+			computadoras = makePcMasCompradosPanels(0, computadorasMasVendidas);
+			displayHorizontalList(computadoras, innerPanel2);
 			
-			/*JPanel panel_3 = new JPanel();
-			panel_3.setBackground(PrimaryC);
-			panel_3.setBounds(368, 429, 1523, 611);
-			panel.add(panel_3);
-			panel_3.setLayout(new BorderLayout(0, 0));*/
-			
-			
-			
-			
-			
-			
-
+			updateMostFamousComponents();
 		}
 	}
 	
-	private void abrirMenuComponentes(MoveToXY panelComponentesShow, MoveToXY panelComputadorasHide) {
+	@Override
+    public void dispose() {
+        if (updateTimer != null && updateTimer.isRunning()) {
+            updateTimer.stop();
+        }
+        super.dispose();
+    }
+	
+	private void updateMostFamousComponents() {
+	    int currentScrollPosition = scrollPane.getHorizontalScrollBar().getValue();
+
+	    componentesMasFamosos = Tienda.getInstance().getListComponentesMasVendidos();
+	    componentes = makeCompMasCompradosPanels(0, componentesMasFamosos);
+	    displayHorizontalList(componentes, innerPanel);
+
+	    SwingUtilities.invokeLater(() -> {
+	        scrollPane.getHorizontalScrollBar().setValue(currentScrollPosition);
+	    });
+	}
+	
+	private void addScrollWheelListener(JScrollPane scrollPane) {
+	    scrollPane.addMouseWheelListener(new MouseWheelListener() {
+	        @Override
+	        public void mouseWheelMoved(MouseWheelEvent e) {
+	            // Verificar si el mouse está sobre este ScrollPane
+	            if (isMouseOverComponent(scrollPane, e.getPoint())) {
+	                handleScrollEvent(scrollPane, e);
+	            }
+	        }
+	    });
+	}
+
+	private boolean isMouseOverComponent(JScrollPane scrollPane, Point point) {
+	    Rectangle bounds = scrollPane.getBounds();
+	    Point containerPoint = SwingUtilities.convertPoint(scrollPane, point, scrollPane.getParent());
+	    return bounds.contains(containerPoint);
+	}
+
+	private void handleScrollEvent(JScrollPane scrollPane, MouseWheelEvent e) {
+	    if (scrollTimer != null && scrollTimer.isRunning()) {
+	        scrollTimer.stop();
+	    }
+	    if (inertiaTimer != null && inertiaTimer.isRunning()) {
+	        inertiaTimer.stop();
+	    }
+	    
+	    JScrollBar horizontalBar = scrollPane.getHorizontalScrollBar();
+	    int delta = e.getWheelRotation() * 90;
+	    targetScrollValue = horizontalBar.getValue() + delta;
+	    targetScrollValue = Math.max(0, Math.min(targetScrollValue, horizontalBar.getMaximum()));
+	    
+	    startScrollAnimation(horizontalBar);
+	    
+	    // Iniciar el timer de inercia
+	    lastScrollValue = horizontalBar.getValue();
+	    scrollVelocity = delta;
+	    startInertiaAnimation(horizontalBar);
+	}
+	
+	private void abrirMenuAdmin(MoveToXY panelAdminShow, MoveToXY panelClientesHide, MoveToXY panelComputadorasHide, MoveToXY panelComponentesHide) {
+		panelAdministracion.setVisible(true);
+		panelAdminShow.start();
+		cerrarMenuCliente(panelClientesHide);
+		cerrarMenuComputadoras(panelComputadorasHide);
+		cerrarMenuComponentes(panelComponentesHide);
+		menuAdminAbierto = true;
+		menuCompoAbierto = false;
+		menuCompuAbierto = false;
+		menuClientAbierto = false;
+	}
+	
+	private void cerrarMenuAdmin(MoveToXY panelAdminHide) {
+		menuAdminAbierto = false;
+		panelAdminHide.start();
+		
+		Timer timer = new Timer(750, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	panelAdministracion.setVisible(false);
+            	regUsuarioBttn.setVisible(false);
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+		
+        
+	}
+	
+	private void abrirMenuCliente(MoveToXY panelClientesShow, MoveToXY panelComputadorasHide, MoveToXY panelComponentesHide, MoveToXY panelAdminHide) {
+		panelClientes.setVisible(true);
+		panelClientesShow.start();
+		cerrarMenuComputadoras(panelComputadorasHide);
+		cerrarMenuComponentes(panelComponentesHide);
+		cerrarMenuAdmin(panelAdminHide);
+		menuCompoAbierto = false;
+		menuCompuAbierto = false;
+		menuAdminAbierto = false;
+		menuClientAbierto = true;
+	}
+	
+	private void cerrarMenuCliente(MoveToXY panelClientesHide) {
+		menuClientAbierto = false;
+		panelClientesHide.start();
+		
+		Timer timer = new Timer(750, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	panelClientes.setVisible(false);
+            	regClienteBttn.setVisible(false);
+            	listarClientesBttn.setVisible(false);
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+		
+	}
+	
+	private void abrirMenuComponentes(MoveToXY panelComponentesShow, MoveToXY panelComputadorasHide, MoveToXY panelClientesHide, MoveToXY panelAdminHide) {
 		panelComponentes.setVisible(true);
 	    listarComponentesBttn.setVisible(true);
 	    regComponentesBttn.setVisible(true);
 	    panelComponentesShow.start();
-	    panelComputadorasHide.start();
+	    cerrarMenuComputadoras(panelComputadorasHide);
+	    cerrarMenuCliente(panelClientesHide);
+	    cerrarMenuAdmin(panelAdminHide);
 	    menuCompoAbierto = true;
 	    menuCompuAbierto = false;
+	    menuAdminAbierto = false;
+	    menuClientAbierto = false;
 	}
 
 	private void cerrarMenuComponentes(MoveToXY panelComponentesHide) {
+		menuCompoAbierto = false;
 		panelComponentesHide.start();
 		
 		Timer timer = new Timer(750, new ActionListener() {
@@ -622,21 +890,26 @@ public class Principal extends JFrame {
         timer.start();
 		
 	    
-		menuCompoAbierto = false;
+		
 	}
 	
-	private void abrirMenuComputadoras(MoveToXY panelComputadorasShow, MoveToXY panelComponentesHide) {
+	private void abrirMenuComputadoras(MoveToXY panelComputadorasShow, MoveToXY panelComponentesHide, MoveToXY panelClientesHide, MoveToXY panelAdminHide) {
 	    panelComputadoras.setVisible(true);
 	    regComputadorasBttn.setVisible(true);
 	    listarComputadorasBttn.setVisible(true);
 	    panelComputadorasShow.start();
-	    panelComponentesHide.start();
+	    cerrarMenuComponentes(panelComponentesHide);
+	    cerrarMenuCliente(panelClientesHide);
+	    cerrarMenuAdmin(panelAdminHide);
 	    menuCompuAbierto = true;
 	    menuCompoAbierto = false;
+	    menuAdminAbierto = false;
+	    menuClientAbierto = false;
 	}
 
 	private void cerrarMenuComputadoras(MoveToXY panelComputadorasHide) {
-	    panelComputadorasHide.start();
+		menuCompuAbierto = false;
+		panelComputadorasHide.start();
 	    Timer timer = new Timer(750, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -648,7 +921,7 @@ public class Principal extends JFrame {
         });
         timer.setRepeats(false);
         timer.start();
-	    menuCompuAbierto = false;
+	    
 	}
 	
 	private void startInertiaAnimation(final JScrollBar scrollBar) {
@@ -697,21 +970,19 @@ public class Principal extends JFrame {
 	    scrollTimer.start();
 	}
 	
-	private void displayHorizontalList(JPanel panel, ArrayList<JPanel> componentes) {
-		innerPanel.removeAll();
-	    for (JPanel comp : componentes) {
+	private void displayHorizontalList(ArrayList<JPanel> paneles, JPanel innerPanel) {
+	    innerPanel.removeAll();
+	    for (JPanel comp : paneles) {
 	        innerPanel.add(comp);
 	    }
 	    innerPanel.setPreferredSize(new Dimension(componentes.size() * (PANEL_WIDTH + PANEL_GAP), PANEL_HEIGHT));
-	    scrollPane.revalidate();
-	    scrollPane.repaint();
+	    
+	    // Actualizar el panel sin cambiar la posición del scroll
+	    innerPanel.revalidate();
+	    innerPanel.repaint();
 	}
 	
-
-	
-	
-	
-	private ArrayList<JPanel> getMasComprados(int ind, ArrayList<Componente> componentesMasFamosos) {
+	private ArrayList<JPanel> makeCompMasCompradosPanels(int ind, ArrayList<Componente> componentesMasFamosos) {
 		ArrayList<JPanel> componentes = new ArrayList<>();
 				
 		
@@ -720,6 +991,8 @@ public class Principal extends JFrame {
 		for ( int i = ind; i < componentesMasFamosos.size(); i++ ) {
 			final int[] posXHolder = { posX };
 			final int index = i;
+			
+			Componente comp = componentesMasFamosos.get(i);
 			
 			JPanel newPanel = new JPanel();			
 
@@ -736,15 +1009,15 @@ public class Principal extends JFrame {
 			icono.setBounds(20, 65, 150, 150);
 			Image img = null;
 			
-			if ( componentesMasFamosos.get(i) instanceof MicroProcesador ) {
+			if ( comp instanceof MicroProcesador ) {
 				img = new ImageIcon(this.getClass().getResource("/cpu.png")).getImage();
-			} else if ( componentesMasFamosos.get(i) instanceof Ram ) {
+			} else if ( comp instanceof Ram ) {
 				img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
-			} else if ( componentesMasFamosos.get(i) instanceof GPU ) {
+			} else if ( comp instanceof GPU ) {
 				img = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
-			} else if ( componentesMasFamosos.get(i) instanceof DiscoDuro ) {
+			} else if ( comp instanceof DiscoDuro ) {
 				img = new ImageIcon(this.getClass().getResource("/hard-drive.png")).getImage();
-			} else if ( componentesMasFamosos.get(i) instanceof TarjetaMadre ) {
+			} else if ( comp instanceof TarjetaMadre ) {
 				img = new ImageIcon(this.getClass().getResource("/motherboard.png")).getImage(); // aqui ira una imagen generica segun el instance off del producto
 			}
 			
@@ -754,7 +1027,7 @@ public class Principal extends JFrame {
 			newPanel.add(icono);
 			
 			JLabel precioLabel = new JLabel();
-			float precio = componentesMasFamosos.get(i).getPrecio();
+			float precio = comp.getPrecio();
 			precioLabel.setText(NumberFormat.getCurrencyInstance().format(precio)); // costo + "$" costo siendo un .getCosto del componente
 			precioLabel.setHorizontalAlignment(SwingConstants.CENTER);
 			precioLabel.setBounds(20, 245, 330, 25);
@@ -766,19 +1039,33 @@ public class Principal extends JFrame {
 			
 			JLabel nombreComponente = new JLabel();
 			nombreComponente.setHorizontalAlignment(SwingConstants.CENTER);
-			nombreComponente.setText(componentesMasFamosos.get(i).getMarca() + componentesMasFamosos.get(i).getModelo());
+			nombreComponente.setText(comp.getMarca() + comp.getModelo());
 			nombreComponente.setFont(new Font("Century Gothic", Font.BOLD, 25));
 			nombreComponente.setBounds(20, 10, 330, 40);
 			newPanel.add(nombreComponente);
 			
 			JTextPane descripcionPane = new JTextPane();
-			descripcionPane.setText("Alto rendimiento y eficiencia energética para cargas de trabajo exigentes y multitarea."); 
+			if (comp instanceof MicroProcesador) {
+			    descripcionPane.setText( "Tiene una velocidad de " + ((MicroProcesador) comp).getVelocidad() + "GHz, con " + ((MicroProcesador) comp).getCantNucleo() + " nucleos."
+			    		+ " y tiene una conexion de tipo " + ((MicroProcesador) comp).getTipoConexion());
+			} else if (comp instanceof Ram) {
+			    descripcionPane.setText("Tiene un almacenamiento de " + ((Ram) comp).getMemoria() + " de tipo " + ((Ram) comp).getTipoMemoria());
+			} else if (comp instanceof GPU) {
+			    descripcionPane.setText("Este es un tipo de GPU " + ((GPU) comp).getTipo().toLowerCase() + ", su velocidad es de " + ((GPU) comp).getVelocidad() + 
+			    		"GHz, posee " + ((GPU) comp).getRAM() + "MB" + " de memoria. Su conexion es " + ((GPU) comp).getTipoConexion());
+			} else if (comp instanceof DiscoDuro) {
+			    descripcionPane.setText("Alamcenamiento de " + ((DiscoDuro) comp).getAlmacenamiento() + ((DiscoDuro) comp).getAlmTipo() + 
+			    		" su velocidad de escritura es " + (int)((DiscoDuro) comp).getVelEscritura() + "MB/s" + " y su velocidad de lectura es " + 
+			    		(int)((DiscoDuro) comp).getVelLectura() + "MB/s");
+			} else if (comp instanceof TarjetaMadre) {
+			    descripcionPane.setText("Conexion GPU: " + ((TarjetaMadre) comp).getConectionGPU() + "Conexion Micro Procesador: " + ((TarjetaMadre) comp).getConectionSocket()
+			    		+ "Conexion RAM: " + ((TarjetaMadre) comp).getTipoRam());
+			} else {
+			    descripcionPane.setText("Descripción genérica.");
+			}
 			descripcionPane.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 			descripcionPane.setBackground(Color.white);
 			descripcionPane.setForeground(Color.black);
-			
-			//descripcionPane.setBorder(new CompoundBorder(new RoundedBorder(Color.white, 1, 20), new EmptyBorder(10, 10, 10, 10)));
-			//descripcion.setBorder(new EmptyBorder(10, 10, 10, 10));
 			descripcionPane.setOpaque(false);
 			descripcionPane.setBounds(185, 65, 150, 150);
 			descripcionPane.setEditable(false);
@@ -821,7 +1108,7 @@ public class Principal extends JFrame {
 		return componentes;
 	}
 	
-	private void cleanPanel(JPanel panel, ArrayList<JPanel> componentes) {
+	/*private void cleanPanel(JPanel panel, ArrayList<JPanel> componentes) {
 		for ( JPanel comp : componentes ) {
 			panel.remove(comp);
 		}
@@ -833,6 +1120,99 @@ public class Principal extends JFrame {
 	private boolean isMouseOverComponent(Point mousePosition, Point componentPosition, Component component) {
 	    Rectangle bounds = new Rectangle(componentPosition, component.getSize());
 	    return bounds.contains(mousePosition);
-	}
+	}*/
 	
+	private ArrayList<JPanel> makePcMasCompradosPanels(int ind, ArrayList<Computadora> computadorasMasVendidas) {
+		ArrayList<JPanel> computadorasPanels = new ArrayList<>();
+				
+		
+		
+		int posX = PANEL_GAP;
+		for ( int i = ind; i < computadorasMasVendidas.size(); i++ ) {
+			final int[] posXHolder = { posX };
+			final int index = i;
+			
+			JPanel newPanel = new JPanel();			
+
+			newPanel.setLayout(null);
+			newPanel.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+			newPanel.setBackground(SecondaryC);
+			newPanel.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+			newPanel.setBounds(posX, PANEL_GAP, PANEL_WIDTH, PANEL_HEIGHT);
+			
+			computadorasPanels.add(newPanel);
+			posX += PANEL_WIDTH + PANEL_GAP;
+			posXHolder[0] = posX;
+			JLabel icono = new JLabel();
+			icono.setBounds(20, 65, 150, 150);
+			Image img = new ImageIcon(this.getClass().getResource("/ordenador.png")).getImage();;
+			Image scaledImg = img.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+			icono.setIcon(new ImageIcon(scaledImg));
+			
+			newPanel.add(icono);
+			
+			JLabel precioLabel = new JLabel();
+			float precio = computadorasMasVendidas.get(i).getPrecio();
+			precioLabel.setText(NumberFormat.getCurrencyInstance().format(precio));
+			precioLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			precioLabel.setBounds(20, 245, 330, 25);
+			precioLabel.setForeground(Color.black);
+			precioLabel.setFont(new Font("Century Gothic", Font.BOLD, 25));
+			newPanel.add(precioLabel);
+			
+			
+			
+			JLabel nombreComponente = new JLabel();
+			nombreComponente.setHorizontalAlignment(SwingConstants.CENTER);
+			nombreComponente.setText(computadorasMasVendidas.get(i).getTipo());
+			nombreComponente.setFont(new Font("Century Gothic", Font.BOLD, 25));
+			nombreComponente.setBounds(20, 10, 330, 40);
+			newPanel.add(nombreComponente);
+			
+			JTextPane descripcionPane = new JTextPane();
+			descripcionPane.setText("Alto rendimiento y eficiencia energética para cargas de trabajo exigentes y multitarea."); 
+			descripcionPane.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+			descripcionPane.setBackground(Color.white);
+			descripcionPane.setForeground(Color.black);
+			descripcionPane.setOpaque(false);
+			descripcionPane.setBounds(185, 65, 150, 150);
+			descripcionPane.setEditable(false);
+			newPanel.add(descripcionPane);
+			
+			JButton bttnComprar = new JButton();
+			bttnComprar.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					bttnComprar.setBackground(AccentHoverColor);
+					bttnComprar.setBorder(new RoundedBorder(AccentHoverColor, 1, 20));
+				}
+				public void mouseExited(MouseEvent arg0) {
+					bttnComprar.setBackground(AccentColor);
+					bttnComprar.setBorder(new RoundedBorder(AccentColor, 1, 20));
+				}
+			});
+			bttnComprar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					ComprarComputadora comprar = new ComprarComputadora(computadorasMasVendidas.get(index));
+					comprar.setVisible(true);
+				}
+			});
+			bttnComprar.setFocusPainted(false);
+			bttnComprar.setText("Compra YA!!");
+			bttnComprar.setFont(new Font("Century Gothic", Font.BOLD, 20));
+			bttnComprar.setBackground(AccentColor);
+			bttnComprar.setForeground(Color.white);
+			bttnComprar.setBorder(new RoundedBorder(AccentColor, 1, 20));
+			bttnComprar.setBounds(15, 285, 320, 50);
+			newPanel.add(bttnComprar);
+			
+			JPanel precioPanel = new JPanel();
+			precioPanel.setBounds(15, 230, 320, 100);
+			precioPanel.setBackground(ThirdC);
+			precioPanel.setBorder(new RoundedBorder(ThirdC, 1, 20));
+			newPanel.add(precioPanel);
+			
+		}
+		return computadorasPanels;
+	}
 }
