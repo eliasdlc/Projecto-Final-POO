@@ -241,7 +241,7 @@ public class ComprarComputadora extends JDialog {
 					if ( cliente != null ) {
 						int cantArticulos = Integer.parseInt(cantPcSpn.getValue().toString());
 						
-						Factura newFactura = Tienda.getInstance().makeFactura(null, 0, pc, cantArticulos, cliente);
+						Factura newFactura = Tienda.getInstance().makeFactura(null, null, pc, cantArticulos, cliente);
 						
 						if ( newFactura != null ) {
 							

@@ -249,26 +249,6 @@ public class LogIn extends JDialog {
 		passwordField.setBounds(153, 226, 319, 45);
 		panel.add(passwordField);
 		
-		JLabel olvidasteLabel = new JLabel("\u00BFOlvidaste tu contrase\u00F1a?");
-		olvidasteLabel.setForeground(ThirdC);
-		olvidasteLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				olvidasteLabel.setForeground(ThirdC);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				olvidasteLabel.setForeground(PrimaryC);
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			}
-		});
-		olvidasteLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		olvidasteLabel.setFont(new Font("Dubai Medium", Font.PLAIN, 15));
-		olvidasteLabel.setBounds(159, 400, 176, 25);
-		panel.add(olvidasteLabel);
-		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(22, 145, 131, 45);
 		panel_1.setBackground(PrimaryC);

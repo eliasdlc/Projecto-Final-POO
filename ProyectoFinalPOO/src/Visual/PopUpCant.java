@@ -23,6 +23,7 @@ import javax.swing.event.ChangeListener;
 import Logica.Componente;
 import Logica.Computadora;
 import Logica.RoundedBorder;
+import Logica.Tienda;
 
 import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
@@ -122,6 +123,7 @@ public class PopUpCant extends JDialog {
 					if(pc == null) {
 						comp.setCantDisponible(comp.getCantDisponible() + cant);
 						ListComponentes.loadComponente(null);
+						Tienda.getInstance().escribirArchivo();
 						dispose();
 					}
 					else {
