@@ -638,13 +638,26 @@ public class ComprarComponente extends JDialog {
 				}
 			});
 			
-			/*if ( false ) {
-				precioLabel.setForeground(Color.LIGHT_GRAY);
+			if ( Tienda.getInstance().makeOferta(componentHolder.getComponenteElegido()) ) {
+				float precio = componentHolder.getComponenteElegido().getPrecio();
+				float descuento = ((float) (componentHolder.getComponenteElegido().getDescuento() / 100f));
+				System.out.println(descuento);
+				compElegidoPrecioLabel.setForeground(Color.LIGHT_GRAY);
 				JLabel ofertaLabel = new JLabel("$119.99");
+				ofertaLabel.setText(NumberFormat.getCurrencyInstance().format(precio - precio * descuento));
 				ofertaLabel.setFont(new Font("Century Gothic", Font.PLAIN, 24));
 				ofertaLabel.setBounds(167, 311, 125, 41);
 				componente1Panel.add(ofertaLabel);
+			}
+			/*if ( Tienda.getInstance().returnStockStatus(componentHolder.getComponenteElegido()) ) {
+				JLabel stockLabel = new JLabel("");
+				stockLabel.setBounds(167, 341, 125, 41);
+				stockLabel.setForeground(new Color(167, 34, 34));
+				stockLabel.setText("Stock bajo!");
+				componente1Panel.add(stockLabel);
 			}*/
+			
+			
 			
 			updateComponentes(componenteElegidoTitulo, cantDisponiblesElegidoLabel, componenteIcon1, componenteIcon1, componente2Label, cantDisponibles2Label, precio2Label, componenteIcon2);
 			componente1 = componentHolder.getComponenteElegido();

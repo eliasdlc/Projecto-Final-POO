@@ -497,7 +497,12 @@ public class Tienda {
 	        }
 	        return false;
 	    }
-	    return false; // Si el componente no es de ninguno de los tipos conocidos, no es compatible
+	    return false; 
+	}
+	
+	public boolean returnStockStatus(Componente componente) {
+	    int minimo = 10; 
+	    return componente.getCantDisponible() < minimo;
 	}
 	
 	public void cargarArchivo() {
