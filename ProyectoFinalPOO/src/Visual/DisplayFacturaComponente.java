@@ -118,18 +118,6 @@ public class DisplayFacturaComponente extends JDialog {
 			
 			model = new DefaultTableModel();
 			elementosCompradosTable.setDefaultEditor(Object.class, null);
-			elementosCompradosTable.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					/*int ind = table.getSelectedRow();
-					if(ind >= 0) {
-						cod = table.getValueAt(ind, 0).toString();
-						requestBtn.setEnabled(true);
-						deleteBtn.setEnabled(true);
-						BuyBtn.setEnabled(true);
-					}*/
-				}
-			});
 			elementosCompradosTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			String headers[] = {"Articulo", "Cantidad", "Precio", "Total"};
 			model.setColumnIdentifiers(headers);
@@ -317,7 +305,6 @@ public class DisplayFacturaComponente extends JDialog {
 			cerrarBttn.setBounds(12, 88, 356, 43);
 			panel_2.add(cerrarBttn);
 			
-			
 			loadArticulos((FacturaComponente)factura);
 		}
 		
@@ -327,7 +314,7 @@ public class DisplayFacturaComponente extends JDialog {
 		model.setRowCount(0);
 		row = new Object[elementosCompradosTable.getColumnCount()];
 		
-		ArrayList<Componente> aux = Tienda.getInstance().searchClienteById(factura.getIdCliente()).getCarrito();
+		ArrayList<Componente> aux = factura.getCarrito();
 		
 		int diff = 10 - aux.size();
 		float subTotal = 0;

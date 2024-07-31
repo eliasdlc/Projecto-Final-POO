@@ -264,22 +264,20 @@ public class Tienda {
 		return computadora;
 	}
 	
-	public float calcSubTotalComponentes(Cliente cliente) {
+	public float calcSubTotalComponentes(ArrayList<Componente> componentes) {
 		float subTotal = 0;
-		ArrayList<Componente> aux = cliente.getCarrito();
 		
-		for(Componente comp : aux) {
+		for(Componente comp : componentes) {
 			subTotal += comp.getPrecio() * comp.getCantSeleccionado();
 		}
 		return subTotal;
 	}
-	public float calcPrecioTotalComponentes(Cliente cliente) {
+	public float calcPrecioTotalComponentes(ArrayList<Componente> componentes) {
 		float precio = 0;
 		int porcentaje = 0;
 		float precioTotal = 0;
-		ArrayList<Componente> aux = cliente.getCarrito();
 		
-		for(Componente comp : aux) {
+		for(Componente comp : componentes) {
 			precio = comp.getPrecio() * comp.getCantSeleccionado();
 			porcentaje = comp.getDescuento();
 			precioTotal += (float) (precio - ((porcentaje * precio) / 100));
@@ -364,7 +362,7 @@ public class Tienda {
 		return componentesByPrecio;
 	}
 	
-	public Factura makeFactura(ArrayList<Componente> componentes, int cantCompSeleccionados, Computadora pc, int cantidadPc, Cliente cliente) {
+	public Factura makeFactura(ArrayList<Componente> componentes, int[] cantidadesGastadas, Computadora pc, int cantidadPc, Cliente cliente) {
 	    float precioTotal = 0;
 	    float descuento = 0;
 	    float subtotal = 0;
@@ -372,17 +370,21 @@ public class Tienda {
 	    Factura factura = null;
 	    String id = "F-" + codFactura;
 	    Date fechaActual = new Date();
+ 
 
 	    if (componentes != null && pc == null) {
-	    	subtotal = calcSubTotalComponentes(cliente);
-	    	precioTotal = calcPrecioTotalComponentes(cliente);
-	    	descuento = calcDescuentoTotalComponentes(cliente.getCarrito());
+	    	subtotal = calcSubTotalComponentes(componentes);
+	    	precioTotal = calcPrecioTotalComponentes(componentes);
+	    	descuento = calcDescuentoTotalComponentes(componentes);
 	        
-	        ArrayList<Componente> carrito = cliente.getCarrito();
+	        ArrayList<Componente> carrito = componentes;
 	        
 	        int[] cantArticulos = calcularCantidadArticulos(carrito);
-	        factura = new FacturaComponente(cliente.getId(), id, subtotal, descuento, precioTotal, fechaActual, cantArticulos, carrito);
+	        factura = new FacturaComponente(cliente.getId(), id, subtotal, descuento, precioTotal, fechaActual, cantidadesGastadas, carrito);
 	        finalizado = true;
+	        if (finalizado && cantidadesGastadas != null) {
+	        	actualizarCantidadesDisponibles(cantidadesGastadas, componentes);
+	        }
 	    } else if (pc != null && componentes == null) {
 	    	subtotal = calcSubTotalComputadora(pc.getComponentes()) * cantidadPc;
 	        precioTotal = calcPrecioTotalComputadora(pc.getComponentes()) * cantidadPc;
@@ -397,6 +399,18 @@ public class Tienda {
 	    }
 
 	    return factura;
+	}
+	
+	public void actualizarCantidadesDisponibles(int[] cantidadesGastadas, ArrayList<Componente> componentes) {
+		System.out.println("b"+cantidadesGastadas.length);
+		System.out.println("b"+componentes.size());
+	    
+	    for (int i = 0; i < componentes.size(); i++) {
+	        Componente componente = componentes.get(i);
+	        int cantidadGastada = cantidadesGastadas[i];
+	        
+	        componente.setCantDisponible(componente.getCantDisponible() - cantidadGastada);
+	    }
 	}
 
 	private int[] calcularCantidadArticulos(ArrayList<Componente> carrito) {

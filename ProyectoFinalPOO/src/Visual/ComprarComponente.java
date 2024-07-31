@@ -386,12 +386,13 @@ public class ComprarComponente extends JDialog {
 						
 						if ( cliente != null ) {
 							int cantArticulos = Integer.parseInt(cantComponentesSpn.getValue().toString());
+							int[] gastados = {cantArticulos};
 							
 							cliente.addToCarrito(componentHolder.getComponenteElegido());
 							componentHolder.getComponenteElegido().setCantSeleccionado(cantArticulos);
 							
 							ArrayList<Componente> componentes = new ArrayList<Componente>(Arrays.asList(componentHolder.getComponenteElegido()));
-							Factura newFactura = Tienda.getInstance().makeFactura(componentes, cantArticulos, null, 0, cliente);
+							Factura newFactura = Tienda.getInstance().makeFactura(componentes, gastados, null, 0, cliente);
 							
 							if ( newFactura != null ) {
 								

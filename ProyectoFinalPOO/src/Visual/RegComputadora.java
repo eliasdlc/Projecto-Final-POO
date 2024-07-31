@@ -1181,13 +1181,5 @@ public class RegComputadora extends JDialog {
 	        }
 	    }
 	    
-	    /*int rowsToAdd = Math.max(0, 14 - model.getRowCount());
-	    for (int i = 0; i < rowsToAdd; i++) {
-	        Object[] emptyRow = new Object[table.getColumnCount()];
-	        for (int j = 0; j < emptyRow.length; j++) {
-	            emptyRow[j] = "";
-	        }
-	        model.addRow(emptyRow);
-	    }*/
 	}
 }
