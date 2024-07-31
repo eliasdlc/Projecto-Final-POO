@@ -65,6 +65,8 @@ public class ComprarComponente extends JDialog {
 	private static final Color hoverEffectColor = new Color(3, 135, 255);
 	private JTextField idTextField;
 	
+	private Componente aux;
+	
 	/*private Componente componenteElegido;
 	private Componente componenteASeleccionar;*/
 	private ComponentHolder componentHolder;
@@ -89,6 +91,7 @@ public class ComprarComponente extends JDialog {
 	 * Create the dialog.
 	 */
 	public ComprarComponente(Componente componente1, Componente componente2) {
+		this.aux = componente1;
 		componentHolder = new ComponentHolder(componente1, componente2);
 		setModal(true);
 		setLocationRelativeTo(getParent());
@@ -520,7 +523,7 @@ public class ComprarComponente extends JDialog {
 			JButton cambiarBttn = new JButton("Cambiar");
 			cambiarBttn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					ListCompComparacion comparacion = new ListCompComparacion(componente1);
+					ListCompComparacion comparacion = new ListCompComparacion(aux);
 					comparacion.setModal(true);
 					comparacion.setVisible(true);
 				}

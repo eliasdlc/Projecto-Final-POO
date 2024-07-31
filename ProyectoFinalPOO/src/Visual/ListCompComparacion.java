@@ -209,6 +209,7 @@ public class ListCompComparacion extends JDialog {
 					decideBtn.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							if(cod != null) {
+								dispose();
 								Componente componente2 = Tienda.getInstance().searchComponenteById(cod);
 								ComprarComponente comprar = new ComprarComponente(componente1, componente2);
 								comprar.setModal(true);
@@ -222,7 +223,7 @@ public class ListCompComparacion extends JDialog {
 					decideBtn.setBackground(new Color(248, 248, 248));
 					decideBtn.setOpaque(true);
 					decideBtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-					decideBtn.setBounds(37, 549, 190, 40);
+					decideBtn.setBounds(11, 586, 190, 40);
 					panel_1.add(decideBtn);
 				}
 				{
@@ -259,88 +260,58 @@ public class ListCompComparacion extends JDialog {
 	}
 
 	public void loadComponente(String id, Componente comp) {
-		boolean valido = false;
-		String tipo = "";
-		if(id == null) {
-			ArrayList<Componente> aux = Tienda.getInstance().getMisComponentes();
-			valido = false;
-			model.setRowCount(0);
-			row = new Object[table.getColumnCount()];
-			for(Componente comp1 : aux) {
-				if(comp1 instanceof DiscoDuro && comp instanceof DiscoDuro) {
-					valido = true;
-					tipo = "Disco Duro";
-				}
-				else if(comp1 instanceof GPU && comp instanceof GPU) {
-					valido = true;
-					tipo = "GPU";
-				}
-				else if(comp1 instanceof MicroProcesador && comp instanceof MicroProcesador) {
-					valido = true;
-					tipo = "Microprocesador";
-				}
-				else if(comp1 instanceof Ram && comp instanceof Ram) {
-					valido = true;
-					tipo = "RAM";
-				}
-				else if(comp1 instanceof TarjetaMadre && comp instanceof TarjetaMadre) {
-					valido = true;
-					tipo = "Tarjeta Madre";
-				}
-				
-				if(valido) {
-					row[0] = comp1.getId();
-					row[1] = comp1.getMarca();
-					row[2] = comp1.getModelo();
-					row[3] = comp1.getPrecio();
-					row[4] = comp1.getCantDisponible();
-					row[5] = comp1.getDescuento() + "%";
-					row[6] = tipo;
-					
-					model.addRow(row);
-				}
-			}
-		}
-		else {
-			Componente comp1 = Tienda.getInstance().searchComponenteById(id);
-			if(comp1 != null) {
-				if(comp1 instanceof DiscoDuro && comp instanceof DiscoDuro) {
-					valido = true;
-					tipo = "Disco Duro";
-				}
-				else if(comp1 instanceof GPU && comp instanceof GPU) {
-					valido = true;
-					tipo = "GPU";
-				}
-				else if(comp1 instanceof MicroProcesador && comp instanceof MicroProcesador) {
-					valido = true;
-					tipo = "Microprocesador";
-				}
-				else if(comp1 instanceof Ram && comp instanceof Ram) {
-					valido = true;
-					tipo = "RAM";
-				}
-				else if(comp1 instanceof TarjetaMadre && comp instanceof TarjetaMadre) {
-					valido = true;
-					tipo = "Tarjeta Madre";
-				}
-				
-				if(valido) {
-					row[0] = comp1.getId();
-					row[1] = comp1.getMarca();
-					row[2] = comp1.getModelo();
-					row[3] = comp1.getPrecio();
-					row[4] = comp1.getCantDisponible();
-					row[5] = comp1.getDescuento() + "%";
-					row[6] = tipo;
-					
-					model.addRow(row);
-				}
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "ID no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
-		decideBtn.setEnabled(false);
+	    String tipo = "";
+	    model.setRowCount(0);
+
+	    if (id == null) {
+	        ArrayList<Componente> aux = Tienda.getInstance().getMisComponentes();
+	        row = new Object[table.getColumnCount()];
+
+	        for (Componente comp1 : aux) {
+	            if (comp1.getClass().equals(comp.getClass())) {
+
+	                if (comp1 instanceof DiscoDuro) tipo = "Disco Duro";
+	                else if (comp1 instanceof GPU) tipo = "GPU";
+	                else if (comp1 instanceof MicroProcesador) tipo = "Microprocesador";
+	                else if (comp1 instanceof Ram) tipo = "RAM";
+	                else if (comp1 instanceof TarjetaMadre) tipo = "Tarjeta Madre";
+
+	                row[0] = comp1.getId();
+	                row[1] = comp1.getMarca();
+	                row[2] = comp1.getModelo();
+	                row[3] = comp1.getPrecio();
+	                row[4] = comp1.getCantDisponible();
+	                row[5] = comp1.getDescuento() + "%";
+	                row[6] = tipo;
+
+	                model.addRow(row);
+	            }
+	        }
+	    } else {
+	        Componente comp1 = Tienda.getInstance().searchComponenteById(id);
+	        if (comp1 != null && comp1.getClass().equals(comp.getClass())) {
+
+	            if (comp1 instanceof DiscoDuro) tipo = "Disco Duro";
+	            else if (comp1 instanceof GPU) tipo = "GPU";
+	            else if (comp1 instanceof MicroProcesador) tipo = "Microprocesador";
+	            else if (comp1 instanceof Ram) tipo = "RAM";
+	            else if (comp1 instanceof TarjetaMadre) tipo = "Tarjeta Madre";
+
+	            row = new Object[table.getColumnCount()];
+	            row[0] = comp1.getId();
+	            row[1] = comp1.getMarca();
+	            row[2] = comp1.getModelo();
+	            row[3] = comp1.getPrecio();
+	            row[4] = comp1.getCantDisponible();
+	            row[5] = comp1.getDescuento() + "%";
+	            row[6] = tipo;
+
+	            model.addRow(row);
+	        } else {
+	            JOptionPane.showMessageDialog(null, "ID no encontrado o tipo no coincide", "Error", JOptionPane.ERROR_MESSAGE);
+	        }
+	    }
+	    decideBtn.setEnabled(false);
 	}
+
 }
