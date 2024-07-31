@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 public class Tienda {
 	private ArrayList<Cliente> misClientes;
@@ -181,19 +184,40 @@ public class Tienda {
 		return componente;
 	}
 	
-	public ArrayList<Componente> getListComponentesMasVendidos(){
-		ArrayList<Componente> componentesMasVendidos = new ArrayList<>();
-		
-		Componente componenteMasFamoso = new Componente(null, null, null, 0, 1, 0);
-		
-		for ( Componente comp : misComponentes ) {
-			if ( comp.getCantVendidos() > componenteMasFamoso.getCantVendidos() ) {
-				componentesMasVendidos.add(comp);
-			}
-		}
-		
-		return componentesMasVendidos;
+	public ArrayList<Componente> getListComponentesMasVendidos() {
+	    ArrayList<Componente> componentesMasVendidos = new ArrayList<>(misComponentes);
+	    
+	    // Filtrar componentes con cantidad disponible > 0
+	    componentesMasVendidos.removeIf(comp -> comp.getCantDisponible() <= 0);
+	    
+	    // Ordenar la lista de componentes por cantidad vendida (de mayor a menor)
+	    Collections.sort(componentesMasVendidos, new Comparator<Componente>() {
+	        @Override
+	        public int compare(Componente comp1, Componente comp2) {
+	            return Integer.compare(comp2.getCantVendidos(), comp1.getCantVendidos());
+	        }
+	    });
+	    
+	    return componentesMasVendidos;
 	}
+	
+	public ArrayList<Computadora> getListComputadorasMasVendidas() {
+	    ArrayList<Computadora> computadorasMasVendidas = new ArrayList<>(misComputadoras);
+	    
+	    // Filtrar computadoras con cantidad disponible > 0
+	    computadorasMasVendidas.removeIf(comp -> comp.getCantDisponible() <= 0);
+	    
+	    // Ordenar la lista de computadoras por cantidad vendida (de mayor a menor)
+	    Collections.sort(computadorasMasVendidas, new Comparator<Computadora>() {
+	        @Override
+	        public int compare(Computadora comp1, Computadora comp2) {
+	            return Integer.compare(comp2.getCantVendido(), comp1.getCantVendido());
+	        }
+	    });
+	    
+	    return computadorasMasVendidas;
+	}
+
 	
 	public Cliente searchClienteById(String id) {
 		Cliente cliente = null;
@@ -240,18 +264,36 @@ public class Tienda {
 		return computadora;
 	}
 	
-	public float calcPrecioTotalComponente(Cliente cliente) {
+	public float calcSubTotalComponentes(Cliente cliente) {
+		float subTotal = 0;
+		ArrayList<Componente> aux = cliente.getCarrito();
+		
+		for(Componente comp : aux) {
+			subTotal += comp.getPrecio() * comp.getCantSeleccionado();
+		}
+		return subTotal;
+	}
+	public float calcPrecioTotalComponentes(Cliente cliente) {
 		float precio = 0;
 		int porcentaje = 0;
 		float precioTotal = 0;
 		ArrayList<Componente> aux = cliente.getCarrito();
 		
-		for(Componente componente : aux) {
-			precio = componente.getPrecio();
-			porcentaje = componente.getDescuento();
-			precioTotal = (float) (precio - ((porcentaje * precio) / 100));
+		for(Componente comp : aux) {
+			precio = comp.getPrecio() * comp.getCantSeleccionado();
+			porcentaje = comp.getDescuento();
+			precioTotal += (float) (precio - ((porcentaje * precio) / 100));
 		}
 		return precioTotal;
+	}
+	
+	public float calcSubTotalComputadora(ArrayList<Componente> componentes) {
+		float subTotal = 0;
+		
+		for(Componente componente : componentes) {
+			subTotal += componente.getPrecio();
+		}
+		return subTotal;
 	}
 	
 	public float calcPrecioTotalComputadora(ArrayList<Componente> componentes) {
@@ -262,9 +304,42 @@ public class Tienda {
 		for(Componente componente : componentes) {
 			precio = componente.getPrecio();
 			porcentaje = componente.getDescuento();
-			precioTotal = (float) (precio - ((porcentaje * precio) / 100));
+			precioTotal += (float) (precio - ((porcentaje * precio) / 100));
 		}
 		return precioTotal;
+	}
+	
+	public float calcDescuentoTotalComponentes(ArrayList<Componente> componentes) {
+		float descuentoTotal = 0;
+	    
+	    for (Componente comp : componentes) {
+	        float precio = comp.getPrecio();
+	        float descuento = comp.getDescuento(); 
+	        
+	        float descuentoAplicado = precio * (descuento / 100);
+	        
+	        descuentoTotal += descuentoAplicado;
+	    }
+	    
+	    return descuentoTotal;
+	}
+	
+	public float calcDescuentoTotalComputadora(ArrayList<Componente> componentes) {
+		float descuentoTotal = 0;
+		
+		try {
+		    for (Componente comp : componentes) {
+		        float precio = comp.getPrecio();
+		        float descuento = comp.getDescuento(); 
+		        
+		        float descuentoAplicado = precio * (descuento / 100);
+		        
+		        descuentoTotal += descuentoAplicado;
+		    }
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("La computadora debe tener exactamente 5 componentes.");
+		}
+		return descuentoTotal;
 	}
 	
 	public ArrayList<Componente> filterByMarca(String marca){
@@ -289,30 +364,39 @@ public class Tienda {
 		return componentesByPrecio;
 	}
 	
-	public boolean makeFactura(ArrayList<Componente> componentes, Computadora pc, Cliente cliente) {
+	public Factura makeFactura(ArrayList<Componente> componentes, int cantCompSeleccionados, Computadora pc, int cantidadPc, Cliente cliente) {
 	    float precioTotal = 0;
+	    float descuento = 0;
+	    float subtotal = 0;
 	    boolean finalizado = false;
 	    Factura factura = null;
 	    String id = "F-" + codFactura;
+	    Date fechaActual = new Date();
 
-	    if (!componentes.isEmpty() && pc == null) {
-	        precioTotal = calcPrecioTotalComponente(cliente);
+	    if (componentes != null && pc == null) {
+	    	subtotal = calcSubTotalComponentes(cliente);
+	    	precioTotal = calcPrecioTotalComponentes(cliente);
+	    	descuento = calcDescuentoTotalComponentes(cliente.getCarrito());
+	        
 	        ArrayList<Componente> carrito = cliente.getCarrito();
+	        
 	        int[] cantArticulos = calcularCantidadArticulos(carrito);
-	        factura = new FacturaComponente(cliente.getId(), id, precioTotal, cantArticulos, carrito);
+	        factura = new FacturaComponente(cliente.getId(), id, subtotal, descuento, precioTotal, fechaActual, cantArticulos, carrito);
 	        finalizado = true;
-	    } else if (pc != null && componentes.isEmpty()) {
-	        precioTotal = calcPrecioTotalComputadora(pc.getComponentes());
-	        factura = new FacturaComputadora(cliente.getId(), id, precioTotal, 1, pc.getId());
+	    } else if (pc != null && componentes == null) {
+	    	subtotal = calcSubTotalComputadora(pc.getComponentes()) * cantidadPc;
+	        precioTotal = calcPrecioTotalComputadora(pc.getComponentes()) * cantidadPc;
+	        descuento = calcDescuentoTotalComputadora(pc.getComponentes());
+	        
+	        factura = new FacturaComputadora(cliente.getId(), id, subtotal, descuento, precioTotal, fechaActual, 1, pc.getId(), pc.getComponentes(), cantidadPc);
 	        finalizado = true;
 	    }
 
 	    if (finalizado) {
-	        factura.setComprado(true);
 	        insertarFactura(factura);
 	    }
 
-	    return finalizado;
+	    return factura;
 	}
 
 	private int[] calcularCantidadArticulos(ArrayList<Componente> carrito) {
@@ -378,6 +462,28 @@ public class Tienda {
 			
 		}
 		return compatible;
+	}
+	
+	public boolean esCompatibleConTarjetaMadre(Componente componente, TarjetaMadre tarjetaMadre) {
+	    if (componente instanceof GPU) {
+	        GPU gpu = (GPU) componente;
+	        return gpu.getTipoConexion().equalsIgnoreCase(tarjetaMadre.getConectionGPU());
+	    } else if (componente instanceof MicroProcesador) {
+	        MicroProcesador micro = (MicroProcesador) componente;
+	        return micro.getTipoConexion().equalsIgnoreCase(tarjetaMadre.getConectionSocket());
+	    } else if (componente instanceof Ram) {
+	        Ram ram = (Ram) componente;
+	        return ram.getTipoMemoria().equalsIgnoreCase(tarjetaMadre.getTipoRam());
+	    } else if (componente instanceof DiscoDuro) {
+	        DiscoDuro disco = (DiscoDuro) componente;
+	        for (String conexion : disco.getTipoConexiones()) {
+	            if (tarjetaMadre.getTipoDiscoDuro().contains(conexion)) {
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
+	    return false; // Si el componente no es de ninguno de los tipos conocidos, no es compatible
 	}
 	
 	public void cargarArchivo() {
