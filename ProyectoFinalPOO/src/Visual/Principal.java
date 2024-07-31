@@ -661,38 +661,24 @@ public class Principal extends JFrame {
 				    Socket sfd = null;
 				    ObjectOutputStream sld = null;
 
-				    try {
-				        sfd = new Socket("127.0.0.1", 7001);
-				        sld = new ObjectOutputStream(sfd.getOutputStream());
+				    try (Socket socket = new Socket("127.0.0.1", 7001);
+				             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream())) {
 
-				        String filePath = "objetos.dat";
-
-				        try (FileInputStream fileInputStream = new FileInputStream(filePath);
-				             BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-				             DataOutputStream dataOutputStream = new DataOutputStream(sld)) {
-
-				            dataOutputStream.writeUTF(new File(filePath).getName());
-				            dataOutputStream.flush();
-
-				            byte[] buffer = new byte[4096];
-				            int bytesRead;
-				            while ((bytesRead = bufferedInputStream.read(buffer)) != -1) {
-				                dataOutputStream.write(buffer, 0, bytesRead);
-				                dataOutputStream.flush(); 
-				            }
-
-				            System.out.println("Archivo enviado exitosamente!");
+				            
+				            ArrayList<Object> objeto = new ArrayList<>();
+				            objeto.addAll(Tienda.getInstance().getMisComponentes());
+				            objeto.addAll(Tienda.getInstance().getMisClientes());
+				            objeto.addAll(Tienda.getInstance().getMisComputadoras());
+				            objeto.addAll(Tienda.getInstance().getMisFacturas());
+				            objeto.addAll(Tienda.getInstance().getMisUsuarios());
+				            
+				            out.writeObject(objeto);
+				            out.flush();
+				            System.out.println("ArrayList enviado exitosamente!");
 
 				        } catch (IOException e1) {
 				            e1.printStackTrace();
-				        }
-				    } catch (UnknownHostException uhe) {
-				        System.out.println("No se puede acceder al servidor");
-				        System.exit(1);
-				    } catch (IOException ioe) {
-				        System.out.println("1Comunicacion rechazada");
-				        System.exit(1);
-				    } finally {
+				        } finally {
 				        try {
 				            if (sld != null) {
 				                sld.close();
