@@ -2,6 +2,8 @@ package Visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
@@ -9,7 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Logica.Computadora;
@@ -44,8 +48,18 @@ public class ListComputadoras extends JDialog {
 	private JComboBox filtercmb;
 	private JButton compbtn;
 
+	private static final Color PrimaryC = new Color(3, 88, 157);
 	private static final Color SecondaryC = new Color(3, 104, 196);
-	private static final Color hoverEffectColor = new Color(3, 135, 255);
+	private static final Color ThirdC = new Color(247, 251, 255);
+	private static final Color AccentColor = new Color(247, 109, 71); //255, 150, 95
+	private static final Color AccentHoverColor = new Color(255, 136, 73);
+	private static final Color BGC = new Color(236, 240, 241);
+	private static final Color TextColor = new Color(52, 73, 94);
+	private static final Color WTextColor = new Color(255, 255, 255);
+	private static final Color ButtonColor = new Color(42, 145, 230);
+	private static final Color ButtonBorderColor = new Color(42, 145, 230);
+	private static final Color HoverEffectColor = new Color(3, 109, 195);
+	private JPanel panel_2;
 	/**
 	 * Launch the application.
 	 */
@@ -65,17 +79,21 @@ public class ListComputadoras extends JDialog {
 	public ListComputadoras() {
 		setTitle("Listado de Computadoras");
 		setBounds(100, 100, 1349, 751);
+		setModal(true);
+		setLocationRelativeTo(getParent());
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new BorderLayout(0, 0));
+		contentPanel.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		contentPanel.add(panel, BorderLayout.CENTER);
+		panel.setBounds(0, 0, 1331, 704);
+		contentPanel.add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 1116, 685);
+		scrollPane.setBounds(0, 0, 1116, 704);
 		panel.add(scrollPane);
 		
 		model = new DefaultTableModel();
@@ -100,25 +118,147 @@ public class ListComputadoras extends JDialog {
 		model.setColumnIdentifiers(headers);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
+
+		
+		table.getTableHeader().setPreferredSize(new Dimension(10, 40));
+		table.getTableHeader().setBackground(PrimaryC);
+		table.getTableHeader().setForeground(Color.white);		
+		table.getColumnModel().getColumn(0).setPreferredWidth(25);
+		table.getColumnModel().getColumn(1).setPreferredWidth(75);
+		table.getColumnModel().getColumn(2).setPreferredWidth(75); 
+		
+		
+
+		
+		table.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+		table.getTableHeader().setFont(new Font("Century Gothic", Font.BOLD, 18));
+		table.setRowHeight(30);
+		table.setBorder(new RoundedBorder(Color.white, 1, 20));
+		
+		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+		    @Override
+		    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+		        Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		        if (!isSelected) {
+		            c.setBackground(row % 2 == 0 ? new Color(240, 240, 240) : Color.WHITE);
+		            table.setGridColor(row % 2 == 0 ? new Color(240, 240, 240) : Color.WHITE);
+		        }
+		        return c;
+		    }
+		});
+		
+		scrollPane.setViewportView(table);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(SecondaryC);
-		panel_1.setBounds(1118, 0, 199, 685);	
+		panel_1.setBackground(PrimaryC);
+		panel_1.setBounds(1118, 0, 213, 704);	
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
+		updatebtn = new JButton("Actualizar");
+		updatebtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+		updatebtn.setBackground(new Color(248, 248, 248));
+		updatebtn.setForeground(SecondaryC);
+		updatebtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		updatebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cod != null) {
+					Computadora pc = Tienda.getInstance().searchComputadoraById(cod);
+					if(pc != null) {
+						//RegComputadora updateComputadora = new RegComputadora(pc);
+						//updatecomputadora.setModal(true);
+						//updateComputadora.setVisible(true);
+					}
+				}
+			}
+		});
+		updatebtn.setBounds(11, 545, 190, 40);
+		panel_1.add(updatebtn);
+		
+		deletebtn = new JButton("Eliminar");
+		deletebtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				deletebtn.setBorder(new RoundedBorder(HoverEffectColor, 1, 20));
+				deletebtn.setForeground(HoverEffectColor);
+				deletebtn.setOpaque(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				deletebtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+				deletebtn.setForeground(SecondaryC);
+				deletebtn.setOpaque(true);
+			}
+		});
+		deletebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cod != null) {
+					int option = JOptionPane.showConfirmDialog(null, "Esta seguro que desea eliminar la computadora seleccionada?");
+					if(option == JOptionPane.YES_OPTION) {
+						Tienda.getInstance().deleteComputadora(cod);
+						loadComputadora(null);
+						JOptionPane.showMessageDialog(null, "Se elimino la computadora exitosamente!", "Eliminar", JOptionPane.INFORMATION_MESSAGE);
+						
+					}
+				}
+			}
+		});
+		deletebtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+		deletebtn.setForeground(SecondaryC);
+		deletebtn.setBackground(new Color(248, 248, 248));
+		deletebtn.setOpaque(true);
+		deletebtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		deletebtn.setBounds(11, 598, 190, 40);
+		panel_1.add(deletebtn);
+		
+		cancelbtn = new JButton("Cancelar");
+		cancelbtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				cancelbtn.setBackground(HoverEffectColor);
+				cancelbtn.setOpaque(true);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				cancelbtn.setBorder(new RoundedBorder(ThirdC, 1, 20));
+				cancelbtn.setForeground(ThirdC);
+				cancelbtn.setOpaque(false);
+			}
+		});
+		cancelbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		cancelbtn.setBorder(new RoundedBorder(ThirdC, 1, 20));
+		cancelbtn.setForeground(ThirdC);
+		cancelbtn.setBackground(new Color(248, 248, 248));
+		cancelbtn.setOpaque(false);
+		cancelbtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		cancelbtn.setBounds(11, 651, 190, 40);
+		panel_1.add(cancelbtn);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(PrimaryC);
+		panel_2.setBounds(0, 0, 213, 274);
+		panel_1.add(panel_2);
+		panel_2.setLayout(null);
+		
 		idtxt = new JTextField();
+		idtxt.setBorder(new CompoundBorder( new RoundedBorder(PrimaryC, 1, 15), new EmptyBorder(0, 10, 0, 10) ));
+		idtxt.setBounds(11, 12, 190, 40);
+		panel_2.add(idtxt);
 		idtxt.setFont(new Font("Century Gothic", Font.PLAIN, 18));
-		idtxt.setBounds(13, 16, 169, 29);
-		panel_1.add(idtxt);
 		idtxt.setColumns(10);
 		
 		searchbtn = new JButton("Buscar");
+		searchbtn.setBounds(22, 64, 169, 40);
+		panel_2.add(searchbtn);
 		searchbtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				searchbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
-				searchbtn.setForeground(hoverEffectColor);
+				searchbtn.setBorder(new RoundedBorder(HoverEffectColor, 1, 20));
+				searchbtn.setForeground(HoverEffectColor);
 				searchbtn.setOpaque(true);
 			}
 			@Override
@@ -144,10 +284,10 @@ public class ListComputadoras extends JDialog {
 		searchbtn.setBackground(new Color(248, 248, 248));
 		searchbtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
 		searchbtn.setOpaque(true);
-		searchbtn.setBounds(40, 58, 115, 29);
-		panel_1.add(searchbtn);
 		
 		filtercmb = new JComboBox();
+		filtercmb.setBounds(11, 116, 190, 40);
+		panel_2.add(filtercmb);
 		filtercmb.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String tipo = filtercmb.getSelectedItem().toString();
@@ -156,17 +296,18 @@ public class ListComputadoras extends JDialog {
 		});
 		filtercmb.setBackground(new Color(248, 248, 248));
 		filtercmb.setForeground(SecondaryC);
+		filtercmb.setBorder(new RoundedBorder(PrimaryC, 1, 20));
 		filtercmb.setFont(new Font("Century Gothic", Font.BOLD, 18));
 		filtercmb.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Gaming", "Oficina", "Universidad"}));
-		filtercmb.setBounds(13, 103, 169, 29);
-		panel_1.add(filtercmb);
 		
 		buyBtn = new JButton("Comprar");
+		buyBtn.setBounds(22, 168, 169, 40);
+		panel_2.add(buyBtn);
 		buyBtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				buyBtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
-				buyBtn.setForeground(hoverEffectColor);
+				buyBtn.setBorder(new RoundedBorder(HoverEffectColor, 1, 20));
+				buyBtn.setForeground(HoverEffectColor);
 				buyBtn.setOpaque(true);
 			}
 			@Override
@@ -183,6 +324,13 @@ public class ListComputadoras extends JDialog {
 					if(pc != null) {
 						ComprarComputadora comprarPc = new ComprarComputadora(pc);
 						comprarPc.setModal(true);
+						comprarPc.addWindowListener(new java.awt.event.WindowAdapter() {
+			                @Override
+			                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+			                    loadComputadora(null);
+			                }
+			            });
+						
 						comprarPc.setVisible(true);
 					}
 				}
@@ -193,94 +341,15 @@ public class ListComputadoras extends JDialog {
 		buyBtn.setForeground(SecondaryC);
 		buyBtn.setOpaque(true);
 		buyBtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		buyBtn.setBounds(40, 148, 115, 29);
-		panel_1.add(buyBtn);
-		
-		updatebtn = new JButton("Actualizar");
-		updatebtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(cod != null) {
-					Computadora pc = Tienda.getInstance().searchComputadoraById(cod);
-					if(pc != null) {
-						//RegComputadora updateComputadora = new RegComputadora(pc);
-						//updatecomputadora.setModal(true);
-						//updateComputadora.setVisible(true);
-					}
-				}
-			}
-		});
-		updatebtn.setBounds(42, 549, 115, 29);
-		panel_1.add(updatebtn);
-		
-		deletebtn = new JButton("Eliminar");
-		deletebtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				deletebtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
-				deletebtn.setForeground(hoverEffectColor);
-				deletebtn.setOpaque(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				deletebtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
-				deletebtn.setForeground(SecondaryC);
-				deletebtn.setOpaque(true);
-			}
-		});
-		deletebtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(cod != null) {
-					int option = JOptionPane.showConfirmDialog(null, "Esta seguro que desea eliminar la computadora seleccionada?");
-					if(option == JOptionPane.YES_OPTION) {
-						Tienda.getInstance().deleteComputadora(cod);
-						loadComputadora(null);
-						JOptionPane.showMessageDialog(null, "Eliminaci�n realizada correctamente", "Eliminaci�n", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-			}
-		});
-		deletebtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
-		deletebtn.setForeground(SecondaryC);
-		deletebtn.setBackground(new Color(248, 248, 248));
-		deletebtn.setOpaque(true);
-		deletebtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		deletebtn.setBounds(42, 594, 115, 29);
-		panel_1.add(deletebtn);
-		
-		cancelbtn = new JButton("Cancelar");
-		cancelbtn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				cancelbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
-				cancelbtn.setForeground(hoverEffectColor);
-				cancelbtn.setOpaque(true);
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
-				cancelbtn.setForeground(SecondaryC);
-				cancelbtn.setOpaque(true);
-			}
-		});
-		cancelbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
-		cancelbtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
-		cancelbtn.setForeground(SecondaryC);
-		cancelbtn.setBackground(new Color(248, 248, 248));
-		cancelbtn.setOpaque(true);
-		cancelbtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		cancelbtn.setBounds(42, 640, 115, 29);
-		panel_1.add(cancelbtn);
 		
 		compbtn = new JButton("Componentes");
+		compbtn.setBounds(22, 220, 169, 40);
+		panel_2.add(compbtn);
 		compbtn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				compbtn.setBorder(new RoundedBorder(hoverEffectColor, 1, 20));
-				compbtn.setForeground(hoverEffectColor);
+				compbtn.setBorder(new RoundedBorder(HoverEffectColor, 1, 20));
+				compbtn.setForeground(HoverEffectColor);
 				compbtn.setOpaque(true);
 			}
 			@Override
@@ -302,8 +371,6 @@ public class ListComputadoras extends JDialog {
 		compbtn.setForeground(SecondaryC);
 		compbtn.setOpaque(true);
 		compbtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		compbtn.setBounds(28, 193, 139, 29);
-		panel_1.add(compbtn);
 		
 		loadComputadora(null);
 	}
