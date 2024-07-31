@@ -21,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 
 import Logica.Componente;
+import Logica.Computadora;
 import Logica.RoundedBorder;
 
 import javax.swing.event.ChangeEvent;
@@ -42,7 +43,7 @@ public class PopUpCant extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			PopUpCant dialog = new PopUpCant(null);
+			PopUpCant dialog = new PopUpCant(null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -53,7 +54,7 @@ public class PopUpCant extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PopUpCant(Componente comp) {
+	public PopUpCant(Componente comp, Computadora pc) {
 		setUndecorated(true);
 		setBounds(100, 100, 450, 300);
 		setModal(true);
@@ -86,7 +87,13 @@ public class PopUpCant extends JDialog {
 			
 			panel.add(addIcon);
 			
-			JLabel lblNewLabel = new JLabel("Pedir Componentes");
+			JLabel lblNewLabel = new JLabel("");
+			if(pc == null) {
+				lblNewLabel.setText("Pedir Componentes");
+			}
+			else {
+				lblNewLabel.setText("Pedir Computadoras");
+			}
 			lblNewLabel.setFont(new Font("Century Gothic", Font.BOLD, 22));
 			lblNewLabel.setBounds(148, 51, 272, 26);
 			panel.add(lblNewLabel);
@@ -112,9 +119,16 @@ public class PopUpCant extends JDialog {
 			addbtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					int cant = new Integer(quantityspn.getValue().toString());
-					comp.setCantDisponible(comp.getCantDisponible() + cant);
-					ListComponentes.loadComponente(null);
-					dispose();
+					if(pc == null) {
+						comp.setCantDisponible(comp.getCantDisponible() + cant);
+						ListComponentes.loadComponente(null);
+						dispose();
+					}
+					else {
+						pc.setCantDisponible(pc.getCantDisponible() + cant);
+						ListComputadoras.loadComputadora(null);
+						dispose();
+					}
 				}
 			});
 			addbtn.setForeground(Color.WHITE);
@@ -130,8 +144,15 @@ public class PopUpCant extends JDialog {
 			quantityspn.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					int cant = (Integer) quantityspn.getValue();
-					int cantOg = comp.getCantDisponible();
-					quantitytxt.setText(String.valueOf(cant + cantOg));
+					int cantOg = 0;
+					if(pc == null) {
+						cantOg = comp.getCantDisponible();
+						quantitytxt.setText(String.valueOf(cant + cantOg));
+					}
+					else {
+						cantOg = pc.getCantDisponible();
+						quantitytxt.setText(String.valueOf(cant + cantOg));
+					}
 				}
 			});
 			quantityspn.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -142,7 +163,12 @@ public class PopUpCant extends JDialog {
 			quantitytxt.setHorizontalAlignment(SwingConstants.CENTER);
 			quantitytxt.setEditable(false);
 			quantitytxt.setFont(new Font("Century Gothic", Font.BOLD, 20));
-			quantitytxt.setText(String.valueOf(comp.getCantDisponible()));
+			if(pc == null) {
+				quantitytxt.setText(String.valueOf(comp.getCantDisponible()));
+			}
+			else {
+				quantitytxt.setText(String.valueOf(pc.getCantDisponible()));
+			}
 			quantitytxt.setBounds(279, 140, 124, 37);
 			panel.add(quantitytxt);
 			quantitytxt.setColumns(10);

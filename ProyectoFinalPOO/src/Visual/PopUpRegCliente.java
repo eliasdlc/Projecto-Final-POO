@@ -99,8 +99,13 @@ public class PopUpRegCliente extends JDialog {
 			panel.add(titleTxt);
 			
 			idtxt = new JTextField();
-			idtxt.setText(id);
-			idtxt.setEditable(false);
+			if(id != null) {
+				idtxt.setEditable(false);
+				idtxt.setText(id);
+			}
+			else {
+				idtxt.setEditable(true);
+			}
 			idtxt.setFont(new Font("Century Gothic", Font.BOLD, 16));
 			idtxt.setBounds(133, 73, 164, 26);
 			panel.add(idtxt);

@@ -256,7 +256,7 @@ public class ListComponentes extends JDialog {
 					if(cod != null) {
 						Componente componente = Tienda.getInstance().searchComponenteById(cod);
 						if(componente != null) {
-							PopUpCant aux = new PopUpCant(componente);
+							PopUpCant aux = new PopUpCant(componente, null);
 							aux.setModal(true);
 							aux.setVisible(true);
 						}

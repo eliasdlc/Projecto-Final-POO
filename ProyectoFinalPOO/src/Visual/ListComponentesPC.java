@@ -127,6 +127,23 @@ public class ListComponentesPC extends JDialog {
 			buttonPanel.setLayout(null);
 			
 			JButton cerrarBttn = new JButton("Cerrar");
+			cerrarBttn.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					cerrarBttn.setBorder(new RoundedBorder(hoverEffectColor, 1, 10));
+					cerrarBttn.setBackground(hoverEffectColor);
+				}
+				@Override
+				public void mouseExited(MouseEvent e) {
+					cerrarBttn.setBorder(new RoundedBorder(ButtonColor, 1, 10));
+					cerrarBttn.setBackground(ButtonColor);
+				}
+			});
+			cerrarBttn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
 			cerrarBttn.setFocusPainted(false);
 			cerrarBttn.setForeground(Color.white);
 			cerrarBttn.setBackground(ButtonColor);

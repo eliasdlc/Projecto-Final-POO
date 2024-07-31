@@ -36,17 +36,17 @@ public class ListComputadoras extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField idtxt;
-	private JTable table;
-	private JButton updatebtn;
-	private JButton deletebtn;
+	private static JTable table;
+	private static JButton requestBtn;
+	private static JButton deletebtn;
 	private JButton cancelbtn;
-	private JButton buyBtn;
+	private static JButton buyBtn;
 	private JButton searchbtn;
 	private String cod = "";
 	private static Object row[];
 	private static DefaultTableModel model;
 	private JComboBox filtercmb;
-	private JButton compbtn;
+	private static JButton compbtn;
 
 	private static final Color PrimaryC = new Color(3, 88, 157);
 	private static final Color SecondaryC = new Color(3, 104, 196);
@@ -105,7 +105,7 @@ public class ListComputadoras extends JDialog {
 				int ind = table.getSelectedRow();
 				if(ind >= 0) {
 					cod = table.getValueAt(ind, 0).toString();
-					updatebtn.setEnabled(true);
+					requestBtn.setEnabled(true);
 					deletebtn.setEnabled(true);
 					buyBtn.setEnabled(true);
 					compbtn.setEnabled(true);
@@ -155,25 +155,25 @@ public class ListComputadoras extends JDialog {
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 		
-		updatebtn = new JButton("Actualizar");
-		updatebtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
-		updatebtn.setBackground(new Color(248, 248, 248));
-		updatebtn.setForeground(SecondaryC);
-		updatebtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		updatebtn.addActionListener(new ActionListener() {
+		requestBtn = new JButton("Pedir");
+		requestBtn.setBorder(new RoundedBorder(SecondaryC, 1, 20));
+		requestBtn.setBackground(new Color(248, 248, 248));
+		requestBtn.setForeground(SecondaryC);
+		requestBtn.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		requestBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(cod != null) {
 					Computadora pc = Tienda.getInstance().searchComputadoraById(cod);
 					if(pc != null) {
-						//RegComputadora updateComputadora = new RegComputadora(pc);
-						//updatecomputadora.setModal(true);
-						//updateComputadora.setVisible(true);
+						PopUpCant pedir = new PopUpCant(null, pc);
+						pedir.setModal(true);
+						pedir.setVisible(true);
 					}
 				}
 			}
 		});
-		updatebtn.setBounds(11, 545, 190, 40);
-		panel_1.add(updatebtn);
+		requestBtn.setBounds(11, 290, 190, 40);
+		panel_1.add(requestBtn);
 		
 		deletebtn = new JButton("Eliminar");
 		deletebtn.addMouseListener(new MouseAdapter() {
@@ -375,7 +375,7 @@ public class ListComputadoras extends JDialog {
 		loadComputadora(null);
 	}
 
-	public void loadComputadora(String id) {
+	public static void loadComputadora(String id) {
 		if(id == null) {
 			ArrayList<Computadora> aux = Tienda.getInstance().getMisComputadoras();
 			model.setRowCount(0);
@@ -404,7 +404,7 @@ public class ListComputadoras extends JDialog {
 		
 		deletebtn.setEnabled(false);
 		compbtn.setEnabled(false);
-		updatebtn.setEnabled(false);
+		requestBtn.setEnabled(false);
 		buyBtn.setEnabled(false);
 	}
 	
@@ -436,7 +436,7 @@ public class ListComputadoras extends JDialog {
 		
 		deletebtn.setEnabled(false);
 		compbtn.setEnabled(false);
-		updatebtn.setEnabled(false);
+		requestBtn.setEnabled(false);
 		buyBtn.setEnabled(false);
 	}
 }
