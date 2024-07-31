@@ -54,7 +54,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 
-public class RegComputadoras extends JDialog {
+public class RegComputadora extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
@@ -141,7 +141,7 @@ public class RegComputadoras extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegComputadoras dialog = new RegComputadoras();
+			RegComputadora dialog = new RegComputadora();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -152,7 +152,7 @@ public class RegComputadoras extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegComputadoras() {
+	public RegComputadora() {
 		setBounds(100, 100, 1590, 819);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -160,29 +160,6 @@ public class RegComputadoras extends JDialog {
 		contentPanel.setLayout(null);
 		
 		activeStepList[0] = 1;
-		
-		ArrayList<Componente> listaComponentes0 = new ArrayList<>();
-		Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-		Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
-		Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
-		Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
-		Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, "TB", 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-		Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 3.8f, "AM4", 8);
-		Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
-		Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
-		Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, "TB", 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-		Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
-		
-		Tienda.getInstance().insertarComponente(tarjetaMadre);
-		Tienda.getInstance().insertarComponente(cpu);
-		Tienda.getInstance().insertarComponente(memoria);
-		Tienda.getInstance().insertarComponente(tarjetaGrafica);
-		Tienda.getInstance().insertarComponente(disco);
-		Tienda.getInstance().insertarComponente(cpu2);
-		Tienda.getInstance().insertarComponente(memoria2);
-		Tienda.getInstance().insertarComponente(tarjetaGrafica2);
-		Tienda.getInstance().insertarComponente(disco2);
-		Tienda.getInstance().insertarComponente(tarjetaMadre2);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 1572, 772);
@@ -361,38 +338,47 @@ public class RegComputadoras extends JDialog {
 					cod = table.getValueAt(index, 0).toString();
 					System.out.println(cod);
 					Componente comp = Tienda.getInstance().searchComponenteById(cod);
+					boolean compatible = true;
 					
+					if( currentStep > 0 ) {
+						compatible = Tienda.getInstance().esCompatibleConTarjetaMadre(comp, (TarjetaMadre) componentesPc.get(0));
+						if ( !compatible ) {
+							PopUpError error = new PopUpError("El componente seleccionado no es compatible con la tarjeta madre. Porfavor seleccione otro.", ErrorType.WARNING, null);
+							error.setVisible(true);
+						}
+					}
 					
-					
-					if (comp instanceof TarjetaMadre) {
-				        tarjetaMadrePanel.setVisible(true);
-				        notSelectedLabel.setVisible(false);
-				        tarjetaMadreId.setText(comp.getId());
-				        tarjetaMadreNombre.setText(comp.getMarca() + " " + comp.getModelo());
-				        
-				        componentesPc.set(0, comp);
-				    } else if (comp instanceof Ram && tarjetaMadrePanel.isVisible()) {
-				        ramPanel.setVisible(true);
-				        ramId.setText(comp.getId());
-				        ramNombre.setText(comp.getMarca() + " " + comp.getModelo());
-				        
-				        componentesPc.set(1, comp);
-				    } else if (comp instanceof MicroProcesador && tarjetaMadrePanel.isVisible() && ramPanel.isVisible()) {
-				        microProcesadorPanel.setVisible(true);
-				        microProcesadorId.setText(comp.getId());
-				        microProcesadorNombre.setText(comp.getMarca() + " " + comp.getModelo());
-				        componentesPc.set(2, comp);
-				    } else if (comp instanceof DiscoDuro && tarjetaMadrePanel.isVisible() && ramPanel.isVisible() && microProcesadorPanel.isVisible()) {
-				        discoDuroPanel.setVisible(true);
-				        discoDuroId.setText(comp.getId());
-				        discoDuroNombre.setText(comp.getMarca() + " " + comp.getModelo());
-				        componentesPc.set(3, comp);
-				    } else if (comp instanceof GPU && tarjetaMadrePanel.isVisible() && ramPanel.isVisible() && microProcesadorPanel.isVisible() && discoDuroPanel.isVisible()) {
-				        gpuPanel.setVisible(true);
-				        gpuId.setText(comp.getId());
-				        gpuNombre.setText(comp.getMarca() + " " + comp.getModelo());
-				        componentesPc.set(4, comp);
-				    }
+					if ( compatible ) {
+						if (comp instanceof TarjetaMadre) {
+					        tarjetaMadrePanel.setVisible(true);
+					        notSelectedLabel.setVisible(false);
+					        tarjetaMadreId.setText(comp.getId());
+					        tarjetaMadreNombre.setText(comp.getMarca() + " " + comp.getModelo());
+					        
+					        componentesPc.set(0, comp);
+					    } else if (comp instanceof Ram && tarjetaMadrePanel.isVisible()) {
+					        ramPanel.setVisible(true);
+					        ramId.setText(comp.getId());
+					        ramNombre.setText(comp.getMarca() + " " + comp.getModelo());
+					        
+					        componentesPc.set(1, comp);
+					    } else if (comp instanceof MicroProcesador && tarjetaMadrePanel.isVisible() && ramPanel.isVisible()) {
+					        microProcesadorPanel.setVisible(true);
+					        microProcesadorId.setText(comp.getId());
+					        microProcesadorNombre.setText(comp.getMarca() + " " + comp.getModelo());
+					        componentesPc.set(2, comp);
+					    } else if (comp instanceof DiscoDuro && tarjetaMadrePanel.isVisible() && ramPanel.isVisible() && microProcesadorPanel.isVisible()) {
+					        discoDuroPanel.setVisible(true);
+					        discoDuroId.setText(comp.getId());
+					        discoDuroNombre.setText(comp.getMarca() + " " + comp.getModelo());
+					        componentesPc.set(3, comp);
+					    } else if (comp instanceof GPU && tarjetaMadrePanel.isVisible() && ramPanel.isVisible() && microProcesadorPanel.isVisible() && discoDuroPanel.isVisible()) {
+					        gpuPanel.setVisible(true);
+					        gpuId.setText(comp.getId());
+					        gpuNombre.setText(comp.getMarca() + " " + comp.getModelo());
+					        componentesPc.set(4, comp);
+					    }
+					}
 					
 					if ( currentStep == 1 && !tarjetaMadrePanel.isVisible() ) {
 						descripcionPasoLabel.setText("Primero debe agregar la Tarjeta Madre!");
@@ -412,7 +398,8 @@ public class RegComputadoras extends JDialog {
 					String componentes = String.join(", ", componentesPc.toString());
 					System.out.println(componentes);
 					
-					if ( currentStep < 4 ) {
+					
+					if ( currentStep < 4 && compatible) {
 						activeStepList[currentStep] = 0;
 						currentStep ++;
 						activeStepList[currentStep] = 1;
@@ -422,6 +409,7 @@ public class RegComputadoras extends JDialog {
 						loadStep();
 					}
 					
+					activatePrice();
 				}
 			}
 		});
@@ -972,6 +960,20 @@ public class RegComputadoras extends JDialog {
 		componentesPcPanel.add(notSelectedLabel);
 		
 		loadComponente(headers);
+	}
+	
+	private void activatePrice() {
+		if ( componentesPc.get(4) != null ) {
+			float precioIni = 0f;
+			for (Componente compo : componentesPc) {
+				precioIni += compo.getPrecio();
+			}
+			precioSpn.setModel(new SpinnerNumberModel(new Float(precioIni), new Float(1), null, new Float(1)));
+			precioSpn.setEnabled(true);
+		} else {
+			precioSpn.setModel(new SpinnerNumberModel(new Float(1), new Float(1), null, new Float(1)));
+			precioSpn.setEnabled(false);
+		}
 	}
 	
 	private void clean() {

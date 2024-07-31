@@ -55,6 +55,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JToggleButton;
+import java.awt.SystemColor;
 
 public class RegComponentes extends JDialog {
 
@@ -74,16 +75,16 @@ public class RegComponentes extends JDialog {
 	private JButton cancelButton;
 	private JButton regBttn;
 	
-	private static final Color PrimaryC = new Color(0, 78, 137);
-	private static final Color SecondaryC = new Color(90, 162, 232);
-	private static final Color AccentColor = new Color(255, 133, 78);
+	private static final Color PrimaryC = new Color(3, 88, 157);
+	private static final Color SecondaryC = new Color(3, 104, 196);
+	private static final Color AccentColor = new Color(255, 133, 78); //255, 150, 95
 	private static final Color AccentHoverColor = new Color(255, 188, 94);
 	private static final Color BGC = new Color(236, 240, 241);
 	private static final Color TextColor = new Color(52, 73, 94);
 	private static final Color WTextColor = new Color(255, 255, 255);
 	private static final Color ButtonColor = new Color(21, 96, 169);
 	private static final Color ButtonBorderColor = new Color(21, 96, 169);
-	private static final Color hoverEffectColor = new Color(220, 231, 242);
+	private static final Color hoverEffectColor = new Color(3, 135, 255);
 	
 	private JLabel almacenamientoLabel;
 	private JLabel discoTipoConexionLabel;
@@ -145,22 +146,22 @@ public class RegComponentes extends JDialog {
 		
 		setBounds(100, 100, 1263, 806);
 		getContentPane().setLayout(null);
-		contentPanel.setBounds(0, 0, 1245, 710);
+		contentPanel.setBounds(0, 0, 1245, 702);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 1245, 710);
-		panel.setBackground(new Color(3, 104, 196));
+		panel.setBounds(0, 0, 1245, 702);
+		panel.setBackground(PrimaryC);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
 		JPanel generalInfoPanel = new JPanel();
-		generalInfoPanel.setBackground(new Color(2, 78, 137));
+		generalInfoPanel.setBackground(SystemColor.menu);
 		generalInfoPanel.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20));
 		
-		generalInfoPanel.setBounds(7, 24, 1232, 224);
+		generalInfoPanel.setBounds(12, 13, 1221, 242);
 		panel.add(generalInfoPanel);
 		generalInfoPanel.setLayout(null);
 		
@@ -254,19 +255,12 @@ public class RegComponentes extends JDialog {
 		Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
 		componentIcon.setIcon(new ImageIcon(scaledImg));
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(0, 78, 137));
-		panel_2.setBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20));
-		panel_2.setBounds(7, 261, 1232, 439);
-		panel.add(panel_2);
-		panel_2.setLayout(null);
-		
 		JPanel componentInfoPanel = new JPanel();
 		TitledBorder titledBorder2 = new TitledBorder(new CompoundBorder(), "Informacion de RAM", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
 		titledBorder2.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
 		componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), titledBorder2));
-		componentInfoPanel.setBounds(356, 13, 864, 413);
-		panel_2.add(componentInfoPanel);
+		componentInfoPanel.setBounds(380, 268, 853, 434);
+		panel.add(componentInfoPanel);
 		componentInfoPanel.setLayout(null);
 		
 		conexionDiscoDuroPanel = new JPanel();
@@ -714,107 +708,42 @@ public class RegComponentes extends JDialog {
 		velocidadGPUspn.setBounds(234, 201, 177, 28);
 		componentInfoPanel.add(velocidadGPUspn);
 		
-		JRadioButton microprocesadorRdoBttn = new JRadioButton("Micro-procesador");
-		microprocesadorRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
-		microprocesadorRdoBttn.setFocusPainted(false);
-		microprocesadorRdoBttn.setBounds(35, 126, 251, 28);
-		panel_2.add(microprocesadorRdoBttn);
+		JPanel selectionPanel = new JPanel();
+		selectionPanel.setBorder(new RoundedBorder(new Color(239, 239, 229), 1, 20));
+		selectionPanel.setBounds(12, 268, 356, 434);
+		panel.add(selectionPanel);
+		selectionPanel.setLayout(null);
 		
 		JRadioButton ramRdoBttn = new JRadioButton("RAM");
+		ramRdoBttn.setBounds(30, 28, 295, 45);
+		selectionPanel.add(ramRdoBttn);
 		ramRdoBttn.setSelected(true);
 		ramRdoBttn.setFocusPainted(false);
 		ramRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
-		ramRdoBttn.setBounds(35, 49, 251, 28);
-		panel_2.add(ramRdoBttn);
+		
+		JRadioButton microprocesadorRdoBttn = new JRadioButton("Micro-procesador");
+		microprocesadorRdoBttn.setBounds(30, 105, 295, 45);
+		selectionPanel.add(microprocesadorRdoBttn);
+		microprocesadorRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		microprocesadorRdoBttn.setFocusPainted(false);
 		
 		JRadioButton tarjetaMadreRdoBttn = new JRadioButton("Tarjeta Madre");
+		tarjetaMadreRdoBttn.setBounds(30, 182, 295, 45);
+		selectionPanel.add(tarjetaMadreRdoBttn);
 		tarjetaMadreRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		tarjetaMadreRdoBttn.setFocusPainted(false);
-		tarjetaMadreRdoBttn.setBounds(35, 203, 251, 28);
-		panel_2.add(tarjetaMadreRdoBttn);
-		
-		JRadioButton discoDuroRdoBttn = new JRadioButton("Disco Duro");
-		discoDuroRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
-		discoDuroRdoBttn.setFocusPainted(false);
-		discoDuroRdoBttn.setBounds(35, 357, 251, 28);
-		panel_2.add(discoDuroRdoBttn);
 		
 		JRadioButton gpuRdoBttn = new JRadioButton("GPU");
+		gpuRdoBttn.setBounds(30, 259, 295, 45);
+		selectionPanel.add(gpuRdoBttn);
 		gpuRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
 		gpuRdoBttn.setFocusPainted(false);
-		gpuRdoBttn.setBounds(35, 280, 251, 28);
-		panel_2.add(gpuRdoBttn);
 		
-		JPanel selectionPanel = new JPanel();
-		selectionPanel.setBorder(new RoundedBorder(new Color(239, 239, 229), 1, 20));
-		selectionPanel.setBounds(12, 13, 332, 413);
-		panel_2.add(selectionPanel);
-		
-		setEverythingTo(false);
-		
-		memoriaLabel.setVisible(true);
-		memoriaTypeLabel.setVisible(true);
-		cantMemoriaSpn.setVisible(true);
-		medidaMemoriaCbx.setVisible(true);
-		memoriaTypeCbx.setVisible(true);
-		
-		ramRdoBttn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ramRdoBttn.setSelected(true);
-				gpuRdoBttn.setSelected(false);
-				discoDuroRdoBttn.setSelected(false);
-				tarjetaMadreRdoBttn.setSelected(false);
-				microprocesadorRdoBttn.setSelected(false);
-				
-				Image img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
-				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
-				componentIcon.setIcon(new ImageIcon(scaledImg));
-				
-				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de RAM", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
-				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
-				
-				setEverythingTo(false);
-				
-				memoriaLabel.setVisible(true);
-				memoriaTypeLabel.setVisible(true);
-				cantMemoriaSpn.setVisible(true);
-				medidaMemoriaCbx.setVisible(true);
-				memoriaTypeCbx.setVisible(true);
-				
-			
-			}
-		});
-		gpuRdoBttn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ramRdoBttn.setSelected(false);
-				gpuRdoBttn.setSelected(true);
-				discoDuroRdoBttn.setSelected(false);
-				tarjetaMadreRdoBttn.setSelected(false);
-				microprocesadorRdoBttn.setSelected(false);
-				
-				Image img = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
-				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
-				componentIcon.setIcon(new ImageIcon(scaledImg));
-				
-				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de GPU", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
-				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
-				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
-				
-				setEverythingTo(false);
-				
-				medidaVelocidadLabel.setBounds(423, 200, 60, 28);
-				medidaVelocidadLabel.setVisible(true);
-				velocidadGPUspn.setVisible(true);
-				tipoConexionGPUcbx.setVisible(true);
-				vramSpn.setVisible(true);
-				tipoGPUtxtField.setVisible(true);
-				tipoConexionGPULabel.setVisible(true);
-				velocidadGPULabel.setVisible(true);
-				vramLabel.setVisible(true);
-				tipoGPULabel.setVisible(true);
-			}
-		});
+		JRadioButton discoDuroRdoBttn = new JRadioButton("Disco Duro");
+		discoDuroRdoBttn.setBounds(30, 336, 295, 45);
+		selectionPanel.add(discoDuroRdoBttn);
+		discoDuroRdoBttn.setFont(new Font("Century Gothic", Font.PLAIN, 22));
+		discoDuroRdoBttn.setFocusPainted(false);
 		discoDuroRdoBttn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ramRdoBttn.setSelected(false);
@@ -850,6 +779,36 @@ public class RegComponentes extends JDialog {
 				velEscrituraSpn.setVisible(true);
 				velLecturaSpn.setVisible(true);
 				
+			}
+		});
+		gpuRdoBttn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ramRdoBttn.setSelected(false);
+				gpuRdoBttn.setSelected(true);
+				discoDuroRdoBttn.setSelected(false);
+				tarjetaMadreRdoBttn.setSelected(false);
+				microprocesadorRdoBttn.setSelected(false);
+				
+				Image img = new ImageIcon(this.getClass().getResource("/gpu.png")).getImage();
+				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
+				componentIcon.setIcon(new ImageIcon(scaledImg));
+				
+				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de GPU", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
+				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
+				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
+				
+				setEverythingTo(false);
+				
+				medidaVelocidadLabel.setBounds(423, 200, 60, 28);
+				medidaVelocidadLabel.setVisible(true);
+				velocidadGPUspn.setVisible(true);
+				tipoConexionGPUcbx.setVisible(true);
+				vramSpn.setVisible(true);
+				tipoGPUtxtField.setVisible(true);
+				tipoConexionGPULabel.setVisible(true);
+				velocidadGPULabel.setVisible(true);
+				vramLabel.setVisible(true);
+				tipoGPULabel.setVisible(true);
 			}
 		});
 		tarjetaMadreRdoBttn.addActionListener(new ActionListener() {
@@ -914,10 +873,46 @@ public class RegComponentes extends JDialog {
 			}
 		});
 		
+		ramRdoBttn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ramRdoBttn.setSelected(true);
+				gpuRdoBttn.setSelected(false);
+				discoDuroRdoBttn.setSelected(false);
+				tarjetaMadreRdoBttn.setSelected(false);
+				microprocesadorRdoBttn.setSelected(false);
+				
+				Image img = new ImageIcon(this.getClass().getResource("/ram-memory.png")).getImage();
+				Image scaledImg = img.getScaledInstance(componentIcon.getHeight(), componentIcon.getWidth(), Image.SCALE_SMOOTH);
+				componentIcon.setIcon(new ImageIcon(scaledImg));
+				
+				TitledBorder border = new TitledBorder(new CompoundBorder(), "Informacion de RAM", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0));
+				border.setTitleFont(new Font("Century Gothic", Font.PLAIN, 16));
+				componentInfoPanel.setBorder(new CompoundBorder(new RoundedBorder(new Color(0, 78, 137), 1, 20), border));
+				
+				setEverythingTo(false);
+				
+				memoriaLabel.setVisible(true);
+				memoriaTypeLabel.setVisible(true);
+				cantMemoriaSpn.setVisible(true);
+				medidaMemoriaCbx.setVisible(true);
+				memoriaTypeCbx.setVisible(true);
+				
+			
+			}
+		});
+		
+		setEverythingTo(false);
+		
+		memoriaLabel.setVisible(true);
+		memoriaTypeLabel.setVisible(true);
+		cantMemoriaSpn.setVisible(true);
+		medidaMemoriaCbx.setVisible(true);
+		memoriaTypeCbx.setVisible(true);
+		
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBackground(new Color(3, 104, 196));
-			buttonPane.setBounds(0, 706, 1245, 53);
+			buttonPane.setBackground(PrimaryC);
+			buttonPane.setBounds(0, 700, 1245, 59);
 			getContentPane().add(buttonPane);
 			{
 				regBttn = new JButton("Registrar");
@@ -1011,7 +1006,7 @@ public class RegComponentes extends JDialog {
 						regBttn.setBorder(new RoundedBorder(Color.white, 1, 20));
 					}
 				});
-				regBttn.setBounds(480, 5, 136, 36);
+				regBttn.setBounds(915, 8, 153, 42);
 				regBttn.setFont(new Font("Century Gothic", Font.BOLD, 19));
 				regBttn.setBorder(new RoundedBorder(Color.white, 1, 20));
 				regBttn.setFocusPainted(false);
@@ -1039,7 +1034,7 @@ public class RegComponentes extends JDialog {
 						cancelButton.setBorder(new RoundedBorder(Color.white, 1, 20));
 					}
 				});
-				cancelButton.setBounds(621, 5, 136, 36);
+				cancelButton.setBounds(1080, 8, 153, 42);
 				cancelButton.setFont(new Font("Century Gothic", Font.BOLD, 19));
 				cancelButton.setFocusPainted(false);
 				cancelButton.setBorder(new RoundedBorder(Color.white, 1, 20));
