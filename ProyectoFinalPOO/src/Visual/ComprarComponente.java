@@ -518,6 +518,13 @@ public class ComprarComponente extends JDialog {
 			componente2Panel.add(elegirBttn2);
 			
 			JButton cambiarBttn = new JButton("Cambiar");
+			cambiarBttn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ListCompComparacion comparacion = new ListCompComparacion(componente1);
+					comparacion.setModal(true);
+					comparacion.setVisible(true);
+				}
+			});
 			cambiarBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
