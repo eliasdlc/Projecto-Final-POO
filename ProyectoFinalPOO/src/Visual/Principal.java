@@ -135,6 +135,7 @@ public class Principal extends JFrame {
 	private JPanel panelClientes;
 	private JLabel label;
 	private JPanel panel_2;
+	private JButton componentesBttn;
 
 	/**
 	 * Launch the application.
@@ -264,7 +265,7 @@ public class Principal extends JFrame {
 			EmptyBorder emptyBorder = new EmptyBorder(0, 80, 0, 10);
 			CompoundBorder compoundBorder = new CompoundBorder(roundedBorder, emptyBorder);		
 			
-			JButton componentesBttn = new JButton("Componentes");
+			componentesBttn = new JButton("Componentes");
 			componentesBttn.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent arg0) {
@@ -360,7 +361,6 @@ public class Principal extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if ( !menuCompoAbierto ) {
-						// Abrir el menu
 				        abrirMenuComponentes(panelComponentesShow, panelComputadorasHide, panelClientesHide, panelAdminHide);
 					} else {
 						cerrarMenuComponentes(panelComponentesHide);
@@ -914,8 +914,8 @@ public class Principal extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             	panelComputadoras.setVisible(false);
-        	    regComponentesBttn.setVisible(false);
-        	    listarComponentesBttn.setVisible(false);
+        	    regComputadorasBttn.setVisible(false);
+        	    listarComputadorasBttn.setVisible(false);
                 ((Timer)e.getSource()).stop();
             }
         });
