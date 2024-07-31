@@ -1,6 +1,7 @@
 package Logica;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FacturaComponente extends Factura {
 	/**
@@ -10,10 +11,12 @@ public class FacturaComponente extends Factura {
 	private int[] cantArticulos;
 	private ArrayList<Componente> listaComponentes;
 
-	public FacturaComponente(String idCliente, String id, Float montoTotal, int[] cantArticulos,
-			ArrayList<Componente> listaComponentes) {
-		super(idCliente, id, montoTotal);
-		this.setCantArticulos(cantArticulos);
+	
+
+	public FacturaComponente(String idCliente, String id, Float subTotal, Float descuento, Float montoTotal, Date fecha,
+			int[] cantArticulos, ArrayList<Componente> listaComponentes) {
+		super(idCliente, id, subTotal, descuento, montoTotal, fecha);
+		this.cantArticulos = cantArticulos;
 		this.listaComponentes = listaComponentes;
 	}
 

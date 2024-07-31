@@ -45,7 +45,7 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class DisplayFactura extends JDialog {
+public class DisplayFacturaComponente extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable elementosCompradosTable;
@@ -63,13 +63,16 @@ public class DisplayFactura extends JDialog {
 	private static final Color ButtonColor = new Color(21, 96, 169);
 	private static final Color ButtonBorderColor = new Color(21, 96, 169);
 	private static final Color hoverEffectColor = new Color(4, 130, 233);
+	private JLabel valSubtotalLabel;
+	private JLabel valDescuentoLabel;
+	private JLabel valTotalLabel;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DisplayFactura dialog = new DisplayFactura(null);
+			DisplayFacturaComponente dialog = new DisplayFacturaComponente(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -80,8 +83,11 @@ public class DisplayFactura extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DisplayFactura(Factura factura) {
+	public DisplayFacturaComponente(Factura factura) {
 		setBounds(100, 100, 789, 900);
+		setModal(true);
+		setLocationRelativeTo(getParent());
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -193,7 +199,7 @@ public class DisplayFactura extends JDialog {
 			JLabel idLabel = new JLabel("");
 			idLabel.setBounds(12, 241, 240, 37);
 			panel_3.add(idLabel);
-			idLabel.setText("ID: " /*+ factura.getId()*/);
+			idLabel.setText("ID: " + factura.getId());
 			idLabel.setFont(new Font("Century Gothic", Font.PLAIN, 18));
 			{
 				JLabel lblInformacionCliente = new JLabel("Informacion Cliente");
@@ -208,8 +214,8 @@ public class DisplayFactura extends JDialog {
 				nombreClientLabel.setBounds(501, 190, 224, 37);
 				panel_3.add(nombreClientLabel);
 				nombreClientLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-				//String nombreClient = Tienda.getInstance().searchClienteById(factura.getIdCliente()).getNombre();
-				nombreClientLabel.setText("Nombre: " /*+ nombreClient*/);
+				String nombreClient = Tienda.getInstance().searchClienteById(factura.getIdCliente()).getNombre();
+				nombreClientLabel.setText("Nombre: " + nombreClient);
 				nombreClientLabel.setFont(new Font("Century Gothic", Font.PLAIN, 18));
 			}
 			{
@@ -217,7 +223,7 @@ public class DisplayFactura extends JDialog {
 				clientIdLabel.setBounds(501, 230, 224, 37);
 				panel_3.add(clientIdLabel);
 				clientIdLabel.setHorizontalAlignment(SwingConstants.TRAILING);
-				clientIdLabel.setText("ID: " /*+ factura.getIdCliente()*/);
+				clientIdLabel.setText("ID: " + factura.getIdCliente());
 				clientIdLabel.setFont(new Font("Century Gothic", Font.PLAIN, 18));
 			}
 			
@@ -240,16 +246,16 @@ public class DisplayFactura extends JDialog {
 			panel_2.add(panel_4);
 			panel_4.setLayout(null);
 			
-			JLabel valSubtotalLabel = new JLabel("");
+			valSubtotalLabel = new JLabel("");
 			valSubtotalLabel.setBounds(203, 13, 127, 23);
 			panel_4.add(valSubtotalLabel);
 			valSubtotalLabel.setForeground(Color.WHITE);
 			valSubtotalLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 			valSubtotalLabel.setFont(new Font("Century Gothic", Font.PLAIN, 18));
 			
-			loadArticulos((FacturaComponente)factura, valSubtotalLabel);
 			
-			JLabel valDescuentoLabel = new JLabel("");
+			
+			valDescuentoLabel = new JLabel("");
 			valDescuentoLabel.setBounds(203, 49, 127, 23);
 			panel_4.add(valDescuentoLabel);
 			valDescuentoLabel.setForeground(Color.WHITE);
@@ -279,7 +285,7 @@ public class DisplayFactura extends JDialog {
 			totalLabel.setBounds(43, 98, 127, 23);
 			panel_4.add(totalLabel);
 			
-			JLabel valTotalLabel = new JLabel("");
+			valTotalLabel = new JLabel("");
 			valTotalLabel.setHorizontalAlignment(SwingConstants.TRAILING);
 			valTotalLabel.setForeground(Color.WHITE);
 			valTotalLabel.setFont(new Font("Century Gothic", Font.PLAIN, 18));
@@ -311,42 +317,17 @@ public class DisplayFactura extends JDialog {
 			cerrarBttn.setBounds(12, 88, 356, 43);
 			panel_2.add(cerrarBttn);
 			
+			
+			loadArticulos((FacturaComponente)factura);
 		}
 		
 	}
 	
-	public void loadArticulos(FacturaComponente factura, JLabel valSubtotalLabel) {
+	public void loadArticulos(FacturaComponente factura) {
 		model.setRowCount(0);
 		row = new Object[elementosCompradosTable.getColumnCount()];
 		
-		
-		int[] cantArticulos0 = {5, 6, 7, 6, 2, 1, 10, 35, 89, 1};
-		ArrayList<Componente> listaComponentes0 = new ArrayList<>();
-		Componente tarjetaMadre = new TarjetaMadre("TM001", "ASUS", "ROG Strix B550-F", 189.99f, 40, 120, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-		Componente cpu = new MicroProcesador("CPU001", "Intel", "Core i7-11700K", 329.99f, 50, 150, 3.6f, "LGA1200", 8);
-		Componente memoria = new Ram("RAM001", "Corsair", "Vengeance LPX", 79.99f, 100, 300, "16GB", "DDR4");
-		Componente tarjetaGrafica = new GPU("GPU001", "NVIDIA", "GeForce RTX 3070", 499.99f, 30, 200, "Dedicada", 8.0f, 1.73f, "PCIe 4.0");
-		Componente disco = new DiscoDuro("HDD001", "Western Digital", "Blue", 59.99f, 80, 250, 1000.0f, "TB", 150.0f, 130.0f, "HDD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-		Componente cpu2 = new MicroProcesador("CPU002", "AMD", "Ryzen 7 5800X", 399.99f, 60, 180, 3.8f, "AM4", 8);
-		Componente memoria2 = new Ram("RAM002", "G.Skill", "Trident Z RGB", 129.99f, 75, 250, "32GB", "DDR4");
-		Componente tarjetaGrafica2 = new GPU("GPU002", "AMD", "Radeon RX 6800 XT", 649.99f, 25, 150, "Dedicada", 16.0f, 2.25f, "PCIe 4.0");
-		Componente disco2 = new DiscoDuro("SSD001", "Samsung", "970 EVO Plus", 129.99f, 100, 300, 1000.0f, "TB", 3500.0f, 3300.0f, "SSD", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe")));
-		Componente tarjetaMadre2 = new TarjetaMadre("TM002", "MSI", "MPG B550 Gaming Edge WiFi", 169.99f, 35, 140, "AM4", "DDR4", "", new ArrayList<>(Arrays.asList("SATA-3", "M.2 NVMe", "PCIe 4.0")));
-		
-		listaComponentes0.add(tarjetaMadre);
-		listaComponentes0.add(cpu);
-		listaComponentes0.add(memoria);
-		listaComponentes0.add(tarjetaGrafica);
-		listaComponentes0.add(disco);
-		listaComponentes0.add(cpu2);
-		listaComponentes0.add(memoria2);
-		listaComponentes0.add(tarjetaGrafica2);
-		listaComponentes0.add(disco2);
-		listaComponentes0.add(tarjetaMadre2);
-		Factura fact0 = new FacturaComponente("C-1", "F-1", 149.99f, cantArticulos0, listaComponentes0);
-		factura = (FacturaComponente) fact0;
-		
-		ArrayList<Componente> aux = factura.getCarrito();//Tienda.getInstance().searchClienteById(factura.getIdCliente()).getCarrito();
+		ArrayList<Componente> aux = Tienda.getInstance().searchClienteById(factura.getIdCliente()).getCarrito();
 		
 		int diff = 10 - aux.size();
 		float subTotal = 0;
@@ -371,10 +352,11 @@ public class DisplayFactura extends JDialog {
 				row[1] = cantArticulos;
 				row[2] = NumberFormat.getCurrencyInstance().format(precio);
 				row[3] = NumberFormat.getCurrencyInstance().format(comp.getPrecio() * factura.getCantArticulos()[i]); 
-				subTotal += precio * cantArticulos;
 			}
 			
-			valSubtotalLabel.setText(NumberFormat.getCurrencyInstance().format(subTotal));
+			valSubtotalLabel.setText(NumberFormat.getCurrencyInstance().format(factura.getSubTotal()));
+			valDescuentoLabel.setText(NumberFormat.getCurrencyInstance().format((factura.getDescuento() / 100) * factura.getSubTotal()));
+			valTotalLabel.setText(NumberFormat.getCurrencyInstance().format(factura.getMontoTotal()));
 		
 			model.addRow(row);
 		}
